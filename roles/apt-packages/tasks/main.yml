@@ -1,0 +1,7 @@
+---
+- name: 'install any packages that come from apt-get'
+  apt:
+    name: '{{ item }}'
+    state: 'installed'
+  with_items:
+    - 'silversearcher-ag'
