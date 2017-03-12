@@ -1,7 +1,21 @@
 ---
-- name: 'install any packages that come from apt-get'
+- name: 'install packages'
   apt:
     name: '{{ item }}'
     state: 'installed'
   with_items:
+    - 'cmake'
+    - 'curl'
+    - 'dos2unix'
+    - 'flac'
+    - 'git'
+    - 'htop'
+    - 'mpd'
+    - 'mpc'
+    - 'ncmpcpp'
+    - 'mpdscribble'
+    - 'python-dev'
     - 'silversearcher-ag'
+    - 'subversion'
+    - 'tree'
+    - 'vim'
