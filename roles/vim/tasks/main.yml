@@ -1,0 +1,47 @@
+---
+- name: 'install vim with python support'
+  apt:
+    name: 'vim-nox'
+    state: 'installed'
+
+- name: 'create .vim directory'
+  file:
+    path: "/home/{{ dev_user }}/.vim"
+    state: directory
+    mode: 0755
+    owner: "{{ dev_user }}"
+    group: "{{ dev_user }}"
+
+- name: 'create bundle directory'
+  file:
+    path: "/home/{{ dev_user }}/.vim/bundle"
+    state: directory
+    mode: 0755
+    owner: "{{ dev_user }}"
+    group: "{{ dev_user }}"
+
+- name: 'copy colours to .vim directory'
+  copy:
+    src: colors/
+    dest: "/home/{{ dev_user }}/.vim/colors/"
+    mode: 0755
+    owner: "{{ dev_user }}"
+    group: "{{ dev_user }}"
+
+- name: 'copy plugins to .vim directory'
+  copy:
+    src: plugin/
+    dest: "/home/{{ dev_user }}/.vim/plugin/"
+    mode: 0755
+    owner: "{{ dev_user }}"
+    group: "{{ dev_user }}"
+
+- name: 'install vundle'
+  git:
+    repo: "{{ vundle_repo }}"
+    dest: "{{ vundle_dir }}"
+    key_file: "/home/{{ dev_user }}/.ssh/id_rsa"
+    accept_hostkey: yes
+    force: yes
+    ssh_opts: "-o StrictHostKeyChecking=no"
+  become_user: "{{ dev_user }}"
