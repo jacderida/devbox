@@ -12,6 +12,22 @@
     owner: "{{ dev_user }}"
     group: "{{ dev_user }}"
 
+- name: 'create .vim backup directory'
+  file:
+    path: "/home/{{ dev_user }}/.vim/backup"
+    state: directory
+    mode: 0755
+    owner: "{{ dev_user }}"
+    group: "{{ dev_user }}"
+
+- name: 'create .vim tmp directory'
+  file:
+    path: "/home/{{ dev_user }}/.vim/tmp"
+    state: directory
+    mode: 0755
+    owner: "{{ dev_user }}"
+    group: "{{ dev_user }}"
+
 - name: 'create bundle directory'
   file:
     path: "/home/{{ dev_user }}/.vim/bundle"
