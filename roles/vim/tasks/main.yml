@@ -61,3 +61,11 @@
     force: yes
     ssh_opts: "-o StrictHostKeyChecking=no"
   become_user: "{{ dev_user }}"
+
+- name: 'install vundle plugins'
+  shell: "vim +PluginInstall +qall"
+  become_user: "{{ dev_user }}"
+
+- name: 'setup ycm core'
+  shell: "/home/{{ dev_user }}/.vim/bundle/YouCompleteMe/install.py --clang-completer"
+  become_user: "{{ dev_user }}"
