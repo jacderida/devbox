@@ -1,0 +1,4 @@
+---
+powerline_fonts_repo: ssh://git@github.com/powerline/fonts.git
+powerline_fonts_destination: /tmp/powerline_fonts
+fonts_directory: "/home/{{ dev_user }}/.local/share/fonts"
