@@ -1,0 +1,26 @@
+---
+- name: 'add deb infinality repository'
+  apt_repository:
+    repo: deb http://ppa.launchpad.net/no1wantdthisname/ppa/ubuntu trusty main
+    state: present
+
+- name: 'add deb-src infinality repository'
+  apt_repository:
+    repo: deb-src http://ppa.launchpad.net/no1wantdthisname/ppa/ubuntu trusty main
+    state: present
+
+- name: 'add infinality pgp key'
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: E985B27B
+
+- name: 'run apt-get update'
+  shell: apt-get update
+
+- name: 'install infinality'
+  apt:
+    name: fontconfig-infinality
+    state: 'installed'
+
+- name: 'set font rendering style'
+  shell: bash /etc/fonts/infinality/infctl.sh setstyle linux

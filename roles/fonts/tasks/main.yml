@@ -37,3 +37,6 @@
 - name: 'refresh font cache'
   shell: "fc-cache -vf {{ fonts_directory }}"
   become_user: "{{ dev_user }}"
+
+- include: infinality.yml
+  when: ansible_distribution == 'Debian'
