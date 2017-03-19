@@ -28,7 +28,7 @@
   become_user: "{{ dev_user }}"
 
 - name: 'install nerd fonts'
-  shell: "{{ nerdfonts_destination }}/install.sh"
+  command: "chdir={{ nerdfonts_destination }} source install.sh"
   become_user: "{{ dev_user }}"
 
 - name: 'refresh font cache'
