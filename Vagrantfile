@@ -10,6 +10,7 @@ Vagrant.configure("2") do |config|
     ansible.extra_vars = {
       dev_user: "vagrant"
     }
+    ansible.raw_arguments = ENV['ANSIBLE_ARGS']
   end
 
    config.vm.provider "virtualbox" do |vb|

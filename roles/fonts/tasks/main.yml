@@ -26,10 +26,13 @@
     dest: "{{ nerdfonts_destination }}"
     force: yes
   become_user: "{{ dev_user }}"
+  tags: ['slow']
 
-- name: 'install nerd fonts'
-  command: "chdir={{ nerdfonts_destination }} source install.sh"
+- name: 'install nerd fonts - install script will error but it runs fine'
+  command: "chdir={{ nerdfonts_destination }} ./install.sh"
   become_user: "{{ dev_user }}"
+  ignore_errors: True
+  tags: ['slow']
 
 - name: 'refresh font cache'
   shell: "fc-cache -vf {{ fonts_directory }}"
