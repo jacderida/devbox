@@ -1,0 +1,3 @@
+---
+debian_chrome_install_url: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+chrome_install_destination: /tmp/google-chrome-stable_current_amd64.deb
