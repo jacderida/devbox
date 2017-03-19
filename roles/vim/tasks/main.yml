@@ -73,3 +73,4 @@
 - name: 'setup ycm core'
   shell: "/home/{{ dev_user }}/.vim/bundle/YouCompleteMe/install.py --clang-completer"
   become_user: "{{ dev_user }}"
+  tags: ['slow']
