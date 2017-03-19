@@ -1,4 +1,4 @@
 ---
-nerdfonts_repo: https://github.com/ryanoasis/vim-devicons.git
+nerdfonts_repo: https://github.com/ryanoasis/nerd-fonts.git
 nerdfonts_destination: "/home/{{ dev_user }}/dev/nerd-fonts"
 fonts_directory: "/home/{{ dev_user }}/.local/share/fonts"
