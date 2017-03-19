@@ -7,7 +7,7 @@ Anything provisioned here is done so from public sources like Github. Anything p
 
 Vagrant can be used for development and testing. There's a Vagrantfile configured to run the Ansible localhost provisioner and apply the playbook. Just run `vagrant up` in the directory.
 
-Certain tasks are long running. For a quicker testing workflow, these can be disabled:
+Certain tasks are long running. For a quicker testing workflow, they can be disabled:
 ```
 ANSIBLE_ARGS='--skip-tags=slow' vagrant up
 ```
