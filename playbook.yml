@@ -3,5 +3,5 @@
   roles:
     - apt-packages
     - dotfiles
-    - vim
     - fonts
+    - vim

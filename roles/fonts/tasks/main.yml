@@ -12,27 +12,24 @@
     owner: "{{ dev_user }}"
     group: "{{ dev_user }}"
 
-- name: 'clone powerline patched fonts to temporary location'
-  git:
-    repo: "{{ powerline_fonts_repo }}"
-    dest: "{{ powerline_fonts_destination }}"
-    key_file: "/home/{{ dev_user }}/.ssh/id_rsa"
-    accept_hostkey: yes
-    force: yes
-    ssh_opts: "-o StrictHostKeyChecking=no"
-  become_user: "{{ dev_user }}"
-
-- name: 'install powerline patched fonts'
-  shell: "{{ powerline_fonts_destination }}/install.sh"
-  become_user: "{{ dev_user }}"
-
-- name: 'copy other fonts'
-  copy:
-    src: fonts/
-    dest: "{{ fonts_directory }}"
+- name: 'create nerd-fonts directory'
+  file:
+    path: "{{ nerdfonts_destination }}"
+    state: directory
     mode: 0755
     owner: "{{ dev_user }}"
     group: "{{ dev_user }}"
+
+- name: 'clone nerd fonts'
+  git:
+    repo: "{{ nerdfonts_repo }}"
+    dest: "{{ nerdfonts_destination }}"
+    force: yes
+  become_user: "{{ dev_user }}"
+
+- name: 'install nerd fonts'
+  shell: "{{ nerdfonts_destination }}/install.sh"
+  become_user: "{{ dev_user }}"
 
 - name: 'refresh font cache'
   shell: "fc-cache -vf {{ fonts_directory }}"

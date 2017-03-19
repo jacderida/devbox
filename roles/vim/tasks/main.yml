@@ -56,10 +56,7 @@
   git:
     repo: "{{ vundle_repo }}"
     dest: "{{ vundle_dir }}"
-    key_file: "/home/{{ dev_user }}/.ssh/id_rsa"
-    accept_hostkey: yes
     force: yes
-    ssh_opts: "-o StrictHostKeyChecking=no"
   become_user: "{{ dev_user }}"
 
 - name: 'install vundle plugins'

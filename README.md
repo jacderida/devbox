@@ -1,6 +1,8 @@
 # devbox
 Defines my personal development environment in Ansible.
 
+Anything provisioned here is done so from public sources like Github. For anything private, such as pSSH keys, AWS keys and so on, will be done as a separate step. For that reason, it may be necessary to run the dotfiles bootstrap after again, after those private aspects have been defined.
+
 ## Development and Testing
 
 Vagrant can be used for development and testing. There's a Vagrantfile configured to run the Ansible localhost provisioner and apply the playbook. Just run `vagrant up` in the directory.
