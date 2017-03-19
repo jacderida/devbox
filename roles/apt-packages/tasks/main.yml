@@ -17,4 +17,5 @@
     - 'python-dev'
     - 'silversearcher-ag'
     - 'subversion'
+    - 'terminator'
     - 'tree'
