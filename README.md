@@ -1,7 +1,7 @@
 # devbox
 Defines my personal development environment in Ansible.
 
-Anything provisioned here is done so from public sources like Github. For anything private, such as pSSH keys, AWS keys and so on, will be done as a separate step. For that reason, it may be necessary to run the dotfiles bootstrap after again, after those private aspects have been defined.
+Anything provisioned here is done so from public sources like Github. Anything private, such as SSH keys, AWS keys and so on, need to be done as a separate step. For that reason, it may be necessary to run the dotfiles bootstrap again, after those private aspects have been defined.
 
 ## Development and Testing
 
