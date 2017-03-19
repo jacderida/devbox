@@ -1,0 +1,22 @@
+---
+- name: 'create dotfiles directory'
+  file:
+    path: "{{ dotfiles_destination }}"
+    state: directory
+    mode: 0755
+    owner: "{{ dev_user }}"
+    group: "{{ dev_user }}"
+
+- name: 'clone dotfiles'
+  git:
+    repo: "{{ dotfiles_repo }}"
+    dest: "{{ dotfiles_destination }}"
+    key_file: "/home/{{ dev_user }}/.ssh/id_rsa"
+    accept_hostkey: yes
+    force: yes
+    ssh_opts: "-o StrictHostKeyChecking=no"
+  become_user: "{{ dev_user }}"
+
+- name: 'bootstrap dotfiles'
+  command: "chdir={{ dotfiles_destination }} bash bootstrap.sh"
+  become_user: "{{ dev_user }}"

@@ -1,0 +1,3 @@
+---
+dotfiles_repo: https://github.com/jacderida/dotfiles.git
+dotfiles_destination: "/home/{{ dev_user }}/dev/dotfiles"
