@@ -19,3 +19,4 @@
     - 'subversion'
     - 'terminator'
     - 'tree'
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
