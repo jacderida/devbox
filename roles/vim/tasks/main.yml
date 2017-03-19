@@ -1,8 +1,15 @@
 ---
-- name: 'install vim with python support'
+- name: 'debian install vim with python support'
   apt:
     name: 'vim-nox'
     state: 'installed'
+  when: ansible_distribution == 'Debian'
+
+- name: 'ubuntu install vim with python support'
+  apt:
+    name: 'vim-nox-py2'
+    state: 'installed'
+  when: ansible_distribution == 'Ubuntu'
 
 - name: 'create .vim directory'
   file:
