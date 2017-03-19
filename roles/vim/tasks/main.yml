@@ -69,6 +69,7 @@
 - name: 'install vundle plugins'
   shell: "vim +PluginInstall +qall"
   become_user: "{{ dev_user }}"
+  tags: ['slow']
 
 - name: 'setup ycm core'
   shell: "/home/{{ dev_user }}/.vim/bundle/YouCompleteMe/install.py --clang-completer"
