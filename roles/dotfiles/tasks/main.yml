@@ -12,6 +12,7 @@
     repo: "{{ dotfiles_repo }}"
     dest: "{{ dotfiles_destination }}"
     force: yes
+    version: "{{ dotfiles_branch }}"
   become_user: "{{ dev_user }}"
 
 - name: 'bootstrap dotfiles'
