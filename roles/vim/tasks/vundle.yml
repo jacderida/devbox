@@ -1,0 +1,20 @@
+---
+- name: 'create bundle directory'
+  file:
+    path: "/home/{{ dev_user }}/.vim/bundle"
+    state: directory
+    mode: 0755
+    owner: "{{ dev_user }}"
+    group: "{{ dev_user }}"
+
+- name: 'install vundle'
+  git:
+    repo: "{{ vundle_repo }}"
+    dest: "{{ vundle_dir }}"
+    force: yes
+  become_user: "{{ dev_user }}"
+
+- name: 'install vundle plugins (YouCompleteMe is a large repository so this can take several minutes)'
+  shell: "vim +PluginInstall +qall"
+  become_user: "{{ dev_user }}"
+  tags: ['slow']

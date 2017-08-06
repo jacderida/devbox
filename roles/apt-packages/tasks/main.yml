@@ -1,7 +1,7 @@
 ---
-- name: 'install packages'
+- name: 'install apt packages'
   apt:
-    name: '{{ item }}'
+    name: "{{ item }}"
     state: 'installed'
   with_items:
     - 'cmake'
@@ -22,3 +22,10 @@
     - 'tree'
     - 'unzip'
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+# The setup.sh file that runs before provisioning will ensure pip exists.
+- name: 'install pip packages'
+  pip:
+    name: "{{ item }}"
+  with_items:
+    - 'virtualenv'

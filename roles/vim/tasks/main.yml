@@ -1,77 +1,9 @@
 ---
-- name: 'debian install vim with python support'
-  apt:
-    name: 'vim-nox'
-    state: 'installed'
-  when: ansible_distribution == 'Debian'
+- include: directories.yml
+- include: build.yml
+- include: vundle.yml
 
-- name: 'ubuntu install vim with python support'
-  apt:
-    name: 'vim-nox-py2'
-    state: 'installed'
-  when: ansible_distribution == 'Ubuntu'
-
-- name: 'create .vim directory'
-  file:
-    path: "/home/{{ dev_user }}/.vim"
-    state: directory
-    mode: 0755
-    owner: "{{ dev_user }}"
-    group: "{{ dev_user }}"
-
-- name: 'create .vim backup directory'
-  file:
-    path: "/home/{{ dev_user }}/.vim/backup"
-    state: directory
-    mode: 0755
-    owner: "{{ dev_user }}"
-    group: "{{ dev_user }}"
-
-- name: 'create .vim tmp directory'
-  file:
-    path: "/home/{{ dev_user }}/.vim/tmp"
-    state: directory
-    mode: 0755
-    owner: "{{ dev_user }}"
-    group: "{{ dev_user }}"
-
-- name: 'create bundle directory'
-  file:
-    path: "/home/{{ dev_user }}/.vim/bundle"
-    state: directory
-    mode: 0755
-    owner: "{{ dev_user }}"
-    group: "{{ dev_user }}"
-
-- name: 'copy colours to .vim directory'
-  copy:
-    src: colors/
-    dest: "/home/{{ dev_user }}/.vim/colors/"
-    mode: 0755
-    owner: "{{ dev_user }}"
-    group: "{{ dev_user }}"
-
-- name: 'copy plugins to .vim directory'
-  copy:
-    src: plugin/
-    dest: "/home/{{ dev_user }}/.vim/plugin/"
-    mode: 0755
-    owner: "{{ dev_user }}"
-    group: "{{ dev_user }}"
-
-- name: 'install vundle'
-  git:
-    repo: "{{ vundle_repo }}"
-    dest: "{{ vundle_dir }}"
-    force: yes
-  become_user: "{{ dev_user }}"
-
-- name: 'install vundle plugins (this can take a long time because YouCompleteMe is a large repository)'
-  shell: "vim +PluginInstall +qall"
-  become_user: "{{ dev_user }}"
-  tags: ['slow']
-
-- name: 'setup ycm core (this compiles YCM so again can take a long time)'
+- name: 'setup ycm core (this compiles YCM so again can take several minutes)'
   shell: "/home/{{ dev_user }}/.vim/bundle/YouCompleteMe/install.py --clang-completer"
   become_user: "{{ dev_user }}"
   tags: ['slow']

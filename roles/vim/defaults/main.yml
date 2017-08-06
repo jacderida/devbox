@@ -1,3 +1,7 @@
 ---
 vundle_repo: https://github.com/VundleVim/Vundle.vim.git
 vundle_dir: "/home/{{ dev_user }}/.vim/bundle/Vundle.vim"
+dev_path: "/home/{{ dev_user }}/dev"
+vim_src_url: "https://github.com/vim/vim/archive/master.zip"
+vim_src_archive_path: "{{ dev_path }}/master.zip"
+vim_src_path: "{{ dev_path }}/vim-master"

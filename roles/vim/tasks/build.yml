@@ -1,0 +1,42 @@
+---
+- name: 'create vim source directory'
+  file:
+    path: "{{ vim_src_path }}"
+    state: directory
+    mode: 0755
+    owner: "{{ dev_user }}"
+    group: "{{ dev_user }}"
+
+- name: 'get vim source archive'
+  get_url:
+    url: "{{ vim_src_url }}"
+    dest: "{{ vim_src_archive_path }}"
+  become_user: "{{ dev_user }}"
+
+# The vim archive already has a folder, so it can be extracted directly to the dev directory.
+- name: 'unzip vim source archive'
+  unarchive:
+    src: "{{ vim_src_archive_path }}"
+    dest: "{{ dev_path }}"
+  become_user: "{{ dev_user }}"
+
+- name: 'remove src archive'
+  file:
+    state: absent
+    name: "{{ vim_src_archive_path }}"
+
+- name: 'configure with python support'
+  command: "./configure --enable-pythoninterp"
+  args:
+    chdir: "{{ vim_src_path }}/src"
+  become_user: "{{ dev_user }}"
+
+- name: 'compile vim'
+  make:
+    chdir: "{{ vim_src_path }}/src"
+  become_user: "{{ dev_user }}"
+
+- name: 'install vim'
+  make:
+    chdir: "{{ vim_src_path }}/src"
+    target: install
