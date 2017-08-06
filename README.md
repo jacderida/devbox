@@ -12,7 +12,7 @@ Certain tasks are long running. For a quicker testing workflow, they can be disa
 ANSIBLE_ARGS='--skip-tags=slow' vagrant up
 ```
 
-For testing large changes, for example, a completely new configuration for Vim, the best thing to do is create a branch in the dotfiles repository, then instruct the provision to use that branch. Since various files are symlinked from the dotfiles repository, it's better to clone a new copy of it, create a branch, then make changes in that copy and push them to the branch. To run the provision, use this:
+For testing large changes, for example, a completely new configuration for Vim, the best thing to do is create a branch in the dotfiles repository, then instruct the provision to use that branch. Since various files are symlinked from the dotfiles repository on my dev machine, it's better to clone a new copy of it, create a branch, then make changes in that copy and push them to the branch. To run the provision, use this:
 ```
 ANSIBLE_ARGS='-e "dotfiles_branch=<branch-name>"' vagrant up
 ```
