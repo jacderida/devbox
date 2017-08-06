@@ -34,7 +34,7 @@ ansible-playbook -i inventory playbook.yml --extra-vars "dev_user=$(whoami)"
 
 After applying the playbook, there should be an environment with the following:
 * A whole bunch of packages installed (see the packages role; if I listed them here I'd need to keep 2 lists up-to-date)
-* My [dotfiles](https://github.com/jacderida/devbox) repository bootstrapped with all files symlinked to the correct place
+* My [dotfiles](https://github.com/jacderida/dotfiles) repository bootstrapped with all files symlinked to the correct place
 * All fonts from the [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts) repository downloaded and installed (there are a couple of GB of them so this takes a long time)
 * Vim setup with all plugins installed and YouCompleteMe enabled
 * Chrome installed
