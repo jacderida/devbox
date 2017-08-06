@@ -13,6 +13,7 @@
     - 'mpd'
     - 'mpc'
     - 'ncmpcpp'
+    - 'ncurses-dev'
     - 'mpdscribble'
     - 'python-dev'
     - 'silversearcher-ag'
