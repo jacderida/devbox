@@ -66,12 +66,12 @@
     force: yes
   become_user: "{{ dev_user }}"
 
-- name: 'install vundle plugins'
+- name: 'install vundle plugins (this can take a long time because YouCompleteMe is a large repository)'
   shell: "vim +PluginInstall +qall"
   become_user: "{{ dev_user }}"
   tags: ['slow']
 
-- name: 'setup ycm core'
+- name: 'setup ycm core (this compiles YCM so again can take a long time)'
   shell: "/home/{{ dev_user }}/.vim/bundle/YouCompleteMe/install.py --clang-completer"
   become_user: "{{ dev_user }}"
   tags: ['slow']

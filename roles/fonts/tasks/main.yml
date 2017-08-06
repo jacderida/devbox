@@ -20,7 +20,7 @@
     owner: "{{ dev_user }}"
     group: "{{ dev_user }}"
 
-- name: 'clone nerd fonts'
+- name: "clone nerd fonts (it's a multi GB repository so this will take a long time)"
   git:
     repo: "{{ nerdfonts_repo }}"
     dest: "{{ nerdfonts_destination }}"
