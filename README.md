@@ -39,4 +39,6 @@ After applying the playbook, there should be an environment with the following:
 * Vim 8 compiled from source with YouCompleteMe and other plugins installed
 * Chrome installed
 
-If the run was successful, it should all be ready to use. Vim 8 still isn't available in most package managers at the moment, and the official way I found to install it on Debian was using [this method](https://www.tecmint.com/vim-8-0-install-in-ubuntu-linux-systems/), which builds it from source. Other than the prerequisite packages, this solution should work across any distribution.
+If the run was successful, it should all be ready to use.
+
+The `setup.sh` file will install pip, Ansible and the things required to build that (even though Ansible is Python, it uses some C based libraries). The `packages` role will install any of the prerequisite packages for anything else to build. Vim 8 still isn't available in most package managers at the moment, and the official way I found to install it on Debian was using [this method](https://www.tecmint.com/vim-8-0-install-in-ubuntu-linux-systems/), which builds it from source. Other than the prerequisite packages, this solution should work across any distribution.
