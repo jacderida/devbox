@@ -20,6 +20,18 @@ For testing large changes, e.g. a completely new configuration for Vim, the best
 ANSIBLE_ARGS='-e "dotfiles_branch=<branch-name>"' vagrant up
 ```
 
+### Guidelines
+
+Here are set of general development guidelines, for my own reference:
+* Any new roles should be developed on a branch and be tested fairly comprehensively before being merged in, to ensure the master branch is always runnable to provision a new or existing machine.
+* Make good use of the `ansible_distribution` variable in the `when` condition to ensure the repository will remain cross platform.
+* If this variable isn't being used, the role should be truly cross platform.
+
+Before merging a branch back into master, ideally the following tests would be performed:
+* Perform a full `vagrant up` to make sure everything works OK when provisioning from scratch
+* Perform a `vagrant provision` to make sure everything works OK when the box has already had at least one provision
+* Do both tests on the Ubuntu box as well as the default Debian box (the Ubuntu box doesn't exist yet, so this only applies in the future)
+
 ## Provision a Bare Metal Environment
 
 Before the playbook can be applied, the user who will be applying it must have passwordless sudo access, and Ansible must also be setup.
