@@ -1,4 +1,8 @@
 ---
+# We won't re-download and extract the archive if this directory exists, indicating we've already done so.
+- stat: path="{{ vim_src_path }}/src"
+  register: vim_src_path_result
+
 - name: 'create vim source directory'
   file:
     path: "{{ vim_src_path }}"
@@ -12,6 +16,7 @@
     url: "{{ vim_src_url }}"
     dest: "{{ vim_src_archive_path }}"
   become_user: "{{ dev_user }}"
+  when: vim_src_path_result.stat.exists == False
 
 # The vim archive already has a folder, so it can be extracted directly to the dev directory.
 - name: 'unzip vim source archive'
@@ -19,6 +24,7 @@
     src: "{{ vim_src_archive_path }}"
     dest: "{{ dev_path }}"
   become_user: "{{ dev_user }}"
+  when: vim_src_path_result.stat.exists == False
 
 - name: 'remove src archive'
   file:
@@ -29,14 +35,23 @@
   command: "./configure --enable-pythoninterp"
   args:
     chdir: "{{ vim_src_path }}/src"
+    creates: "{{ vim_src_path }}/src/auto/config.h"
   become_user: "{{ dev_user }}"
+
+- stat: path="{{ vim_src_path }}/src/vim"
+  register: vim_bin_path_result
 
 - name: 'compile vim'
   make:
     chdir: "{{ vim_src_path }}/src"
   become_user: "{{ dev_user }}"
+  when: vim_bin_path_result.stat.exists == False
+
+- stat: path="{{ vim_install_path }}"
+  register: vim_install_path_result
 
 - name: 'install vim'
   make:
     chdir: "{{ vim_src_path }}/src"
     target: install
+  when: vim_install_path_result.stat.exists == False
