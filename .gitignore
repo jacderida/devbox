@@ -1,1 +1,3 @@
 .vagrant
+.cache
+__pycache__/

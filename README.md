@@ -19,7 +19,6 @@ For testing large changes, e.g. a completely new configuration for Vim, the best
 ```
 ANSIBLE_ARGS='-e "dotfiles_branch=<branch-name>"' vagrant up
 ```
-
 ### Guidelines
 
 Here are set of general development guidelines, for my own reference:
@@ -32,6 +31,16 @@ Before merging a branch back into master, ideally the following tests would be p
 * Perform a `vagrant provision` to make sure everything works OK when the box has already had at least one provision.
 * Perform a full `vagrant up` with the new role not applied, then apply it and run a `vagrant provision` and make sure everything runs ok.
 * Do both tests on the Ubuntu box as well as the default Debian box (the Ubuntu box doesn't exist yet, so this only applies in the future).
+
+### Running Tests
+
+There are some tests defined using [Testinfra](https://testinfra.readthedocs.io/en/latest/). I've chosen this because in the past I had limited success with Serverspec, and I generally prefer Python to Ruby. For running the tests:
+```shell
+mkvirtualenv env # Obviously assumes a virtualenvwrapper installation.
+pip install testinfra
+vagrant ssh-config > .vagrant/ssh-config
+testinfra -v --ssh-config=.vagrant/ssh-config tests.py
+```
 
 ## Provision a Bare Metal Environment
 
