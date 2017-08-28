@@ -38,8 +38,7 @@ There are some tests defined using [Testinfra](https://testinfra.readthedocs.io/
 ```shell
 mkvirtualenv env # Obviously assumes a virtualenvwrapper installation.
 pip install testinfra
-vagrant ssh-config > .vagrant/ssh-config
-testinfra -v --ssh-config=.vagrant/ssh-config tests.py
+testinfra -v tests.py
 ```
 
 ## Provision a Bare Metal Environment

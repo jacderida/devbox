@@ -4,7 +4,9 @@ import testinfra
 
 class PackageTests(unittest.TestCase):
     def setUp(self):
-        self.host = testinfra.get_host("local://")
+        self.host = testinfra.get_host(
+            'paramiko://vagrant@localhost:2222',
+            ssh_identity_file='.vagrant/machines/default/virtualbox/private_key')
 
     def test_cmake_package_is_installed(self):
         package = self.host.package('cmake')
@@ -43,8 +45,8 @@ class PackageTests(unittest.TestCase):
         self.assertTrue(package.is_installed)
 
     def test_ncmpcpp_package_is_installed(self):
-        # For some reason it just won't register this package as being installed.
-        self.assertEqual(self.host.run('which ncmpcpp').rc, 0)
+        package = self.host.package('ncmpcpp')
+        self.assertTrue(package.is_installed)
 
     def test_ncurses_dev_package_is_installed(self):
         package = self.host.package('libncurses5-dev')
@@ -77,3 +79,13 @@ class PackageTests(unittest.TestCase):
     def test_unzip_package_is_installed(self):
         package = self.host.package('unzip')
         self.assertTrue(package.is_installed)
+
+
+class DotfilesTests(unittest.TestCase):
+    def setUp(self):
+        self.host = testinfra.get_host(
+            'paramiko://vagrant@localhost:2222',
+            ssh_identity_file='.vagrant/machines/default/virtualbox/private_key')
+
+    def test_dotfiles_cloned(self):
+        self.assertTrue(self.host.file('/home/vagrant/dev/dotfiles').is_directory)
