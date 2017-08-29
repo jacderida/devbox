@@ -89,3 +89,57 @@ class DotfilesTests(unittest.TestCase):
 
     def test_dotfiles_cloned(self):
         self.assertTrue(self.host.file('/home/vagrant/dev/dotfiles').is_directory)
+
+    def test_vimrc_hard_linked(self):
+        hard_link_file = self.host.file('/home/vagrant/.vimrc')
+        dotfiles_file = self.host.file('/home/vagrant/dev/dotfiles/vim/.vimrc')
+        self.assertTrue(hard_link_file.is_file)
+        self.assertEqual(hard_link_file.size, dotfiles_file.size)
+
+    def test_gvimrc_hard_linked(self):
+        hard_link_file = self.host.file('/home/vagrant/.gvimrc')
+        dotfiles_file = self.host.file('/home/vagrant/dev/dotfiles/vim/.gvimrc')
+        self.assertTrue(hard_link_file.is_file)
+        self.assertEqual(hard_link_file.size, dotfiles_file.size)
+
+    def test_gitconfig_hard_linked(self):
+        hard_link_file = self.host.file('/home/vagrant/.gitconfig')
+        dotfiles_file = self.host.file('/home/vagrant/dev/dotfiles/git/.gitconfig')
+        self.assertTrue(hard_link_file.is_file)
+        self.assertEqual(hard_link_file.size, dotfiles_file.size)
+
+    def test_bashrc_hard_linked(self):
+        hard_link_file = self.host.file('/home/vagrant/.bashrc')
+        dotfiles_file = self.host.file('/home/vagrant/dev/dotfiles/bash/.bashrc')
+        self.assertTrue(hard_link_file.is_file)
+        self.assertEqual(hard_link_file.size, dotfiles_file.size)
+
+    def test_bash_aliases_hard_linked(self):
+        hard_link_file = self.host.file('/home/vagrant/.bash_aliases')
+        dotfiles_file = self.host.file('/home/vagrant/dev/dotfiles/bash/.bash_aliases')
+        self.assertTrue(hard_link_file.is_file)
+        self.assertEqual(hard_link_file.size, dotfiles_file.size)
+
+    def test_bash_profile_hard_linked(self):
+        hard_link_file = self.host.file('/home/vagrant/.bash_profile')
+        dotfiles_file = self.host.file('/home/vagrant/dev/dotfiles/bash/.bash_profile')
+        self.assertTrue(hard_link_file.is_file)
+        self.assertEqual(hard_link_file.size, dotfiles_file.size)
+
+    def test_profile_hard_linked(self):
+        hard_link_file = self.host.file('/home/vagrant/.profile')
+        dotfiles_file = self.host.file('/home/vagrant/dev/dotfiles/bash/.profile')
+        self.assertTrue(hard_link_file.is_file)
+        self.assertEqual(hard_link_file.size, dotfiles_file.size)
+
+    def test_profile_hard_linked(self):
+        hard_link_file = self.host.file('/home/vagrant/.profile')
+        dotfiles_file = self.host.file('/home/vagrant/dev/dotfiles/bash/.profile')
+        self.assertTrue(hard_link_file.is_file)
+        self.assertEqual(hard_link_file.size, dotfiles_file.size)
+
+    def test_i3_config_hard_linked(self):
+        hard_link_file = self.host.file('/home/vagrant/.i3/config')
+        dotfiles_file = self.host.file('/home/vagrant/dev/dotfiles/i3/config')
+        self.assertTrue(hard_link_file.is_file)
+        self.assertEqual(hard_link_file.size, dotfiles_file.size)
