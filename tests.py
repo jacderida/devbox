@@ -143,3 +143,62 @@ class DotfilesTests(unittest.TestCase):
         dotfiles_file = self.host.file('/home/vagrant/dev/dotfiles/i3/config')
         self.assertTrue(hard_link_file.is_file)
         self.assertEqual(hard_link_file.size, dotfiles_file.size)
+
+
+class VimTests(unittest.TestCase):
+    def setUp(self):
+        self.host = testinfra.get_host(
+            'paramiko://vagrant@localhost:2222',
+            ssh_identity_file='.vagrant/machines/default/virtualbox/private_key')
+
+    def test_vim_version_8_is_installed(self):
+        self.assertEqual(
+            self.host.run("vim --version | grep '^VIM' | awk '{ print $5 }'").stdout.strip(), '8.0')
+
+    def test_gitgutter_plugin_is_installed(self):
+        self.assertTrue(self.host.file('/home/vagrant/.vim/bundle/vim-gitgutter').is_directory)
+
+    def test_ctrlp_plugin_is_installed(self):
+        self.assertTrue(self.host.file('/home/vagrant/.vim/bundle/ctrlp.vim').is_directory)
+
+    def test_vundle_plugin_is_installed(self):
+        self.assertTrue(self.host.file('/home/vagrant/.vim/bundle/Vundle.vim').is_directory)
+
+    def test_tabular_plugin_is_installed(self):
+        self.assertTrue(self.host.file('/home/vagrant/.vim/bundle/tabular').is_directory)
+
+    def test_gruvbox_plugin_is_installed(self):
+        self.assertTrue(self.host.file('/home/vagrant/.vim/bundle/gruvbox').is_directory)
+
+    def test_indent_guides_plugin_is_installed(self):
+        self.assertTrue(self.host.file('/home/vagrant/.vim/bundle/vim-indent-guides').is_directory)
+
+    def test_rainbow_plugin_is_installed(self):
+        self.assertTrue(self.host.file('/home/vagrant/.vim/bundle/rainbow').is_directory)
+
+    def test_ansible_plugin_is_installed(self):
+        self.assertTrue(self.host.file('/home/vagrant/.vim/bundle/ansible-vim').is_directory)
+
+    def test_delimit_mate_plugin_is_installed(self):
+        self.assertTrue(self.host.file('/home/vagrant/.vim/bundle/delimitMate').is_directory)
+
+    def test_devicons_plugin_is_installed(self):
+        self.assertTrue(self.host.file('/home/vagrant/.vim/bundle/vim-devicons').is_directory)
+
+    def test_nerd_commenter_plugin_is_installed(self):
+        self.assertTrue(self.host.file('/home/vagrant/.vim/bundle/nerdcommenter').is_directory)
+
+    def test_nerd_tree_plugin_is_installed(self):
+        self.assertTrue(self.host.file('/home/vagrant/.vim/bundle/NERDTree').is_directory)
+
+    def test_surround_plugin_is_installed(self):
+        self.assertTrue(self.host.file('/home/vagrant/.vim/bundle/vim-surround').is_directory)
+
+    def test_endwise_plugin_is_installed(self):
+        self.assertTrue(self.host.file('/home/vagrant/.vim/bundle/vim-endwise').is_directory)
+
+    def test_you_complete_me_plugin_is_installed(self):
+        self.assertTrue(self.host.file('/home/vagrant/.vim/bundle/YouCompleteMe').is_directory)
+
+    def test_airline_plugin_is_installed(self):
+        self.assertTrue(self.host.file('/home/vagrant/.vim/bundle/vim-airline').is_directory)

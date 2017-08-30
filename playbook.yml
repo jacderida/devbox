@@ -3,6 +3,6 @@
   roles:
     - packages
     - dotfiles
-    - fonts
+    #- fonts
     - vim
     - chrome
