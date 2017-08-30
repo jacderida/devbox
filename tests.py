@@ -202,3 +202,25 @@ class VimTests(unittest.TestCase):
 
     def test_airline_plugin_is_installed(self):
         self.assertTrue(self.host.file('/home/vagrant/.vim/bundle/vim-airline').is_directory)
+
+class ChromeTests(unittest.TestCase):
+    def setUp(self):
+        self.host = testinfra.get_host(
+            'paramiko://vagrant@localhost:2222',
+            ssh_identity_file='.vagrant/machines/default/virtualbox/private_key')
+
+    def test_chrome_is_installed(self):
+        package = self.host.package('google-chrome-stable')
+        self.assertTrue(package.is_installed)
+
+    def test_libxss1_prerequisite_is_installed(self):
+        package = self.host.package('libxss1')
+        self.assertTrue(package.is_installed)
+
+    def test_libappindicator1_prerequisite_is_installed(self):
+        package = self.host.package('libappindicator1')
+        self.assertTrue(package.is_installed)
+
+    def test_libindicator7_prerequisite_is_installed(self):
+        package = self.host.package('libindicator7')
+        self.assertTrue(package.is_installed)
