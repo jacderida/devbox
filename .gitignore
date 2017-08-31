@@ -1,3 +1,4 @@
+*.log
 .vagrant
 .cache
 __pycache__/
