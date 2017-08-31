@@ -38,7 +38,10 @@ There are some tests defined using [Testinfra](https://testinfra.readthedocs.io/
 ```shell
 mkvirtualenv env # Obviously assumes a virtualenvwrapper installation.
 pip install testinfra
-testinfra -v tests.py
+vagrant ssh-config ubuntu > .vagrant/ubuntu-ssh-config
+vagrant ssh-config debian > .vagrant/debian-ssh-config
+testinfra -v tests.py --ssh-config=.vagrant/ubuntu-ssh-config --host=ubuntu
+testinfra -v tests.py --ssh-config=.vagrant/debian-ssh-config --host=debian
 ```
 
 ## Provision a Bare Metal Environment
