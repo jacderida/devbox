@@ -6,4 +6,3 @@
 - name: 'setup ycm core (this compiles YCM so again can take several minutes)'
   shell: "/home/{{ dev_user }}/.vim/bundle/YouCompleteMe/install.py --clang-completer"
   become_user: "{{ dev_user }}"
-  tags: ['slow']

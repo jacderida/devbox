@@ -17,4 +17,3 @@
 - name: 'install vundle plugins (YouCompleteMe is a large repository so this can take several minutes)'
   shell: "vim +PluginInstall +qall"
   become_user: "{{ dev_user }}"
-  tags: ['slow']
