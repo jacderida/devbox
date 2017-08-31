@@ -30,7 +30,7 @@ Before merging a branch back into master, ideally the following tests would be p
 * Perform a full `vagrant up` to make sure everything works OK when provisioning from scratch.
 * Perform a `vagrant provision` to make sure everything works OK when the box has already had at least one provision.
 * Perform a full `vagrant up` with the new role not applied, then apply it and run a `vagrant provision` and make sure everything runs ok.
-* Do both tests on the Ubuntu box as well as the default Debian box (the Ubuntu box doesn't exist yet, so this only applies in the future).
+* Do both tests on the Ubuntu box as well as the default Debian box.
 
 ### Running Tests
 
