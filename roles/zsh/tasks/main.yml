@@ -28,3 +28,10 @@
   file:
     path: "/home/{{ dev_user }}/install.sh"
     state: absent
+
+- name: 'install syntax highlighting plugin'
+  git:
+    repo: "{{ syntax_highlighting_plugin_url }}"
+    dest: "{{ syntax_highlighting_plugin_path }}"
+    force: yes
+  become_user: "{{ dev_user }}"

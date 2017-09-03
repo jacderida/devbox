@@ -210,3 +210,7 @@ def test_zsh_is_installed(host):
 
 def test_pam_configuration_allows_no_password_for_change_shell(host):
     assert host.file('/etc/pam.d/chsh').contains('auth sufficient pam_shells.so')
+
+def test_zsh_syntax_highlighting_plugin_is_installed(host):
+    user = host.user().name
+    assert host.file('/home/{0}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting'.format(user)).is_directory
