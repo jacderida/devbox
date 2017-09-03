@@ -84,9 +84,16 @@ def test_bashrc_hard_linked(host):
     assert hard_link_file.is_file
     assert hard_link_file.size == dotfiles_file.size
 
+def test_zshrc_hard_linked(host):
+    user = host.user().name
+    hard_link_file = host.file("/home/{0}/.zshrc".format(user))
+    dotfiles_file = host.file("/home/{0}/dev/dotfiles/zsh/.zshrc".format(user))
+    assert hard_link_file.is_file
+    assert hard_link_file.size == dotfiles_file.size
+
 def test_bash_aliases_hard_linked(host):
     user = host.user().name
-    hard_link_file = host.file("/home/{0}/.bash_aliases".format(user))
+    hard_link_file = host.file("/home/{0}/.aliases".format(user))
     dotfiles_file = host.file("/home/{0}/dev/dotfiles/bash/.bash_aliases".format(user))
     assert hard_link_file.is_file
     assert hard_link_file.size == dotfiles_file.size
@@ -197,3 +204,9 @@ def test_libappindicator1_prerequisite_is_installed(host):
 
 def test_libindicator7_prerequisite_is_installed(host):
     assert host.package('libindicator7').is_installed
+
+def test_zsh_is_installed(host):
+    assert host.package('zsh').is_installed
+
+def test_pam_configuration_allows_no_password_for_change_shell(host):
+    assert host.file('/etc/pam.d/chsh').contains('auth sufficient pam_shells.so')

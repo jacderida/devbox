@@ -1,0 +1,30 @@
+---
+- name: 'install zsh from apt'
+  apt:
+    name: 'zsh'
+    state: 'installed'
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: 'download oh-my-zsh installer'
+  get_url:
+    url: "{{ oh_my_zsh_url }}"
+    dest: "/home/{{ dev_user }}/install.sh"
+    mode: 0700
+  become_user: "{{ dev_user }}"
+
+- name: 'update pam configuration to remove change shell password prompt'
+  copy:
+    src: 'chsh'
+    dest: '/etc/pam.d/chsh'
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: 'install oh-my-zsh'
+  shell: "/home/{{ dev_user }}/install.sh"
+  args:
+    creates: "/home/{{ dev_user }}/.oh-my-zsh"
+  become_user: "{{ dev_user }}"
+
+- name: 'remove installer'
+  file:
+    path: "/home/{{ dev_user }}/install.sh"
+    state: absent
