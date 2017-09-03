@@ -36,13 +36,9 @@ Before merging a branch back into master, ideally the following tests would be p
 
 There are some tests defined using [Testinfra](https://testinfra.readthedocs.io/en/latest/). I've chosen this because in the past I had limited success with Serverspec, and I generally prefer Python to Ruby. For running the tests:
 ```shell
-mkvirtualenv env # Obviously assumes a virtualenvwrapper installation.
-pip install testinfra
-vagrant ssh-config ubuntu >> .vagrant/ssh-config
-vagrant ssh-config debian >> .vagrant/ssh-config
-testinfra -v tests.py --ssh-config=.vagrant/ssh-config --host=ubuntu
-testinfra -v tests.py --ssh-config=.vagrant/ssh-config --host=debian
+source run_tests.sh
 ```
+This script will activate a virtualenv if it doesn't exist (it uses virtualenvwrapper, so obviously that needs to be installed in the dev environment you're running in), brings the machines online with a `vagrant up`, then runs the tests against them. So that you can see new tests fail, it doesn't re-provision the machines; that should be done as an explicit 2nd step.
 
 ## Provision a Bare Metal Environment
 
