@@ -16,6 +16,7 @@
     - 'ncmpcpp'
     - 'ncurses-dev'
     - 'python-dev'
+    - 'python-pygments'
     - 'silversearcher-ag'
     - 'subversion'
     - 'terminator'
