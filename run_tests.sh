@@ -15,8 +15,7 @@ function run_tests() {
     rm .vagrant/ssh-config
     vagrant ssh-config ubuntu >> .vagrant/ssh-config
     vagrant ssh-config debian >> .vagrant/ssh-config
-    testinfra -v --ssh-config=.vagrant/ssh-config --hosts=ubuntu tests.py
-    testinfra -v --ssh-config=.vagrant/ssh-config --hosts=debian tests.py
+    testinfra -v --ssh-config=.vagrant/ssh-config --hosts=ubuntu,debian tests.py
 }
 
 activate_virtualenv
