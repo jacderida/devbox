@@ -214,3 +214,7 @@ def test_pam_configuration_allows_no_password_for_change_shell(host):
 def test_zsh_syntax_highlighting_plugin_is_installed(host):
     user = host.user().name
     assert host.file('/home/{0}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting'.format(user)).is_directory
+
+def test_zsh_powerlevel9k_theme_is_installed(host):
+    user = host.user().name
+    assert host.file('/home/{0}/.oh-my-zsh/custom/themes/powerlevel9k'.format(user)).is_directory

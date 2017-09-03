@@ -35,3 +35,10 @@
     dest: "{{ syntax_highlighting_plugin_path }}"
     force: yes
   become_user: "{{ dev_user }}"
+
+- name: 'install powerlevel9k theme'
+  git:
+    repo: "{{ powerlevel9k_theme_url }}"
+    dest: "{{ powerlevel9k_theme_path }}"
+    force: yes
+  become_user: "{{ dev_user }}"
