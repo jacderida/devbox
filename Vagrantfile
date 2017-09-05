@@ -2,12 +2,12 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.provision "shell", path: "setup.sh"
-
+  config.vm.provision "shell", inline: "apt-get install -y python-dev"
+  config.vm.provision "shell", inline: "apt-get install -y python-pip"
   config.vm.define "ubuntu" do |ubuntu|
     ubuntu.vm.box = "ubuntu/xenial64"
     ubuntu.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/ubuntu/.ssh/id_rsa"
-    ubuntu.vm.provision "ansible_local" do |ansible|
+    ubuntu.vm.provision "ansible" do |ansible|
       ansible.playbook = "playbook.yml"
       ansible.extra_vars = {
         dev_user: "ubuntu"
@@ -18,7 +18,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "debian" do |debian|
     debian.vm.box = "debian/jessie64"
     debian.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
-    debian.vm.provision "ansible_local" do |ansible|
+    debian.vm.provision "ansible" do |ansible|
       ansible.playbook = "playbook.yml"
       ansible.extra_vars = {
         dev_user: "vagrant"

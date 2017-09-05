@@ -19,6 +19,9 @@ For testing large changes, e.g. a completely new configuration for Vim, the best
 ```
 ANSIBLE_ARGS='-e "dotfiles_branch=<branch-name>"' vagrant up
 ```
+
+The machines in the Vagrantfile are setup to use the Ansible provisioner, which is, running Ansible on the host against the guest VMs. For this reason, Ansible obviously needs to be installed on the host machine. You can use the `setup.sh` file to install it.
+
 ### Guidelines
 
 Here are set of general development guidelines, for my own reference:

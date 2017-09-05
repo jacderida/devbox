@@ -21,6 +21,7 @@
 # The vim archive already has a folder, so it can be extracted directly to the dev directory.
 - name: 'unzip vim source archive'
   unarchive:
+    remote_src: yes
     src: "{{ vim_src_archive_path }}"
     dest: "{{ dev_path }}"
   become_user: "{{ dev_user }}"
