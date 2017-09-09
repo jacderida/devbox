@@ -56,6 +56,41 @@ Then, to run the playbook locally, run the following command:
 ansible-playbook -i inventory playbook.yml --extra-vars "dev_user=$(whoami)"
 ```
 
+## Running with a GUI
+
+To start up the environment with a GUI, run the following command:
+```shell
+DEVBOX_GUI='true' vagrant up
+```
+
+When the machine is completely provisioned, the GUI environment needs to be started from the VirtualBox UI. You can login to the debian box with 'vagrant' as both the username and password. The Ubuntu box unfortunately has a random password set. The password can be retrieved like so:
+```shell
+ cat ~/.vagrant.d/boxes/ubuntu-VAGRANTSLASH-xenial64/20170822.0.0/virtualbox/Vagrantfile
+# Front load the includes
+include_vagrantfile = File.expand_path("../include/_Vagrantfile", __FILE__)
+load include_vagrantfile if File.exist?(include_vagrantfile)
+
+Vagrant.configure("2") do |config|
+  config.vm.base_mac = "022185D04910"
+  config.ssh.username = "ubuntu"
+  config.ssh.password = "27f8dbe40a2e195f6bd6434a"
+
+  config.vm.provider "virtualbox" do |vb|
+     vb.customize [ "modifyvm", :id, "--uart1", "0x3F8", "4" ]
+     vb.customize [ "modifyvm", :id, "--uartmode1", "file", File.join(Dir.pwd, "ubuntu-xenial-16.04-cloudimg-console.log") ]
+  end
+end
+```
+
+I'm not sure if this location varies over time, but it should generally be located somewhere similar to that.
+
+Once you're logged in to the VM via the VirtualBox GUI, the Linux GUI can be started with the following command:
+```shell
+sudo systemctl start lightdm
+```
+
+I'm using i3 as the desktop manager. You'll be able to select this from the login prompt.
+
 ## The Environment
 
 After applying the playbook, there should be an environment with the following:

@@ -1,4 +1,5 @@
 *.log
 .vagrant
 .cache
+.retry
 __pycache__/

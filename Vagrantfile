@@ -2,8 +2,11 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.provision "shell", inline: "apt-get install -y python-dev"
-  config.vm.provision "shell", inline: "apt-get install -y python-pip"
+  config.vm.provision "shell", inline: <<SCRIPT
+  apt-get update -y
+  apt-get install -y python-dev
+  apt-get install -y python-pip
+SCRIPT
   config.vm.define "ubuntu" do |ubuntu|
     ubuntu.vm.box = "ubuntu/xenial64"
     ubuntu.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/ubuntu/.ssh/id_rsa"
@@ -28,5 +31,8 @@ Vagrant.configure("2") do |config|
   end
   config.vm.provider "virtualbox" do |vb|
     vb.memory = "2048"
+    if ENV['DEVBOX_GUI'] == 'true'
+      vb.gui = true
+    end
   end
 end
