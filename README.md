@@ -43,19 +43,6 @@ source run_tests.sh
 ```
 This script will activate a virtualenv if it doesn't exist (it uses virtualenvwrapper, so obviously that needs to be installed in the dev environment you're running in), brings the machines online with a `vagrant up`, then runs the tests against them. So that you can see new tests fail, it doesn't re-provision the machines; that should be done as an explicit 2nd step.
 
-## Provision a Bare Metal Environment
-
-Before the playbook can be applied, the user who will be applying it must have passwordless sudo access, and Ansible must also be setup.
-
-To setup passwordless sudo on Debian, see the 2nd answer [here](http://serverfault.com/questions/160581/how-to-setup-passwordless-sudo-on-linux).
-
-To install Ansible, run the setup.sh file as sudo.
-
-Then, to run the playbook locally, run the following command:
-```
-ansible-playbook -i inventory playbook.yml --extra-vars "dev_user=$(whoami)"
-```
-
 ## Running with a GUI
 
 To start up the environment with a GUI, run the following command:
@@ -90,6 +77,19 @@ sudo systemctl start lightdm
 ```
 
 I'm using i3 as the desktop manager. You'll be able to select this from the login prompt.
+
+## Provision a Bare Metal Environment
+
+Before the playbook can be applied, the user who will be applying it must have passwordless sudo access, and Ansible must also be setup.
+
+To setup passwordless sudo on Debian, see the 2nd answer [here](http://serverfault.com/questions/160581/how-to-setup-passwordless-sudo-on-linux).
+
+To install Ansible, run the setup.sh file as sudo.
+
+Then, to run the playbook locally, run the following command:
+```shell
+ansible-playbook -i inventory playbook.yml --extra-vars "dev_user=$(whoami)"
+```
 
 ## The Environment
 
