@@ -19,7 +19,7 @@ SCRIPT
     end
   end
   config.vm.define "debian" do |debian|
-    debian.vm.box = "debian/jessie64"
+    debian.vm.box = "debian/stretch64"
     debian.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
     debian.vm.provision "ansible" do |ansible|
       ansible.playbook = "playbook.yml"
