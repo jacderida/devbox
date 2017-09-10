@@ -1,10 +1,14 @@
 ---
 - include: directories.yml
+  tags: ['vim']
 - include: build.yml
+  tags: ['vim']
 - include: vundle.yml
+  tags: ['vim']
 
 - name: 'setup ycm core (this compiles YCM so again can take several minutes)'
   command: "/home/{{ dev_user }}/.vim/bundle/YouCompleteMe/install.py --clang-completer"
   args:
     creates: "/home/{{ dev_user }}/.vim/bundle/YouCompleteMe/third_party/ycmd/ycm_core.so"
   become_user: "{{ dev_user }}"
+  tags: ['vim']
