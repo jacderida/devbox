@@ -76,7 +76,7 @@ Once you're logged in to the VM via the VirtualBox GUI, the Linux GUI can be sta
 sudo systemctl start lightdm
 ```
 
-I'm using i3 as the desktop manager. You'll be able to select this from the login prompt.
+I'm using i3 as the window manager. You'll be able to select this from the login prompt.
 
 ## Provision a Bare Metal Environment
 

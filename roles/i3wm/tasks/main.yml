@@ -1,0 +1,5 @@
+---
+- include: i3.yml
+  tags: ['gui']
+- include: rofi.yml
+  tags: ['gui']

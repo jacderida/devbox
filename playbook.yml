@@ -2,6 +2,7 @@
 - hosts: all
   roles:
     - packages
+    - i3wm
     - zsh
     - dotfiles
     - fonts
