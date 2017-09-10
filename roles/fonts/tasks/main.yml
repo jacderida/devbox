@@ -38,5 +38,5 @@
   shell: "fc-cache -vf {{ fonts_directory }}"
   become_user: "{{ dev_user }}"
 
-- include: infinality.yml
-  when: ansible_distribution == 'Debian'
+#- include: infinality.yml
+  #when: ansible_distribution == 'Debian'
