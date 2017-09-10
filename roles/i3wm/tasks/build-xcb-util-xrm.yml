@@ -1,0 +1,33 @@
+---
+- name: 'install prerequisites'
+  apt:
+    name: "{{ item }}"
+    state: 'installed'
+  with_items:
+    - autoconf
+    - libtool
+    - libx11-dev
+    - libxcb1-dev
+    - libxcb-util-dev
+    - pkg-config
+    - xutils-dev
+
+- name: 'clone xcb-util-xrm repo'
+  git:
+    repo: "{{ xcb_util_xrm_repo }}"
+    dest: "{{ xcb_util_xrm_path }}"
+    recursive: yes
+
+- name: 'run autogen.sh for xcb-util-xrm'
+  command: './autogen.sh --prefix=/usr'
+  args:
+    chdir: "{{ xcb_util_xrm_path }}"
+
+- name: 'compile xcb-util-xrm'
+  make:
+    chdir: "{{ xcb_util_xrm_path }}"
+
+- name: 'install xcb-util-xrm'
+  make:
+    chdir: "{{ xcb_util_xrm_path }}"
+    target: install

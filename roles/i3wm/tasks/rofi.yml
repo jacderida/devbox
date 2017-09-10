@@ -2,7 +2,10 @@
 - stat: path="{{ rofi_install_path }}"
   register: rofi_install_path_result
 
-- name: 'install prerequisites'
+- include: build-xcb-util-xrm.yml
+  when: ansible_distribution == 'Ubuntu' and rofi_install_path_result.stat.exists == False
+
+- name: 'install debian prerequisites'
   apt:
     name: "{{ item }}"
     state: 'installed'
@@ -18,7 +21,25 @@
     - libxcb-xrm-dev
     - libpango1.0-dev
     - libstartup-notification0-dev
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+  when: ansible_distribution == 'Debian' and rofi_install_path_result.stat.exists == False
+
+- name: 'install ubuntu prerequisites'
+  apt:
+    name: "{{ item }}"
+    state: 'installed'
+  with_items:
+    - pkg-config
+    - libglib2.0-dev
+    - libxcb-xinerama0-dev
+    - libxkbcommon-dev
+    - libxkbcommon-x11-dev
+    - libxcb-ewmh-dev
+    - libxcb-icccm4-dev
+    - libxcb-randr0-dev
+    - libxcb-util-dev
+    - libpango1.0-dev
+    - libstartup-notification0-dev
+  when: ansible_distribution == 'Ubuntu' and rofi_install_path_result.stat.exists == False
 
 - name: 'create rofi src directory'
   file:
