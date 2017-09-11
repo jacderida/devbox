@@ -76,7 +76,10 @@ Once you're logged in to the VM via the VirtualBox GUI, the Linux GUI can be sta
 sudo systemctl start lightdm
 ```
 
-I'm using i3 as the window manager. You'll be able to select this from the login prompt.
+I'm using i3 as the window manager. You'll be able to select this from the login prompt. The machine should be running with 64MB of video RAM. The resolution can be changed with the following command:
+```shell
+xrandr --output VGA-1 --mode 1920x1080
+```
 
 ## Provision a Bare Metal Environment
 
