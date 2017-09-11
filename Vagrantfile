@@ -33,7 +33,7 @@ SCRIPT
     vb.memory = "2048"
     if ENV['DEVBOX_GUI'] == 'true'
       vb.gui = true
-      vb.customize["modifyvm", :id, "--vram", "64"]
+      vb.customize ["modifyvm", :id, "--vram", "64"]
     end
   end
 end
