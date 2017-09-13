@@ -1,0 +1,6 @@
+---
+git_source_location: /tmp/git-custom-ssl
+git_apt_version: 2.11.0
+git_apt_full_version: "{{ git_apt_version }}-3+deb9u1"
+git_package_name: "git_{{ git_apt_full_version }}_amd64.deb"
+git_man_package_name: "git-man_{{ git_apt_full_version }}_all.deb"

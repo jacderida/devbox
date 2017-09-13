@@ -1,0 +1,60 @@
+---
+- name: 'install debian prerequisites'
+  apt:
+    name: "{{ item }}"
+    state: 'installed'
+  with_items:
+    - build-essential
+    - dpkg-dev
+    - fakeroot
+    - liberror-perl
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: 'temporary location for source'
+  file:
+    state: directory
+    path: "{{ git_source_location }}"
+
+- name: 'get source using apt-get source'
+  shell: "apt-get source git"
+  args:
+    chdir: "{{ git_source_location }}"
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: 'get build dependencies for git'
+  shell: "apt-get build-dep git -y"
+  args:
+    chdir: "{{ git_source_location }}"
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+# I don't know why this can't just be installed as a normal package.
+- name: 'install libcurl4-openssl-dev'
+  shell: "apt-get install libcurl4-openssl-dev -y"
+  args:
+    chdir: "{{ git_source_location }}"
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: 'specify openssl library rather than gnutls'
+  replace:
+    dest: "{{ git_source_location }}/git-{{ git_apt_version }}/debian/control"
+    regexp: "libcurl4-gnutls-dev"
+    replace: "libcurl4-openssl-dev"
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: 'build git (this can take 10+ minutes to run)'
+  shell: "dpkg-buildpackage -rfakeroot -b"
+  args:
+    chdir: "{{ git_source_location }}/git-{{ git_apt_version }}"
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: 'install git man'
+  shell: "dpkg -i {{ git_man_package_name }}"
+  args:
+    chdir: "{{ git_source_location }}"
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: 'install git'
+  shell: "dpkg -i {{ git_package_name }}"
+  args:
+    chdir: "{{ git_source_location }}"
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
