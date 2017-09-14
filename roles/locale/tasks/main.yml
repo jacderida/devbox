@@ -1,0 +1,44 @@
+---
+- name: 'get current locale'
+  shell: |
+    locale | head -n 1 | awk -F "=" '{ print $2 }'
+  register: locale_result
+
+- name: 'get current locale'
+  command: 'cat /etc/timezone'
+  register: timezone_result
+
+- debug:
+    var: timezone_result
+
+- name: 'enable en_GB locale'
+  lineinfile:
+    path: '/etc/locale.gen'
+    regexp: '^#?\s*en_GB.UTF-8\s*UTF-8'
+    line: 'en_GB.UTF-8 UTF-8'
+  when:
+    - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+    - locale_result.stdout != 'en_GB.UTF-8'
+
+- name: 'generate en_GB locale'
+  command: 'locale-gen'
+  when:
+    - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+    - locale_result.stdout != 'en_GB.UTF-8'
+
+- name: 'set locale to en_GB'
+  replace:
+    path: '/etc/default/locale'
+    regexp: 'en_US.UTF-8'
+    replace: 'en_GB.UTF-8'
+  when:
+    - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+    - locale_result.stdout != 'en_GB.UTF-8'
+
+- name: 'set /etc/environment to en_GB'
+  copy:
+    src: environment
+    dest: /etc/environment
+  when:
+    - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+    - locale_result.stdout != 'en_GB.UTF-8'
