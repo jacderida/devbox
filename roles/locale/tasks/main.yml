@@ -4,13 +4,6 @@
     locale | head -n 1 | awk -F "=" '{ print $2 }'
   register: locale_result
 
-- name: 'get current locale'
-  command: 'cat /etc/timezone'
-  register: timezone_result
-
-- debug:
-    var: timezone_result
-
 - name: 'enable en_GB locale'
   lineinfile:
     path: '/etc/locale.gen'

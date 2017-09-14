@@ -218,3 +218,6 @@ def test_zsh_syntax_highlighting_plugin_is_installed(host):
 def test_zsh_powerlevel9k_theme_is_installed(host):
     user = host.user().name
     assert host.file('/home/{0}/.oh-my-zsh/custom/themes/powerlevel9k'.format(user)).is_directory
+
+def test_locale_set_to_en_gb(host):
+    assert host.file('/etc/environment').contains('en_GB.UTF-8')
