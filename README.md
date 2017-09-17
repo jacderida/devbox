@@ -15,7 +15,7 @@ Certain tasks are long running. For a quicker testing workflow, they can be disa
 ANSIBLE_ARGS='--skip-tags=slow' vagrant up
 ```
 
-One thing that takes an extremely long time is cloning the nerdfonts repository; it's 2.5GB in size. If this is need, it can be cloned on the host once, then mounted in as a shared folder. This is controlled using the `NERDFONTS_SHARED_FOLDER_SRC=<absolute path>`. Set this to the value of the folder on the host and run Vagrant like so:
+One thing that takes an extremely long time is cloning the nerdfonts repository; it's 2.5GB in size. If this is needed, it can be cloned on the host once, then mounted in as a shared folder. This is controlled using the `NERDFONTS_SHARED_FOLDER_SRC` environment variable. Set this to the value of the folder on the host and run Vagrant like so:
 ```shell
 NERDFONTS_SHARED_FOLDER_SRC=/home/jacderida/dev/nerd-fonts vagrant up
 ```
