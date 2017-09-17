@@ -10,6 +10,10 @@ SCRIPT
   config.vm.define "ubuntu" do |ubuntu|
     ubuntu.vm.box = "ubuntu/xenial64"
     ubuntu.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/ubuntu/.ssh/id_rsa"
+    if ENV['NERDFONTS_SHARED_FOLDER_SRC']
+      ubuntu.vm.provision "shell", inline: "chown ubuntu:ubuntu /home/ubuntu/dev"
+      ubuntu.vm.synced_folder "#{ENV['NERDFONTS_SHARED_FOLDER_SRC']}", "/home/ubuntu/dev/nerd-fonts", owner: "ubuntu", group: "ubuntu"
+    end
     ubuntu.vm.provision "ansible" do |ansible|
       ansible.playbook = "playbook.yml"
       ansible.extra_vars = {
@@ -28,12 +32,17 @@ SCRIPT
       }
       ansible.raw_arguments = ENV['ANSIBLE_ARGS']
     end
+    if ENV['NERDFONTS_SHARED_FOLDER_SRC']
+      debian.vm.provision "shell", inline: "chown vagrant:vagrant /home/vagrant/dev"
+      debian.vm.synced_folder "#{ENV['NERDFONTS_SHARED_FOLDER_SRC']}", "/home/vagrant/dev/nerd-fonts"
+    end
   end
   config.vm.provider "virtualbox" do |vb|
     vb.memory = "2048"
     if ENV['DEVBOX_GUI'] == 'true'
       vb.gui = true
       vb.customize ["modifyvm", :id, "--vram", "64"]
+      vb.customize ["modifyvm", :id, "--accelerate3d", "on"]
     end
   end
 end

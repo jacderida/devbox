@@ -11,8 +11,13 @@ Anything provisioned here is done so from public sources like Github. Anything p
 Vagrant can be used for development and testing. There's a Vagrantfile configured to run the Ansible localhost provisioner and apply the playbook. Just run `vagrant up` in the directory.
 
 Certain tasks are long running. For a quicker testing workflow, they can be disabled:
-```
+```shell
 ANSIBLE_ARGS='--skip-tags=slow' vagrant up
+```
+
+One thing that takes an extremely long time is cloning the nerdfonts repository; it's 2.5GB in size. If this is need, it can be cloned on the host once, then mounted in as a shared folder. This is controlled using the `NERDFONTS_SHARED_FOLDER_SRC=<absolute path>`. Set this to the value of the folder on the host and run Vagrant like so:
+```shell
+NERDFONTS_SHARED_FOLDER_SRC=/home/jacderida/dev/nerd-fonts vagrant up
 ```
 
 For testing large changes, e.g. a completely new configuration for Vim, the best thing to do is create a branch in the dotfiles repository, then instruct the provision to use that branch. Since various files are symlinked from the dotfiles repository on my dev machine, it's better to clone a new copy of it, create a branch, then make changes in that copy and push them to the branch. To run the provision, use this:
