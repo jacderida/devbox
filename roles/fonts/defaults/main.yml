@@ -2,3 +2,6 @@
 nerdfonts_repo: https://github.com/ryanoasis/nerd-fonts.git
 nerdfonts_destination: "/home/{{ dev_user }}/dev/nerd-fonts"
 fonts_directory: "/home/{{ dev_user }}/.local/share/fonts"
+freetype_version: 2.8
+freetype_url: "http://download.savannah.gnu.org/releases/freetype/freetype-{{ freetype_version }}.tar.gz"
+freetype_source_path: "/tmp/freetype-{{ freetype_version }}"
