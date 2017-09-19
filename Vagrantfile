@@ -43,6 +43,7 @@ SCRIPT
       vb.gui = true
       vb.customize ["modifyvm", :id, "--vram", "64"]
       vb.customize ["modifyvm", :id, "--accelerate3d", "on"]
+      vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
     end
   end
 end
