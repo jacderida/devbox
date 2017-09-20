@@ -39,11 +39,17 @@ Vagrant.configure("2") do |config|
       }
       ansible.raw_arguments = ENV['ANSIBLE_ARGS']
     end
+    if ENV['NERDFONTS_SHARED_FOLDER_SRC']
+      ubuntu.vm.provision "shell", inline: "chown ubuntu:ubuntu /home/ubuntu/dev"
+      ubuntu.vm.synced_folder "#{ENV['NERDFONTS_SHARED_FOLDER_SRC']}", "/home/ubuntu/dev/nerd-fonts"
+    end
   end
   config.vm.define "debian" do |debian|
     debian.vm.box = "debian/stretch64"
-    debian.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
-    debian.vm.provision "ansible" do |ansible|
+    debian.vm.provision "shell", path: "setup.sh" do |s|
+      s.args = "vagrant"
+    end
+    debian.vm.provision ansible_provisioner do |ansible|
       ansible.playbook = "playbook.yml"
       ansible.extra_vars = {
         dev_user: "vagrant"
