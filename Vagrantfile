@@ -1,16 +1,38 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+module OS
+  def OS.windows?
+    (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM) != nil
+  end
+  def OS.mac?
+    (/darwin/ =~ RUBY_PLATFORM) != nil
+  end
+  def OS.unix?
+    !OS.windows?
+  end
+  def OS.linux?
+    OS.unix? and not OS.mac?
+  end
+end
+
+ansible_provisioner = OS.windows? ? "ansible_local" : "ansible"
+
 Vagrant.configure("2") do |config|
-  config.vm.provision "shell", inline: <<SCRIPT
-  apt-get update -y
-  apt-get install -y python-dev
-  apt-get install -y python-pip
-SCRIPT
+  if Vagrant.has_plugin?("vagrant-proxyconf")
+    config.proxy.http = ENV['VAGRANT_HTTP_PROXY']
+    config.proxy.https = ENV['VAGRANT_HTTP_PROXY']
+    config.proxy.no_proxy = ENV['VAGRANT_NO_PROXY']
+  end
+  config.vm.provision "shell", path: "install_ssl_cert.sh" do |s|
+    s.args = "corp.crt"
+  end
   config.vm.define "ubuntu" do |ubuntu|
     ubuntu.vm.box = "ubuntu/xenial64"
-    ubuntu.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/ubuntu/.ssh/id_rsa"
-    ubuntu.vm.provision "ansible" do |ansible|
+    ubuntu.vm.provision "shell", path: "setup.sh" do |s|
+      s.args = "ubuntu"
+    end
+    ubuntu.vm.provision ansible_provisioner do |ansible|
       ansible.playbook = "playbook.yml"
       ansible.extra_vars = {
         dev_user: "ubuntu"
@@ -20,8 +42,10 @@ SCRIPT
   end
   config.vm.define "debian" do |debian|
     debian.vm.box = "debian/stretch64"
-    debian.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
-    debian.vm.provision "ansible" do |ansible|
+    debian.vm.provision "shell", path: "setup.sh" do |s|
+      s.args = "vagrant"
+    end
+    debian.vm.provision ansible_provisioner do |ansible|
       ansible.playbook = "playbook.yml"
       ansible.extra_vars = {
         dev_user: "vagrant"

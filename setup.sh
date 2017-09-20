@@ -12,9 +12,9 @@ function install_ansible_prerequisites() {
 }
 
 function install_ansible() {
-    pip install --upgrade pip --cert /usr/local/share/ca-certificates/slc.crt
-    pip install --upgrade pyasn1 setuptools --cert /usr/local/share/ca-certificates/slc.crt
-    pip install ansible==2.1.1.0 --cert /usr/local/share/ca-certificates/slc.crt
+    pip install --upgrade pip --cert /usr/local/share/ca-certificates/corp.crt
+    pip install --upgrade pyasn1 setuptools --cert /usr/local/share/ca-certificates/corp.crt
+    pip install ansible==2.1.1.0 --cert /usr/local/share/ca-certificates/corp.crt
 }
 
 function setup_git() {
