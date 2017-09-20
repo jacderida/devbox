@@ -16,7 +16,23 @@
   git:
     repo: "{{ xcb_util_xrm_repo }}"
     dest: "{{ xcb_util_xrm_path }}"
-    recursive: yes
+    recursive: no
+
+- name: 'change submodule reference'
+  replace:
+    path: "{{ xcb_util_xrm_path }}/.gitmodules"
+    regexp: "{{ xcb_util_submodule_reference }}"
+    replace: "{{ xcb_util_new_submodule_reference }}"
+
+- name: 'sync submodule update'
+  command: 'git submodule sync'
+  args:
+    chdir: "{{ xcb_util_xrm_path }}"
+
+- name: "update submodules manually (doesn't work as expected in the module)"
+  command: 'git submodule update --recursive --init'
+  args:
+    chdir: "{{ xcb_util_xrm_path }}"
 
 - name: 'run autogen.sh for xcb-util-xrm'
   command: './autogen.sh --prefix=/usr'

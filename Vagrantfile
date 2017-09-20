@@ -32,6 +32,7 @@ Vagrant.configure("2") do |config|
     ubuntu.vm.provision "shell", path: "setup.sh" do |s|
       s.args = "ubuntu"
     end
+    ubuntu.vm.provision "shell", inline: "chown ubuntu:ubuntu /home/ubuntu/dev"
     ubuntu.vm.provision ansible_provisioner do |ansible|
       ansible.playbook = "playbook.yml"
       ansible.extra_vars = {
@@ -49,6 +50,7 @@ Vagrant.configure("2") do |config|
     debian.vm.provision "shell", path: "setup.sh" do |s|
       s.args = "vagrant"
     end
+    debian.vm.provision "shell", inline: "chown vagrant:vagrant /home/vagrant/dev"
     debian.vm.provision ansible_provisioner do |ansible|
       ansible.playbook = "playbook.yml"
       ansible.extra_vars = {
