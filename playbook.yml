@@ -1,6 +1,7 @@
 ---
 - hosts: all
   roles:
+    - locale
     - git-with-openssl-mod
     - packages
     - i3wm

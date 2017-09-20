@@ -11,8 +11,13 @@ Anything provisioned here is done so from public sources like Github. Anything p
 Vagrant can be used for development and testing. There's a Vagrantfile configured to run the Ansible localhost provisioner and apply the playbook. Just run `vagrant up` in the directory.
 
 Certain tasks are long running. For a quicker testing workflow, they can be disabled:
-```
+```shell
 ANSIBLE_ARGS='--skip-tags=slow' vagrant up
+```
+
+One thing that takes an extremely long time is cloning the nerdfonts repository; it's 2.5GB in size. If this is needed, it can be cloned on the host once, then mounted in as a shared folder. This is controlled using the `NERDFONTS_SHARED_FOLDER_SRC` environment variable. Set this to the value of the folder on the host and run Vagrant like so:
+```shell
+NERDFONTS_SHARED_FOLDER_SRC=/home/jacderida/dev/nerd-fonts vagrant up
 ```
 
 For testing large changes, e.g. a completely new configuration for Vim, the best thing to do is create a branch in the dotfiles repository, then instruct the provision to use that branch. Since various files are symlinked from the dotfiles repository on my dev machine, it's better to clone a new copy of it, create a branch, then make changes in that copy and push them to the branch. To run the provision, use this:
@@ -97,6 +102,7 @@ ansible-playbook -i inventory playbook.yml --extra-vars "dev_user=$(whoami)"
 ## The Environment
 
 After applying the playbook, there should be an environment with the following:
+* ZSH with Oh My Zsh and the [powerlevel9k theme](https://github.com/bhilburn/powerlevel9k)
 * A whole bunch of packages installed (see the packages role; if I listed them here I'd need to keep 2 lists up-to-date)
 * My [dotfiles](https://github.com/jacderida/dotfiles) repository bootstrapped with all files symlinked to the correct place
 * All fonts from the [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts) repository downloaded and installed (there are a couple of GB of them so this takes a long time)

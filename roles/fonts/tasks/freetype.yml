@@ -1,0 +1,24 @@
+---
+- name: 'install freetype'
+  apt:
+    name: libfreetype6
+    state: 'installed'
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: 'symlink 10-hinting-slight.conf'
+  file:
+    src: '/etc/fonts/conf.avail/10-hinting-slight.conf'
+    dest: '/etc/fonts/conf.d/10-hinting-slight.conf'
+    state: link
+
+- name: 'symlink 10-sub-pixel-rgb.conf'
+  file:
+    src: '/etc/fonts/conf.avail/10-sub-pixel-rgb.conf'
+    dest: '/etc/fonts/conf.d/10-sub-pixel-rgb.conf'
+    state: link
+
+- name: 'symlink 11-lcdfilter-default.conf'
+  file:
+    src: '/etc/fonts/conf.avail/11-lcdfilter-default.conf'
+    dest: '/etc/fonts/conf.d/11-lcdfilter-default.conf'
+    state: link
