@@ -29,4 +29,5 @@
   pip:
     name: "{{ item }}"
   with_items:
+    - 'ansible-lint'
     - 'virtualenv'
