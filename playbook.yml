@@ -3,6 +3,7 @@
   roles:
     - locale
     - packages
+    - rofi
     - i3wm
     - zsh
     - dotfiles
