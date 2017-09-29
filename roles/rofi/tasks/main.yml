@@ -3,9 +3,6 @@
 - stat: path="{{ rofi_install_path }}"
   register: rofi_install_path_result
 
-- include: build-xcb-util-xrm.yml
-  when: ansible_distribution == 'Ubuntu' and rofi_install_path_result.stat.exists == False
-
 - name: 'install debian prerequisites'
   apt:
     name: "{{ item }}"

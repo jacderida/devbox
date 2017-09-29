@@ -1,0 +1,3 @@
+---
+dependencies:
+  - { role: xcb-util-xrm, when: ansible_distribution == 'Ubuntu' }
