@@ -1,0 +1,57 @@
+---
+- name: 'install lightdm'
+  apt:
+    name: lightdm
+    state: 'installed'
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: 'install ubuntu prerequisites'
+  apt:
+    name: "{{ item }}"
+    state: 'installed'
+  with_items:
+    - autoconf
+    - libev-dev
+    - libpango1.0-dev
+    - libstartup-notification0-dev
+    - libxkbcommon-dev
+    - libxkbcommon-x11-dev
+    - libxcb-cursor-dev
+    - libxcb-icccm4-dev
+    - libxcb-keysyms1-dev
+    - libxcb-randr0-dev
+    - libxcb-util0-dev
+    - libxcb-xinerama0-dev
+    - libxcb-xkb-dev
+    - libxcb1-dev
+    - libyajl-dev
+
+- name: 'clone i3gaps repo'
+  git:
+    repo: "{{ i3gaps_repo }}"
+    dest: "{{ i3gaps_src_path }}"
+    recursive: yes
+
+- name: 'run autoreconf for i3gaps'
+  command: 'autoreconf --force --install'
+  args:
+    chdir: "{{ i3gaps_src_path }}"
+
+- name: 'create build directory for i3gaps'
+  file:
+    state: directory
+    path: "{{ i3gaps_src_path }}/build"
+
+- name: 'run configure for i3gaps'
+  command: '../configure --prefix=/usr --sysconfdir=/etc --disable-sanitizers'
+  args:
+    chdir: "{{ i3gaps_src_path }}/build"
+
+- name: 'compile i3gaps'
+  make:
+    chdir: "{{ i3gaps_src_path }}/build"
+
+- name: 'install i3gaps'
+  make:
+    chdir: "{{ i3gaps_src_path }}/build"
+    target: install
