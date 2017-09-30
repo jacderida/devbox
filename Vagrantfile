@@ -46,4 +46,5 @@ SCRIPT
       vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
     end
   end
+  config.vm.provision "shell", inline: "apt-get install -y virtualbox-guest-dkms"
 end
