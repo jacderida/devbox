@@ -25,6 +25,31 @@
     - libxcb-xkb-dev
     - libxcb1-dev
     - libyajl-dev
+  when: ansible_distribution == 'Ubuntu'
+
+- name: 'install debian prerequisites'
+  apt:
+    name: "{{ item }}"
+    state: 'installed'
+  with_items:
+    - libev-dev
+    - libpango1.0-dev
+    - libstartup-notification0-dev
+    - libxcb1-dev
+    - libxcb-xkb-dev
+    - libxcb-cursor-dev
+    - libxcb-icccm4-dev
+    - libxcb-keysyms1-dev
+    - libxcb-randr0-dev
+    - libxcb-xinerama0-dev
+    - libxcb-util0-dev
+    - libxcb-xrm-dev
+    - libxcb-xrm0
+    - libxkbcommon-dev
+    - libxkbcommon-x11-dev
+    - libyajl-dev
+    - xcb
+  when: ansible_distribution == 'Debian'
 
 - name: 'clone i3gaps repo'
   git:
