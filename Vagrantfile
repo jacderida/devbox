@@ -10,8 +10,8 @@ SCRIPT
   config.vm.define "ubuntu" do |ubuntu|
     ubuntu.vm.box = "ubuntu/xenial64"
     ubuntu.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/ubuntu/.ssh/id_rsa"
+    ubuntu.vm.provision "shell", inline: "chown ubuntu:ubuntu /home/ubuntu/dev"
     if ENV['NERDFONTS_SHARED_FOLDER_SRC']
-      ubuntu.vm.provision "shell", inline: "chown ubuntu:ubuntu /home/ubuntu/dev"
       ubuntu.vm.synced_folder "#{ENV['NERDFONTS_SHARED_FOLDER_SRC']}", "/home/ubuntu/dev/nerd-fonts", owner: "ubuntu", group: "ubuntu"
     end
     ubuntu.vm.provision "ansible" do |ansible|
@@ -25,6 +25,7 @@ SCRIPT
   config.vm.define "debian" do |debian|
     debian.vm.box = "debian/stretch64"
     debian.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
+    debian.vm.provision "shell", inline: "chown vagrant:vagrant /home/vagrant/dev"
     debian.vm.provision "ansible" do |ansible|
       ansible.playbook = "playbook.yml"
       ansible.extra_vars = {
@@ -33,8 +34,7 @@ SCRIPT
       ansible.raw_arguments = ENV['ANSIBLE_ARGS']
     end
     if ENV['NERDFONTS_SHARED_FOLDER_SRC']
-      debian.vm.provision "shell", inline: "chown vagrant:vagrant /home/vagrant/dev"
-      debian.vm.synced_folder "#{ENV['NERDFONTS_SHARED_FOLDER_SRC']}", "/home/vagrant/dev/nerd-fonts"
+      debian.vm.synced_folder "#{ENV['NERDFONTS_SHARED_FOLDER_SRC']}", "/home/vagrant/dev/nerd-fonts", owner: "vagrant", group: "vagrant"
     end
   end
   config.vm.provider "virtualbox" do |vb|
@@ -46,5 +46,4 @@ SCRIPT
       vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
     end
   end
-  config.vm.provision "shell", inline: "apt-get install -y virtualbox-guest-dkms"
 end
