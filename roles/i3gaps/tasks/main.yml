@@ -80,3 +80,22 @@
   make:
     chdir: "{{ i3gaps_src_path }}/build"
     target: install
+
+- name: 'clone i3blocks repo'
+  git:
+    repo: "{{ i3blocks_repo }}"
+    dest: "{{ i3blocks_src_path }}"
+    recursive: yes
+
+- name: 'compile i3blocks'
+  make:
+    chdir: "{{ i3blocks_src_path }}"
+    target: "{{ item }}"
+  with_items:
+    - all
+    - clean
+
+- name: 'install i3blocks'
+  make:
+    chdir: "{{ i3blocks_src_path }}"
+    target: install
