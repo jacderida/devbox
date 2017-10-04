@@ -1,0 +1,5 @@
+---
+i3gaps_repo: https://www.github.com/Airblader/i3
+i3gaps_src_path: /tmp/i3gaps
+i3blocks_repo: https://www.github.com/vivien/i3blocks
+i3blocks_src_path: /tmp/i3blocks

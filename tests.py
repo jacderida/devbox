@@ -221,3 +221,14 @@ def test_zsh_powerlevel9k_theme_is_installed(host):
 
 def test_locale_set_to_en_gb(host):
     assert host.file('/etc/environment').contains('en_GB.UTF-8')
+
+def test_nitrogen_is_installed(host):
+    assert host.package('nitrogen').is_installed
+
+def test_desktop_backgrounds_directory_exists(host):
+    user = host.user().name
+    assert host.file('/home/{0}/.config/desktop-backgrounds'.format(user)).is_directory
+
+def test_sea_water_1920x1080_desktop_background_exists(host):
+    user = host.user().name
+    assert host.file('/home/{0}/.config/desktop-backgrounds/sea_water_surface_117357_1920x1080.jpg'.format(user)).is_file

@@ -4,7 +4,9 @@
     - locale
     - git-with-openssl-mod
     - packages
-    - i3wm
+    - rofi
+    - i3gaps
+    - desktop-backgrounds
     - zsh
     - dotfiles
     - fonts

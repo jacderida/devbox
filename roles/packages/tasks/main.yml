@@ -30,4 +30,6 @@
     name: "{{ item }}"
     extra_args: "--cert /usr/local/share/ca-certificates/corp.crt"
   with_items:
+    - 'ansible-lint'
     - 'virtualenv'
+    - 'virtualenvwrapper'
