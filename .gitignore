@@ -3,4 +3,5 @@
 *.cache
 *.retry
 *.crt
+*.orig
 __pycache__/
