@@ -29,17 +29,19 @@ Vagrant.configure("2") do |config|
   end
   config.vm.define "ubuntu" do |ubuntu|
     ubuntu.vm.box = "ubuntu/xenial64"
-    ubuntu.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/ubuntu/.ssh/id_rsa"
-    ubuntu.vm.provision "shell", inline: "chown ubuntu:ubuntu /home/ubuntu/dev"
-    if ENV['NERDFONTS_SHARED_FOLDER_SRC']
-      ubuntu.vm.synced_folder "#{ENV['NERDFONTS_SHARED_FOLDER_SRC']}", "/home/ubuntu/dev/nerd-fonts", owner: "ubuntu", group: "ubuntu"
+    ubuntu.vm.provision "shell", path: "setup.sh" do |s|
+      s.args = "ubuntu"
     end
-    ubuntu.vm.provision "ansible" do |ansible|
+    ubuntu.vm.provision "shell", inline: "chown ubuntu:ubuntu /home/ubuntu/dev"
+    ubuntu.vm.provision ansible_provisioner do |ansible|
       ansible.playbook = "playbook.yml"
       ansible.extra_vars = {
         dev_user: "ubuntu"
       }
       ansible.raw_arguments = ENV['ANSIBLE_ARGS']
+    end
+    if ENV['NERDFONTS_SHARED_FOLDER_SRC']
+      ubuntu.vm.synced_folder "#{ENV['NERDFONTS_SHARED_FOLDER_SRC']}", "/home/ubuntu/dev/nerd-fonts", owner: "ubuntu", group: "ubuntu"
     end
   end
   config.vm.define "debian" do |debian|
