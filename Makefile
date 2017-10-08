@@ -17,13 +17,13 @@ virtualenv:
 		pip install testinfra; \
 	)
 
-clean:
-	@vagrant destroy -f
+clean-ubuntu:
+	@vagrant destroy ubuntu -f
 
-ubuntu-up: check-nerdfonts clean virtualenv
+ubuntu-up: check-nerdfonts clean-ubuntu virtualenv
 	@vagrant up ubuntu --provision
 
-ubuntu-gui-up: check-nerdfonts clean virtualenv
+ubuntu-gui-up: check-nerdfonts clean-ubuntu virtualenv
 	@DEVBOX_GUI=true vagrant up ubuntu
 
 ubuntu-tests:
@@ -36,3 +36,5 @@ ubuntu-tests:
 ubuntu: ubuntu-up ubuntu-tests
 
 ubuntu-gui: ubuntu-gui-up ubuntu-tests
+
+clean: clean-ubuntu
