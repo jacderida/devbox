@@ -11,15 +11,15 @@ SCRIPT
     ubuntu.vm.box = "ubuntu/xenial64"
     ubuntu.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/ubuntu/.ssh/id_rsa"
     ubuntu.vm.provision "shell", inline: "chown ubuntu:ubuntu /home/ubuntu/dev"
-    if ENV['NERDFONTS_SHARED_FOLDER_SRC']
-      ubuntu.vm.synced_folder "#{ENV['NERDFONTS_SHARED_FOLDER_SRC']}", "/home/ubuntu/dev/nerd-fonts", owner: "ubuntu", group: "ubuntu"
-    end
     ubuntu.vm.provision "ansible" do |ansible|
       ansible.playbook = "playbook.yml"
       ansible.extra_vars = {
         dev_user: "ubuntu"
       }
       ansible.raw_arguments = ENV['ANSIBLE_ARGS']
+    end
+    if ENV['DEVBOX_NERDFONTS_SHARED_FOLDER']
+      ubuntu.vm.synced_folder "#{ENV['DEVBOX_NERDFONTS_SHARED_FOLDER']}", "/home/ubuntu/dev/nerd-fonts", owner: "ubuntu", group: "ubuntu"
     end
   end
   config.vm.define "debian" do |debian|
@@ -33,8 +33,8 @@ SCRIPT
       }
       ansible.raw_arguments = ENV['ANSIBLE_ARGS']
     end
-    if ENV['NERDFONTS_SHARED_FOLDER_SRC']
-      debian.vm.synced_folder "#{ENV['NERDFONTS_SHARED_FOLDER_SRC']}", "/home/vagrant/dev/nerd-fonts", owner: "vagrant", group: "vagrant"
+    if ENV['DEVBOX_NERDFONTS_SHARED_FOLDER']
+      debian.vm.synced_folder "#{ENV['DEVBOX_NERDFONTS_SHARED_FOLDER']}", "/home/vagrant/dev/nerd-fonts", owner: "vagrant", group: "vagrant"
     end
   end
   config.vm.provider "virtualbox" do |vb|
