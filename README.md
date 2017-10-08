@@ -93,7 +93,7 @@ ansible-playbook -i inventory playbook.yml --extra-vars "dev_user=$(whoami)"
 
 After applying the playbook, there should be an environment with the following:
 * [i3-gaps](https://github.com/Airblader/i3) for the desktop environment with [Rofi](https://github.com/DaveDavenport/rofi/) as an application launcher
-* [Terminator](https://gnometerminator.blogspot.co.uk/p/introduction.html) with RobotMono at 12pt
+* [Terminator](https://gnometerminator.blogspot.co.uk/p/introduction.html) configured with [Roboto Mono](https://fonts.google.com/specimen/Roboto+Mono) at 12pt
 * ZSH with Oh My Zsh and the [powerlevel9k theme](https://github.com/bhilburn/powerlevel9k)
 * A whole bunch of packages installed (see the packages role; if I listed them here I'd need to keep 2 lists up-to-date)
 * My [dotfiles](https://github.com/jacderida/dotfiles) repository bootstrapped with all files symlinked to the correct place
