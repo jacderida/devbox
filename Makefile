@@ -37,4 +37,24 @@ ubuntu: ubuntu-up ubuntu-tests
 
 ubuntu-gui: ubuntu-gui-up ubuntu-tests
 
-clean: clean-ubuntu
+clean-debian:
+	@vagrant destroy debian -f
+
+debian-up: check-nerdfonts clean-debian virtualenv
+	@vagrant up debian --provision
+
+debian-gui-up: check-nerdfonts clean-debian virtualenv
+	@DEVBOX_GUI=true vagrant up debian
+
+debian-tests:
+	@rm -f .vagrant/ssh-config
+	@vagrant ssh-config debian > .vagrant/ssh-config
+	# Unfortunately the virtualenv activation doesn't persist across targets (or perhaps a shell session),
+	# so the full path to the testinfra executable needs to be specified.
+	@$$WORKON_HOME/devbox/bin/testinfra -v --ssh-config=.vagrant/ssh-config --hosts=debian tests.py
+
+debian: debian-up debian-tests
+
+debian-gui: debian-gui-up debian-tests
+
+clean: clean-ubuntu clean-debian
