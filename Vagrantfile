@@ -10,7 +10,10 @@ SCRIPT
   config.vm.define "ubuntu" do |ubuntu|
     ubuntu.vm.box = "ubuntu/xenial64"
     ubuntu.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/ubuntu/.ssh/id_rsa"
-    ubuntu.vm.provision "shell", inline: "chown ubuntu:ubuntu /home/ubuntu/dev"
+    ubuntu.vm.provision "shell", inline: <<SCRIPT
+    [[ ! -d "/home/ubuntu/dev" ]] && mkdir /home/ubuntu/dev
+    chown ubuntu:ubuntu /home/ubuntu/dev
+SCRIPT
     ubuntu.vm.provision "ansible" do |ansible|
       ansible.playbook = "playbook.yml"
       ansible.extra_vars = {
@@ -25,7 +28,10 @@ SCRIPT
   config.vm.define "debian" do |debian|
     debian.vm.box = "debian/stretch64"
     debian.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
-    debian.vm.provision "shell", inline: "chown vagrant:vagrant /home/vagrant/dev"
+    debian.vm.provision "shell", inline: <<SCRIPT
+    [[ ! -d "/home/vagrant/dev" ]] && mkdir /home/vagrant/dev
+    chown vagrant:vagrant /home/vagrant/dev
+SCRIPT
     debian.vm.provision "ansible" do |ansible|
       ansible.playbook = "playbook.yml"
       ansible.extra_vars = {
