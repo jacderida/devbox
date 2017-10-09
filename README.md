@@ -8,16 +8,14 @@ Anything provisioned here is done so from public sources like Github. Anything p
 
 ## Development and Testing
 
-Vagrant can be used for development and testing. There's a Vagrantfile configured to run the Ansible localhost provisioner and apply the playbook. Just run `vagrant up` in the directory.
+Vagrant can be used for development and testing (and also if you just want to get a development machine running on a host). The Vagrantfile attempts to accomodate quite a few configurations, so a Makefile is used to make this easier.
 
-Certain tasks are long running. For a quicker testing workflow, they can be disabled:
-```shell
-ANSIBLE_ARGS='--skip-tags=slow' vagrant up
-```
+Running `make ubuntu` or `make debian` will bring the box online then run the tests against it. The tests are defined using [Testinfra](https://testinfra.readthedocs.io/en/latest/). I've chosen this because in the past I had limited success with Serverspec, and I generally prefer Python to Ruby. The Makefile is quite straight forward, so it can be inspected for other tasks to run.
 
-One thing that takes an extremely long time is cloning the nerdfonts repository; it's 2.5GB in size. If this is needed, it can be cloned on the host once, then mounted in as a shared folder. This is controlled using the `NERDFONTS_SHARED_FOLDER_SRC` environment variable. Set this to the value of the folder on the host and run Vagrant like so:
+One thing that takes an extremely long time is cloning the nerdfonts repository; it's 2.5GB in size. If this is needed, it can be cloned on the host once, then mounted in as a shared folder. This is controlled using the `DEVBOX_NERDFONTS_SHARED_FOLDER` environment variable. Set this to the value of the folder on the host and run Vagrant like so:
 ```shell
-NERDFONTS_SHARED_FOLDER_SRC=/home/jacderida/dev/nerd-fonts vagrant up
+export DEVBOX_NERDFONTS_SHARED_FOLDER=/home/jacderida/dev/nerd-fonts
+make ubuntu
 ```
 
 For testing large changes, e.g. a completely new configuration for Vim, the best thing to do is create a branch in the dotfiles repository, then instruct the provision to use that branch. Since various files are symlinked from the dotfiles repository on my dev machine, it's better to clone a new copy of it, create a branch, then make changes in that copy and push them to the branch. To run the provision, use this:
@@ -40,19 +38,11 @@ Before merging a branch back into master, ideally the following tests would be p
 * Perform a full `vagrant up` with the new role not applied, then apply it and run a `vagrant provision` and make sure everything runs ok.
 * Do both tests on the Ubuntu box as well as the default Debian box.
 
-### Running Tests
-
-There are some tests defined using [Testinfra](https://testinfra.readthedocs.io/en/latest/). I've chosen this because in the past I had limited success with Serverspec, and I generally prefer Python to Ruby. For running the tests:
-```shell
-source run_tests.sh
-```
-This script will activate a virtualenv if it doesn't exist (it uses virtualenvwrapper, so obviously that needs to be installed in the dev environment you're running in), brings the machines online with a `vagrant up`, then runs the tests against them. So that you can see new tests fail, it doesn't re-provision the machines; that should be done as an explicit 2nd step.
-
 ## Running with a GUI
 
 To start up the environment with a GUI, run the following command:
 ```shell
-DEVBOX_GUI='true' vagrant up
+make ubuntu-gui
 ```
 
 When the machine is completely provisioned, the GUI environment needs to be started from the VirtualBox UI. You can login to the debian box with 'vagrant' as both the username and password. The Ubuntu box unfortunately has a random password set. The password can be retrieved like so:
@@ -102,6 +92,8 @@ ansible-playbook -i inventory playbook.yml --extra-vars "dev_user=$(whoami)"
 ## The Environment
 
 After applying the playbook, there should be an environment with the following:
+* [i3-gaps](https://github.com/Airblader/i3) for the desktop environment with [Rofi](https://github.com/DaveDavenport/rofi/) as an application launcher
+* [Terminator](https://gnometerminator.blogspot.co.uk/p/introduction.html) configured with [Roboto Mono](https://fonts.google.com/specimen/Roboto+Mono) at 12pt
 * ZSH with Oh My Zsh and the [powerlevel9k theme](https://github.com/bhilburn/powerlevel9k)
 * A whole bunch of packages installed (see the packages role; if I listed them here I'd need to keep 2 lists up-to-date)
 * My [dotfiles](https://github.com/jacderida/dotfiles) repository bootstrapped with all files symlinked to the correct place

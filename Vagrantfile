@@ -32,24 +32,26 @@ Vagrant.configure("2") do |config|
     ubuntu.vm.provision "shell", path: "setup.sh" do |s|
       s.args = "ubuntu"
     end
-    ubuntu.vm.provision "shell", inline: "chown ubuntu:ubuntu /home/ubuntu/dev"
-    ubuntu.vm.provision ansible_provisioner do |ansible|
+    ubuntu.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/ubuntu/.ssh/id_rsa"
+    ubuntu.vm.provision "shell", inline: <<SCRIPT
+    [[ ! -d "/home/ubuntu/dev" ]] && mkdir /home/ubuntu/dev
+    chown ubuntu:ubuntu /home/ubuntu/dev
+SCRIPT
+    ubuntu.vm.provision ansible_provsioner do |ansible|
       ansible.playbook = "playbook.yml"
       ansible.extra_vars = {
         dev_user: "ubuntu"
       }
       ansible.raw_arguments = ENV['ANSIBLE_ARGS']
     end
-    if ENV['NERDFONTS_SHARED_FOLDER_SRC']
-      ubuntu.vm.synced_folder "#{ENV['NERDFONTS_SHARED_FOLDER_SRC']}", "/home/ubuntu/dev/nerd-fonts", owner: "ubuntu", group: "ubuntu"
-    end
   end
   config.vm.define "debian" do |debian|
     debian.vm.box = "debian/stretch64"
-    debian.vm.provision "shell", path: "setup.sh" do |s|
-      s.args = "vagrant"
-    end
-    debian.vm.provision "shell", inline: "chown vagrant:vagrant /home/vagrant/dev"
+    debian.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
+    debian.vm.provision "shell", inline: <<SCRIPT
+    [[ ! -d "/home/vagrant/dev" ]] && mkdir /home/vagrant/dev
+    chown vagrant:vagrant /home/vagrant/dev
+SCRIPT
     debian.vm.provision ansible_provisioner do |ansible|
       ansible.playbook = "playbook.yml"
       ansible.extra_vars = {
