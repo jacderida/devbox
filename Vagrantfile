@@ -36,7 +36,7 @@ Vagrant.configure("2") do |config|
     [[ ! -d "/home/ubuntu/dev" ]] && mkdir /home/ubuntu/dev
     chown ubuntu:ubuntu /home/ubuntu/dev
 SCRIPT
-    ubuntu.vm.provision ansible_provsioner do |ansible|
+    ubuntu.vm.provision ansible_provisioner do |ansible|
       ansible.playbook = "playbook.yml"
       ansible.extra_vars = {
         dev_user: "ubuntu"
