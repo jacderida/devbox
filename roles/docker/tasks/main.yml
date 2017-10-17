@@ -20,3 +20,14 @@
   when:
     - ansible_distribution == 'Ubuntu'
     - docker_install_check.rc == 1
+
+- name: add user to docker group for non-root management of docker
+  user:
+    name: "{{ dev_user }}"
+    group: docker
+    state: present
+
+- name: start docker
+  service:
+    name: docker
+    state: started
