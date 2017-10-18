@@ -1,14 +1,14 @@
 ---
 - hosts: all
   roles:
-    - locale
-    - packages
-    - rofi
-    - i3gaps
-    - desktop-backgrounds
-    - zsh
-    - docker
-    - dotfiles
-    - fonts
-    - vim
-    - chrome
+    - { role: locale }
+    - { role: packages }
+    - { role: rofi, tags: ['gui'] }
+    - { role: i3gaps, tags: ['gui'] }
+    - { role: desktop-backgrounds, tags: ['gui'] }
+    - { role: zsh }
+    - { role: docker }
+    - { role: dotfiles }
+    - { role: fonts, tags: ['gui'] }
+    - { role: vim }
+    - { role: chrome }

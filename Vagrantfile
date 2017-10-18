@@ -19,6 +19,7 @@ SCRIPT
       ansible.extra_vars = {
         dev_user: "ubuntu"
       }
+      ansible.skip_tags = ENV['ANSIBLE_SKIP_TAGS']
       ansible.raw_arguments = ENV['ANSIBLE_ARGS']
     end
     if ENV['DEVBOX_NERDFONTS_SHARED_FOLDER']
@@ -37,6 +38,7 @@ SCRIPT
       ansible.extra_vars = {
         dev_user: "vagrant"
       }
+      ansible.skip_tags = ENV['ANSIBLE_SKIP_TAGS']
       ansible.raw_arguments = ENV['ANSIBLE_ARGS']
     end
     if ENV['DEVBOX_NERDFONTS_SHARED_FOLDER']
