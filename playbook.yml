@@ -8,6 +8,7 @@
     - i3gaps
     - desktop-backgrounds
     - zsh
+    - docker
     - dotfiles
     - fonts
     - vim
