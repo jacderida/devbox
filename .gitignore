@@ -2,4 +2,6 @@
 *.log
 *.cache
 *.retry
+*.orig
+*.crt
 __pycache__/
