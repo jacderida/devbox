@@ -1,4 +1,5 @@
 SHELL := /bin/bash
+USERNAME := $(shell whoami)
 
 check-nerdfonts:
 ifndef DEVBOX_NERDFONTS_SHARED_FOLDER
@@ -58,3 +59,6 @@ debian: debian-up debian-tests
 debian-gui: debian-gui-up debian-tests
 
 clean: clean-ubuntu clean-debian
+
+bare-metal:
+	ansible-playbook -i inventory playbook.yml --extra-vars "dev_user=${USERNAME}"
