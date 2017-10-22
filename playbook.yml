@@ -11,4 +11,5 @@
     - { role: dotfiles }
     - { role: fonts, tags: ['gui'] }
     - { role: vim }
-    - { role: chrome }
+    - { role: chrome, tags: ['gui'] }
+    - { role: flux, tags: ['gui'] }

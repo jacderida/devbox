@@ -1,0 +1,4 @@
+---
+flux_repo_url: https://github.com/xflux-gui/xflux-gui.git
+flux_src_path: /tmp/xflux-gui
+flux_install_path: /usr/local/bin/fluxgui
