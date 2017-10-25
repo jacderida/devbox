@@ -1,0 +1,59 @@
+---
+- name: 'check if vagrant is installed (debian)'
+  command: dpkg-query -W vagrant
+  register: vagrant_install_check
+  failed_when: vagrant_install_check.rc > 1
+  changed_when: vagrant_install_check.rc == 1
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: 'download vagrant (debian)'
+  get_url:
+    url: "{{ vagrant_install_url }}"
+    dest: "{{ vagrant_install_destination }}"
+  when:
+    - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+    - vagrant_install_check.rc == 1
+
+- name: 'install vagrant (debian)'
+  apt:
+    deb: "{{ vagrant_install_destination }}"
+  when:
+    - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+    - vagrant_install_check.rc == 1
+
+- name: 'get installed plugin list'
+  command: 'vagrant plugin list'
+  register: vagrant_plugin_list
+  become_user: "{{ dev_user }}"
+  become: yes
+
+- name: 'install proxyconf plugin'
+  command: 'vagrant plugin install vagrant-proxyconf'
+  become_user: "{{ dev_user }}"
+  become: yes
+  when: '"vagrant-proxyconf" not in vagrant_plugin_list.stdout'
+
+- name: 'install aws plugin'
+  command: 'vagrant plugin install vagrant-aws'
+  become_user: "{{ dev_user }}"
+  become: yes
+  when: '"vagrant-aws" not in vagrant_plugin_list.stdout'
+
+- name: 'check if dummy aws box is installed'
+  command: 'vagrant box list'
+  register: vagrant_aws_box_check
+  changed_when: '"dummy" not in vagrant_aws_box_check.stdout'
+  become_user: "{{ dev_user }}"
+  become: yes
+
+- name: 'install dummy box for aws plugin'
+  command: 'vagrant box add dummy {{ aws_dummy_box_url }}'
+  become_user: "{{ dev_user }}"
+  become: yes
+  when: vagrant_aws_box_check.changed
+
+- name: 'install hosts plugin'
+  command: 'vagrant plugin install vagrant-hosts'
+  become_user: "{{ dev_user }}"
+  become: yes
+  when: '"vagrant-hosts" not in vagrant_plugin_list.stdout'
