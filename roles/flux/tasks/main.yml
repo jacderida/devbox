@@ -32,4 +32,4 @@
   command: 'python setup.py install'
   args:
     chdir: "{{ flux_src_path }}"
-    creates: "{{ flux_install_path }}"
+  when: flux_install_path_result.stat.exists == False
