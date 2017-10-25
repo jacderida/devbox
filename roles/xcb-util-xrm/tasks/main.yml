@@ -1,4 +1,7 @@
 ---
+- stat: path="{{ i3_install_path }}"
+  register: i3_install_path_result
+
 - name: 'install prerequisites'
   apt:
     name: "{{ item }}"
@@ -17,17 +20,21 @@
     repo: "{{ xcb_util_xrm_repo }}"
     dest: "{{ xcb_util_xrm_path }}"
     recursive: yes
+  when: i3_install_path_result.stat.exists == False
 
 - name: 'run autogen.sh for xcb-util-xrm'
   command: './autogen.sh --prefix=/usr'
   args:
     chdir: "{{ xcb_util_xrm_path }}"
+  when: i3_install_path_result.stat.exists == False
 
 - name: 'compile xcb-util-xrm'
   make:
     chdir: "{{ xcb_util_xrm_path }}"
+  when: i3_install_path_result.stat.exists == False
 
 - name: 'install xcb-util-xrm'
   make:
     chdir: "{{ xcb_util_xrm_path }}"
     target: install
+  when: i3_install_path_result.stat.exists == False
