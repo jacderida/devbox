@@ -5,24 +5,42 @@
     state: 'installed'
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
+- name: 'install zsh from dnf'
+  dnf:
+    name: "{{ item }}"
+    state: 'installed'
+  with_items:
+    - libselinux-python # depdendency for zsh
+    - util-linux-user # installs chsh
+    - zsh
+  when: ansible_distribution == 'Fedora'
+
 - name: 'download oh-my-zsh installer'
   get_url:
     url: "{{ oh_my_zsh_url }}"
     dest: "/home/{{ dev_user }}/install.sh"
     mode: 0700
   become_user: "{{ dev_user }}"
+  become: yes
 
-- name: 'update pam configuration to remove change shell password prompt'
+- name: 'update pam configuration to remove change shell password prompt (debian)'
   copy:
-    src: 'chsh'
+    src: 'chsh-debian'
     dest: '/etc/pam.d/chsh'
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: 'update pam configuration to remove change shell password prompt (fedora)'
+  copy:
+    src: 'chsh-fedora'
+    dest: '/etc/pam.d/chsh'
+  when: ansible_distribution == 'Fedora'
 
 - name: 'install oh-my-zsh'
   shell: "/home/{{ dev_user }}/install.sh"
   args:
     creates: "/home/{{ dev_user }}/.oh-my-zsh"
   become_user: "{{ dev_user }}"
+  become: yes
 
 - name: 'remove installer'
   file:
@@ -35,6 +53,7 @@
     dest: "{{ syntax_highlighting_plugin_path }}"
     force: yes
   become_user: "{{ dev_user }}"
+  become: yes
 
 - name: 'install powerlevel9k theme'
   git:
@@ -42,3 +61,4 @@
     dest: "{{ powerlevel9k_theme_path }}"
     force: yes
   become_user: "{{ dev_user }}"
+  become: yes
