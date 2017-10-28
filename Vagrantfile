@@ -2,11 +2,6 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.provision "shell", inline: <<SCRIPT
-  apt-get update -y
-  apt-get install -y python-dev
-  apt-get install -y python-pip
-SCRIPT
   config.vm.define "ubuntu" do |ubuntu|
     ubuntu.vm.box = "ubuntu/xenial64"
     ubuntu.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/ubuntu/.ssh/id_rsa"
@@ -43,6 +38,27 @@ SCRIPT
     end
     if ENV['DEVBOX_NERDFONTS_SHARED_FOLDER']
       debian.vm.synced_folder "#{ENV['DEVBOX_NERDFONTS_SHARED_FOLDER']}", "/home/vagrant/dev/nerd-fonts", owner: "vagrant", group: "vagrant"
+    end
+  end
+  config.vm.define "fedora" do |fedora|
+    fedora.vm.box = "fedora/25-cloud-base"
+    fedora.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
+    fedora.vm.provision "shell", inline: <<SCRIPT
+    [[ ! -d "/home/vagrant/dev" ]] && mkdir /home/vagrant/dev
+    chown vagrant:vagrant /home/vagrant/dev
+    chmod 0600 /home/vagrant/.ssh/id_rsa
+SCRIPT
+    fedora.vm.provision "shell", path: "sh/setup_fedora.sh"
+    fedora.vm.provision "ansible_local" do |ansible|
+      ansible.playbook = "playbook.yml"
+      ansible.extra_vars = {
+        dev_user: "vagrant"
+      }
+      ansible.skip_tags = ENV['ANSIBLE_SKIP_TAGS']
+      ansible.raw_arguments = ENV['ANSIBLE_ARGS']
+    end
+    if ENV['DEVBOX_NERDFONTS_SHARED_FOLDER']
+      fedora.vm.synced_folder "#{ENV['DEVBOX_NERDFONTS_SHARED_FOLDER']}", "/home/vagrant/dev/nerd-fonts", owner: "vagrant", group: "vagrant"
     end
   end
   config.vm.provider "virtualbox" do |vb|
