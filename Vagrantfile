@@ -41,7 +41,7 @@ SCRIPT
     end
   end
   config.vm.define "fedora" do |fedora|
-    fedora.vm.box = "fedora/25-cloud-base"
+    fedora.vm.box = "fedora/26-cloud-base"
     fedora.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
     fedora.vm.provision "shell", inline: <<SCRIPT
     [[ ! -d "/home/vagrant/dev" ]] && mkdir /home/vagrant/dev

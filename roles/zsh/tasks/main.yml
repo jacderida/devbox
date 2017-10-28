@@ -10,7 +10,6 @@
     name: "{{ item }}"
     state: 'installed'
   with_items:
-    - libselinux-python # depdendency for zsh
     - util-linux-user # installs chsh
     - zsh
   when: ansible_distribution == 'Fedora'

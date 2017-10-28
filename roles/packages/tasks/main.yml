@@ -45,6 +45,7 @@
     - 'flac'
     - 'git'
     - 'htop'
+    - 'libselinux-python'
     - 'mpc'
     - 'mpdscribble'
     - 'ncmpcpp'

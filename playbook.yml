@@ -3,15 +3,16 @@
   roles:
     - { role: locale }
     - { role: packages }
-    - { role: rofi, tags: ['gui'] }
-    - { role: i3gaps, tags: ['gui'] }
-    - { role: desktop-backgrounds, tags: ['gui'] }
+    - { role: rofi }
+    #- { role: rofi, tags: ['gui'] }
+    #- { role: i3gaps, tags: ['gui'] }
+    #- { role: desktop-backgrounds, tags: ['gui'] }
     - { role: zsh }
-    - { role: docker }
+    #- { role: docker }
     - { role: dotfiles }
-    - { role: fonts, tags: ['gui'] }
-    - { role: vim }
-    - { role: chrome, tags: ['gui'] }
-    - { role: flux, tags: ['gui'] }
-    - { role: vagrant }
-    - { role: virtualbox }
+    #- { role: fonts, tags: ['gui'] }
+    #- { role: vim }
+    #- { role: chrome, tags: ['gui'] }
+    #- { role: flux, tags: ['gui'] }
+    #- { role: vagrant }
+    #- { role: virtualbox }
