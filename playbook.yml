@@ -3,12 +3,11 @@
   roles:
     - { role: locale }
     - { role: packages }
-    - { role: rofi }
-    #- { role: rofi, tags: ['gui'] }
-    #- { role: i3gaps, tags: ['gui'] }
-    #- { role: desktop-backgrounds, tags: ['gui'] }
+    - { role: rofi, tags: ['gui'] }
+    - { role: i3gaps, tags: ['gui'] }
+    - { role: desktop-backgrounds, tags: ['gui'] }
     - { role: zsh }
-    #- { role: docker }
+    - { role: docker }
     - { role: dotfiles }
     #- { role: fonts, tags: ['gui'] }
     #- { role: vim }

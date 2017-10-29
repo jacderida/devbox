@@ -1,25 +1,37 @@
 ---
-- name: 'debian check if docker is installed'
+- name: 'check if docker is installed (debian)'
   command: dpkg-query -W docker-ce
   register: docker_install_check
   failed_when: docker_install_check.rc > 1
   changed_when: docker_install_check.rc == 1
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
-- name: 'download docker stable'
+- name: 'download docker stable (debian)'
   get_url:
     url: "{{ ubuntu_docker_installer_url }}"
-    dest: "{{ docker_installer_destination }}"
+    dest: "{{ ubuntu_docker_installer_destination }}"
   when:
     - ansible_distribution == 'Ubuntu'
     - docker_install_check.rc == 1
 
-- name: 'install docker'
+- name: 'download docker stable (fedora)'
+  get_url:
+    url: "{{ fedora_docker_installer_url }}"
+    dest: "{{ fedora_docker_installer_destination }}"
+  when: ansible_distribution == 'Fedora'
+
+- name: 'install docker (debian)'
   apt:
-    deb: "{{ docker_installer_destination }}"
+    deb: "{{ ubuntu_docker_installer_destination }}"
   when:
     - ansible_distribution == 'Ubuntu'
     - docker_install_check.rc == 1
+
+- name: 'install docker (fedora)'
+  dnf:
+    name: "{{ fedora_docker_installer_destination }}"
+    state: present
+  when: ansible_distribution == 'Fedora'
 
 - name: add user to docker group for non-root management of docker
   user:
