@@ -8,10 +8,13 @@
     state: 'installed'
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
-- name: 'dnf install lightdm'
+- name: 'dnf install lightdm & xfce (can take ~10 minutes)'
   dnf:
-    name: lightdm
+    name: "{{ item }}"
     state: 'installed'
+  with_items:
+    - '@xfce-desktop-environment'
+    - 'lightdm'
   when: ansible_distribution == 'Fedora'
 
 - name: 'install ubuntu prerequisites'
