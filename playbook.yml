@@ -13,5 +13,5 @@
     #- { role: vim }
     #- { role: chrome, tags: ['gui'] }
     #- { role: flux, tags: ['gui'] }
-    #- { role: vagrant }
+    - { role: vagrant }
     #- { role: virtualbox }

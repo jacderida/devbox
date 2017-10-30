@@ -6,19 +6,42 @@
   changed_when: vagrant_install_check.rc == 1
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
+- name: 'check if vagrant is installed (fedora)'
+  command: rpm -q vagrant
+  register: vagrant_install_check
+  failed_when: vagrant_install_check.rc > 1
+  changed_when: vagrant_install_check.rc == 1
+  when: ansible_distribution == 'Fedora'
+
 - name: 'download vagrant (debian)'
   get_url:
-    url: "{{ vagrant_install_url }}"
-    dest: "{{ vagrant_install_destination }}"
+    url: "{{ ubuntu_vagrant_install_url }}"
+    dest: "{{ ubuntu_vagrant_install_destination }}"
   when:
     - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
     - vagrant_install_check.rc == 1
 
 - name: 'install vagrant (debian)'
   apt:
-    deb: "{{ vagrant_install_destination }}"
+    deb: "{{ ubuntu_vagrant_install_destination }}"
   when:
-    - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+    - ansible_distribution == 'Fedora'
+    - vagrant_install_check.rc == 1
+
+- name: 'download vagrant (fedora)'
+  get_url:
+    url: "{{ fedora_vagrant_install_url }}"
+    dest: "{{ fedora_vagrant_install_destination }}"
+  when:
+    - ansible_distribution == 'Fedora'
+    - vagrant_install_check.rc == 1
+
+- name: 'install vagrant (fedora)'
+  yum:
+    name: "{{ fedora_vagrant_install_destination }}"
+    state: present
+  when:
+    - ansible_distribution == 'Fedora'
     - vagrant_install_check.rc == 1
 
 - name: 'get installed plugin list'
