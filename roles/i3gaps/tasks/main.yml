@@ -2,11 +2,20 @@
 - stat: path="{{ i3_install_path }}"
   register: i3_install_path_result
 
-- name: 'install lightdm'
+- name: 'apt install lightdm'
   apt:
     name: lightdm
     state: 'installed'
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: 'dnf install lightdm & xfce (can take ~10 minutes)'
+  dnf:
+    name: "{{ item }}"
+    state: 'installed'
+  with_items:
+    - '@xfce-desktop-environment'
+    - 'lightdm'
+  when: ansible_distribution == 'Fedora'
 
 - name: 'install ubuntu prerequisites'
   apt:
@@ -53,6 +62,27 @@
     - libyajl-dev
     - xcb
   when: ansible_distribution == 'Debian'
+
+- name: 'install fedora prerequisites'
+  dnf:
+    name: "{{ item }}"
+    state: 'installed'
+  with_items:
+    - autoconf
+    - automake
+    - gcc
+    - libev-devel
+    - libxkbcommon-devel
+    - libxkbcommon-x11-devel
+    - pango-devel
+    - startup-notification-devel
+    - xcb-util-devel
+    - xcb-util-cursor-devel
+    - xcb-util-keysyms-devel
+    - xcb-util-wm-devel
+    - xcb-util-xrm-devel
+    - yajl-devel
+  when: ansible_distribution == 'Fedora'
 
 - name: 'clone i3gaps repo'
   git:

@@ -32,3 +32,15 @@
   when:
     - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
     - chrome_install_check.rc == 1
+
+- name: 'enable repo (fedora)'
+  copy:
+    src: google-chrome.repo
+    dest: /etc/yum.repos.d/google-chrome.repo
+
+- name: 'install chrome (fedora)'
+  dnf:
+    name: google-chrome-stable
+    state: present
+  when:
+    - ansible_distribution == 'Fedora'

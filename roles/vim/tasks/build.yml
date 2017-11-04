@@ -16,6 +16,7 @@
     url: "{{ vim_src_url }}"
     dest: "{{ vim_src_archive_path }}"
   become_user: "{{ dev_user }}"
+  become: yes
   when: vim_src_path_result.stat.exists == False
 
 # The vim archive already has a folder, so it can be extracted directly to the dev directory.
@@ -25,6 +26,7 @@
     src: "{{ vim_src_archive_path }}"
     dest: "{{ dev_path }}"
   become_user: "{{ dev_user }}"
+  become: yes
   when: vim_src_path_result.stat.exists == False
 
 - name: 'remove src archive'
@@ -38,6 +40,7 @@
     chdir: "{{ vim_src_path }}/src"
     creates: "{{ vim_src_path }}/src/auto/config.h"
   become_user: "{{ dev_user }}"
+  become: yes
 
 - stat: path="{{ vim_src_path }}/src/vim"
   register: vim_bin_path_result
@@ -46,6 +49,7 @@
   make:
     chdir: "{{ vim_src_path }}/src"
   become_user: "{{ dev_user }}"
+  become: yes
   when: vim_bin_path_result.stat.exists == False
 
 - stat: path="{{ vim_install_path }}"

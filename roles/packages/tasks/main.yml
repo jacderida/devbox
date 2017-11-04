@@ -35,7 +35,31 @@
     - 'thunar'
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
-# The setup.sh file that runs before provisioning will ensure pip exists.
+- name: 'install dnf packages (fedora)'
+  dnf:
+    name: "{{ item }}"
+    state: 'installed'
+  with_items:
+    - 'cmake'
+    - 'curl'
+    - 'dos2unix'
+    - 'flac'
+    - 'git'
+    - 'htop'
+    - 'libselinux-python'
+    - 'mpc'
+    - 'mpdscribble'
+    - 'ncmpcpp'
+    - 'ncurses-devel'
+    - 'python-devel'
+    - 'python-pygments'
+    - 'the_silver_searcher'
+    - 'subversion'
+    - 'terminator'
+    - 'tree'
+    - 'unzip'
+  when: ansible_distribution == 'Fedora'
+
 - name: 'install pip packages'
   pip:
     name: "{{ item }}"

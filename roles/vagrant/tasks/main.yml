@@ -1,4 +1,9 @@
 ---
+- name: 'install fedora prerequisites'
+  dnf:
+    name: gcc
+    state: 'installed'
+
 - name: 'check if vagrant is installed (debian)'
   command: dpkg-query -W vagrant
   register: vagrant_install_check
@@ -6,19 +11,27 @@
   changed_when: vagrant_install_check.rc == 1
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
-- name: 'download vagrant (debian)'
-  get_url:
-    url: "{{ vagrant_install_url }}"
-    dest: "{{ vagrant_install_destination }}"
+- name: 'check if vagrant is installed (fedora)'
+  command: rpm -q vagrant
+  register: vagrant_install_check
+  failed_when: vagrant_install_check.rc > 1
+  changed_when: vagrant_install_check.rc == 1
+  when: ansible_distribution == 'Fedora'
+
+- name: 'install vagrant (debian)'
+  apt:
+    deb: "{{ ubuntu_vagrant_install_url }}"
+    state: present
   when:
     - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
     - vagrant_install_check.rc == 1
 
-- name: 'install vagrant (debian)'
-  apt:
-    deb: "{{ vagrant_install_destination }}"
+- name: 'install vagrant (fedora)'
+  dnf:
+    name: "{{ fedora_vagrant_install_url }}"
+    state: present
   when:
-    - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+    - ansible_distribution == 'Fedora'
     - vagrant_install_check.rc == 1
 
 - name: 'get installed plugin list'

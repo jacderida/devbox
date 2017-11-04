@@ -6,17 +6,25 @@
   changed_when: virtualbox_install_check.rc == 1
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
-- name: 'download virtualbox (debian)'
-  get_url:
-    url: "{{ virtualbox_install_url }}"
-    dest: "{{ virtualbox_install_destination }}"
+- name: 'check if virtualbox is installed (fedora)'
+  command: rpm -q virtualbox
+  register: virtualbox_install_check
+  failed_when: virtualbox_install_check.rc > 1
+  changed_when: virtualbox_install_check.rc == 1
+  when: ansible_distribution == 'Fedora'
+
+- name: 'install virtualbox (debian)'
+  apt:
+    deb: "{{ debian_virtualbox_install_url }}"
+    state: present
   when:
     - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
     - virtualbox_install_check.rc == 1
 
-- name: 'install virtualbox (debian)'
-  apt:
-    deb: "{{ virtualbox_install_destination }}"
+- name: 'install virtualbox (fedora)'
+  dnf:
+    name: "{{ fedora_virtualbox_install_url }}"
+    state: present
   when:
-    - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+    - ansible_distribution == 'Fedora'
     - virtualbox_install_check.rc == 1
