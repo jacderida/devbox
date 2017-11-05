@@ -1,4 +1,12 @@
 ---
+- name: 'fedora prerequisites'
+  dnf:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - kernel-devel
+    - kernel-headers
+
 - name: 'check if virtualbox is installed (debian)'
   command: dpkg-query -W virtualbox
   register: virtualbox_install_check
