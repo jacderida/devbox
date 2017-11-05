@@ -52,7 +52,7 @@
     - 'ncmpcpp'
     - 'ncurses-devel'
     - 'python-devel'
-    - 'python-pygments'
+    - 'python3-pygments'
     - 'the_silver_searcher'
     - 'subversion'
     - 'terminator'
