@@ -35,6 +35,17 @@
     - 'thunar'
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
+- name: 'install dnf packages (gui)'
+  dnf:
+    name: "{{ item }}"
+    state: installed
+  tags: ['gui']
+  with_items:
+    - 'keepassx'
+    - 'pavucontrol'
+    - 'thunar'
+  when: ansible_distribution == 'Fedora'
+
 - name: 'install dnf packages (fedora)'
   dnf:
     name: "{{ item }}"
