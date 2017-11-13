@@ -45,3 +45,11 @@
     name: redshift
     state: present
   when: ansible_distribution == 'Fedora'
+
+- name: 'copy redshift config file'
+  template:
+    src=redshift.conf.j2
+    dest="{{ redshift_config_path }}"
+    owner="{{ dev_user }}"
+    group="{{ dev_user }}"
+  when: ansible_distribution == 'Fedora'

@@ -2,3 +2,8 @@
 flux_repo_url: https://github.com/xflux-gui/xflux-gui.git
 flux_src_path: /tmp/xflux-gui
 flux_install_path: /usr/local/bin/fluxgui
+redshift_config_path: "/home/{{ dev_user }}/.redshift.conf"
+redshift_latitude: 55.8230
+redshift_longitude: -4.2676
+redshift_day_temperature: 5600
+redshift_night_temperature: 1800
