@@ -34,6 +34,7 @@
     - 'keepassx'
     - 'pavucontrol'
     - 'thunar'
+    - 'vlc'
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: 'install dnf packages (gui)'
@@ -45,6 +46,7 @@
     - 'keepassx'
     - 'pavucontrol'
     - 'thunar'
+    - 'vlc'
   when: ansible_distribution == 'Fedora'
 
 - name: 'install dnf packages (fedora)'
