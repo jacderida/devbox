@@ -1,5 +1,6 @@
 SHELL := /bin/bash
 USERNAME := $(shell whoami)
+WORKON_HOME := /home/${USERNAME}/.virtualenvs
 
 check-nerdfonts:
 ifndef DEVBOX_NERDFONTS_SHARED_FOLDER
@@ -67,7 +68,11 @@ fedora-up: virtualenv
 fedora-gui-up: check-nerdfonts virtualenv
 	@DEVBOX_GUI=true vagrant up fedora --provision
 
-bare-metal:
+bare-metal: virtualenv
 	ansible-playbook -i inventory playbook.yml --extra-vars "dev_user=${USERNAME}"
+	@$$WORKON_HOME/devbox/bin/testinfra -v tests.py
+
+bare-metal-tests: virtualenv
+	@$$WORKON_HOME/devbox/bin/testinfra -v tests.py
 
 clean: clean-ubuntu clean-debian clean-fedora
