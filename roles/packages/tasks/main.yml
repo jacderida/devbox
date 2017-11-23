@@ -82,3 +82,10 @@
     - 'ansible-lint'
     - 'virtualenv'
     - 'virtualenvwrapper'
+
+- name: 'symlink virtualenvwrapper on fedora'
+  file:
+    src: /usr/bin/virtualenvwrapper.sh
+    dest: /usr/local/bin/virtualenvwrapper.sh
+    state: link
+  when: ansible_distribution == 'Fedora'
