@@ -70,3 +70,9 @@
   become_user: "{{ dev_user }}"
   become: yes
   when: '"vagrant-hosts" not in vagrant_plugin_list.stdout'
+
+- name: 'install vbguest plugin'
+  command: 'vagrant plugin install vagrant-vbguest'
+  become_user: "{{ dev_user }}"
+  become: yes
+  when: '"vagrant-vbguest" not in vagrant_plugin_list.stdout'
