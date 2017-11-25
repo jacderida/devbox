@@ -65,6 +65,7 @@
     - 'mpdscribble'
     - 'ncmpcpp'
     - 'ncurses-devel'
+    - 'p7zip'
     - 'python-devel'
     - 'python3-pygments'
     - 'ranger'
