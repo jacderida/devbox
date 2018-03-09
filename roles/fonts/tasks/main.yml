@@ -3,6 +3,7 @@
   apt:
     name: fontconfig
     state: 'installed'
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: 'create fonts directory'
   file:
@@ -26,16 +27,23 @@
     dest: "{{ nerdfonts_destination }}"
     force: yes
   become_user: "{{ dev_user }}"
+  become: yes
   tags: ['slow']
 
 - name: 'install nerd fonts - install script will error but it runs fine'
   command: "chdir={{ nerdfonts_destination }} ./install.sh"
   become_user: "{{ dev_user }}"
+  become: yes
   ignore_errors: True
   tags: ['slow']
 
 - name: 'refresh font cache'
   shell: "fc-cache -vf {{ fonts_directory }}"
   become_user: "{{ dev_user }}"
+  become: yes
 
 - include: freetype.yml
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- include: freetype-freeworld.yml
+  when: ansible_distribution == 'Fedora'

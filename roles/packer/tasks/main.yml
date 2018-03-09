@@ -1,0 +1,22 @@
+---
+- name: 'check if packer is installed'
+  stat: path="{{ packer_install_destination }}/packer"
+  register: packer_install_destination_result
+
+- name: 'create packer install directory'
+  file:
+    path: "{{ packer_install_destination }}"
+    state: directory
+
+- name: 'install packer'
+  unarchive:
+    src: "{{ packer_install_url }}"
+    dest: "{{ packer_install_destination }}"
+    remote_src: yes
+  when: packer_install_destination_result.stat.exists == False
+
+- name: 'link packer to /usr/local/bin'
+  file:
+    src: "{{ packer_install_destination }}/packer"
+    dest: "/usr/local/bin/packer"
+    state: link

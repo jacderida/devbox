@@ -1,15 +1,18 @@
 ---
 - hosts: all
   roles:
-    - locale
-    - git-with-openssl-mod
-    - packages
-    - rofi
-    - i3gaps
-    - desktop-backgrounds
-    - zsh
-    - docker
-    - dotfiles
-    - fonts
-    - vim
-    - chrome
+    - { role: locale }
+    - { role: packages }
+    - { role: rofi, tags: ['gui'] }
+    - { role: i3gaps, tags: ['gui'] }
+    - { role: desktop-backgrounds, tags: ['gui'] }
+    - { role: zsh }
+    - { role: docker }
+    - { role: dotfiles }
+    - { role: fonts, tags: ['gui'] }
+    - { role: vim }
+    - { role: chrome, tags: ['gui'] }
+    - { role: screen-temperature, tags: ['gui'] }
+    - { role: vagrant }
+    - { role: virtualbox }
+    - { role: packer }

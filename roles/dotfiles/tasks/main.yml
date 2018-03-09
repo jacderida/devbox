@@ -14,7 +14,24 @@
     force: yes
     version: "{{ dotfiles_branch }}"
   become_user: "{{ dev_user }}"
+  become: yes
 
 - name: 'bootstrap dotfiles'
   command: "chdir={{ dotfiles_destination }} bash bootstrap.sh"
   become_user: "{{ dev_user }}"
+  become: yes
+
+- name: 'clone dockerfiles'
+  git:
+    repo: "{{ dockerfiles_repo }}"
+    dest: "{{ dockerfiles_destination }}"
+    force: yes
+  become_user: "{{ dev_user }}"
+  become: yes
+
+- name: 'bootstrap dockerfiles (this can be a 10+ minute operation)'
+  make:
+    chdir: "{{ dockerfiles_destination }}"
+    target: all
+  become_user: "{{ dev_user }}"
+  become: yes

@@ -1,4 +1,5 @@
 SHELL := /bin/bash
+USERNAME := $(shell whoami)
 
 check-nerdfonts:
 ifndef DEVBOX_NERDFONTS_SHARED_FOLDER
@@ -20,8 +21,8 @@ virtualenv:
 clean-ubuntu:
 	@vagrant destroy ubuntu -f
 
-ubuntu-up: check-nerdfonts clean-ubuntu virtualenv
-	@vagrant up ubuntu --provision
+ubuntu-up: clean-ubuntu virtualenv
+	@ANSIBLE_SKIP_TAGS='gui' vagrant up ubuntu --provision
 
 ubuntu-gui-up: check-nerdfonts clean-ubuntu virtualenv
 	@DEVBOX_GUI=true vagrant up ubuntu
@@ -40,8 +41,8 @@ ubuntu-gui: ubuntu-gui-up ubuntu-tests
 clean-debian:
 	@vagrant destroy debian -f
 
-debian-up: check-nerdfonts clean-debian virtualenv
-	@vagrant up debian --provision
+debian-up: clean-debian virtualenv
+	@ANSIBLE_SKIP_TAGS='gui' vagrant up debian --provision
 
 debian-gui-up: check-nerdfonts clean-debian virtualenv
 	@DEVBOX_GUI=true vagrant up debian
@@ -57,4 +58,16 @@ debian: debian-up debian-tests
 
 debian-gui: debian-gui-up debian-tests
 
-clean: clean-ubuntu clean-debian
+clean-fedora:
+	@vagrant destroy fedora -f
+
+fedora-up: virtualenv
+	@ANSIBLE_SKIP_TAGS='gui' vagrant up fedora --provision
+
+fedora-gui-up: check-nerdfonts virtualenv
+	@DEVBOX_GUI=true vagrant up fedora --provision
+
+bare-metal:
+	ansible-playbook -i inventory playbook.yml --extra-vars "dev_user=${USERNAME}"
+
+clean: clean-ubuntu clean-debian clean-fedora

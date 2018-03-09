@@ -17,6 +17,7 @@
     - 'ncurses-dev'
     - 'python-dev'
     - 'python-pygments'
+    - 'ranger'
     - 'silversearcher-ag'
     - 'subversion'
     - 'terminator'
@@ -24,12 +25,70 @@
     - 'unzip'
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
-# The setup.sh file that runs before provisioning will ensure pip exists.
+- name: 'install apt packages (gui)'
+  apt:
+    name: "{{ item }}"
+    state: installed
+  tags: ['gui']
+  with_items:
+    - 'keepassx'
+    - 'pavucontrol'
+    - 'thunar'
+    - 'vlc'
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: 'install dnf packages (gui)'
+  dnf:
+    name: "{{ item }}"
+    state: installed
+  tags: ['gui']
+  with_items:
+    - 'keepassx'
+    - 'pavucontrol'
+    - 'thunar'
+    - 'vlc'
+  when: ansible_distribution == 'Fedora'
+
+- name: 'install dnf packages (fedora)'
+  dnf:
+    name: "{{ item }}"
+    state: 'installed'
+  with_items:
+    - 'cmake'
+    - 'curl'
+    - 'dos2unix'
+    - 'flac'
+    - 'git'
+    - 'htop'
+    - 'libselinux-python'
+    - 'mpc'
+    - 'mpdscribble'
+    - 'ncmpcpp'
+    - 'ncurses-devel'
+    - 'p7zip'
+    - 'python-devel'
+    - 'python3-pygments'
+    - 'ranger'
+    - 'the_silver_searcher'
+    - 'subversion'
+    - 'terminator'
+    - 'tree'
+    - 'unzip'
+  when: ansible_distribution == 'Fedora'
+
 - name: 'install pip packages'
   pip:
     name: "{{ item }}"
     extra_args: "--cert /usr/local/share/ca-certificates/corp.crt"
   with_items:
     - 'ansible-lint'
+    - 'youtube_dl'
     - 'virtualenv'
     - 'virtualenvwrapper'
+
+- name: 'install pip3 packages'
+  pip:
+    executable: "/usr/bin/pip3"
+    name: "{{ item }}"
+  with_items:
+    - 'you-get'

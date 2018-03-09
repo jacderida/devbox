@@ -1,0 +1,38 @@
+---
+- name: 'fedora prerequisites'
+  dnf:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - kernel-devel
+    - kernel-headers
+
+- name: 'check if virtualbox is installed (debian)'
+  command: dpkg-query -W virtualbox
+  register: virtualbox_install_check
+  failed_when: virtualbox_install_check.rc > 1
+  changed_when: virtualbox_install_check.rc == 1
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: 'check if virtualbox is installed (fedora)'
+  command: rpm -q virtualbox
+  register: virtualbox_install_check
+  failed_when: virtualbox_install_check.rc > 1
+  changed_when: virtualbox_install_check.rc == 1
+  when: ansible_distribution == 'Fedora'
+
+- name: 'install virtualbox (debian)'
+  apt:
+    deb: "{{ debian_virtualbox_install_url }}"
+    state: present
+  when:
+    - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+    - virtualbox_install_check.rc == 1
+
+- name: 'install virtualbox (fedora)'
+  dnf:
+    name: "{{ fedora_virtualbox_install_url }}"
+    state: present
+  when:
+    - ansible_distribution == 'Fedora'
+    - virtualbox_install_check.rc == 1

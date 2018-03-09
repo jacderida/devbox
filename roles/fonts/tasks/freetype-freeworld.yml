@@ -1,0 +1,15 @@
+---
+- name: 'enable rpm fusion repo (fedora)'
+  dnf:
+    name: "{{ rpm_fusion_repo_url }}"
+    state: present
+
+- name: 'install freetype-freeworld'
+  dnf:
+    name: freetype-freeworld
+    state: present
+
+- name: 'copy font configuration (fedora)'
+  copy:
+    src: local.conf
+    dest: /etc/fonts/local.conf

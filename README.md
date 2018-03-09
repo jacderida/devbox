@@ -100,6 +100,7 @@ After applying the playbook, there should be an environment with the following:
 * All fonts from the [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts) repository downloaded and installed (there are a couple of GB of them so this takes a long time)
 * Vim 8 compiled from source with YouCompleteMe and other plugins installed
 * Docker version 17.09 (latest stable version at the time of writing)
+* Vagrant version 2.0 with plugins installed
 * Chrome installed
 
 If the run was successful, it should all be ready to use.

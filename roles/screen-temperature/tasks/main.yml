@@ -1,0 +1,55 @@
+---
+- stat: path="{{ flux_install_path }}"
+  register: flux_install_path_result
+
+- name: 'install flux prerequisites (debian)'
+  apt:
+    name: "{{ item }}"
+    state: 'installed'
+  with_items:
+    - libxxf86vm1
+    - python-appindicator
+    - python-gconf
+    - python-glade2
+    - python-gtk2
+    - python-pexpect
+    - python-xdg
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: 'clone flux repo (debian)'
+  git:
+    repo: "{{ flux_repo_url }}"
+    dest: "{{ flux_src_path }}"
+  when:
+    - flux_install_path_result.stat.exists == False
+    - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: 'download flux (debian)'
+  command: 'python download-xflux.py'
+  args:
+    chdir: "{{ flux_src_path }}"
+  when:
+    - flux_install_path_result.stat.exists == False
+    - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: 'install flux (debian)'
+  command: 'python setup.py install'
+  args:
+    chdir: "{{ flux_src_path }}"
+  when:
+    - flux_install_path_result.stat.exists == False
+    - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: 'install redshift (fedora)'
+  dnf:
+    name: redshift
+    state: present
+  when: ansible_distribution == 'Fedora'
+
+- name: 'copy redshift config file'
+  template:
+    src=redshift.conf.j2
+    dest="{{ redshift_config_path }}"
+    owner="{{ dev_user }}"
+    group="{{ dev_user }}"
+  when: ansible_distribution == 'Fedora'
