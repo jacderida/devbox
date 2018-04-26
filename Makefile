@@ -64,7 +64,7 @@ clean-fedora:
 fedora-up: virtualenv
 	@ANSIBLE_SKIP_TAGS='gui' vagrant up fedora --provision
 
-fedora-gui-up: check-nerdfonts virtualenv
+fedora-gui-up: check-nerdfonts
 	@DEVBOX_GUI=true vagrant up fedora --provision
 
 bare-metal:
