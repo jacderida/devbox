@@ -16,3 +16,4 @@
     - { role: vagrant }
     - { role: virtualbox }
     - { role: packer }
+    - { role: go }

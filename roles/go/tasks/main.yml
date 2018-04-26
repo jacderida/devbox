@@ -1,0 +1,6 @@
+---
+- name: 'download and install go'
+  unarchive:
+    src: "{{ go_archive_url }}"
+    dest: "{{ go_install_path }}"
+    remote_src: yes
