@@ -15,6 +15,7 @@
     - 'mpdscribble'
     - 'ncmpcpp'
     - 'ncurses-dev'
+    - 'python3-pip'
     - 'python-dev'
     - 'python-pygments'
     - 'ranger'
