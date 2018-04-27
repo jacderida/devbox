@@ -12,7 +12,6 @@ function install_ansible_prerequisites() {
 }
 
 function install_ansible() {
-    pip install --upgrade pip --cert /usr/local/share/ca-certificates/corp.crt
     pip install --upgrade pyasn1 setuptools --cert /usr/local/share/ca-certificates/corp.crt
     pip install ansible==2.4.0.0 --cert /usr/local/share/ca-certificates/corp.crt
 }
