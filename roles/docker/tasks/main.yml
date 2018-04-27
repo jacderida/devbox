@@ -1,10 +1,15 @@
 ---
+# Regarding the rather bizarre use of set_fact, see here:
+# https://stackoverflow.com/questions/34621799/ansible-how-do-i-avoid-registering-a-variable-when-a-when-condition-is-not
 - name: 'check if docker is installed (debian)'
   command: dpkg-query -W docker-ce
   register: docker_install_check
   failed_when: docker_install_check.rc > 1
   changed_when: docker_install_check.rc == 1
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- set_fact: docker_installed="{{ docker_install_check }}"
+  when: docker_install_check.changed
 
 - name: 'check if docker is installed (fedora)'
   command: rpm -q docker-ce
@@ -13,13 +18,16 @@
   changed_when: docker_install_check.rc == 1
   when: ansible_distribution == 'Fedora'
 
+- set_fact: docker_installed="{{ docker_install_check }}"
+  when: docker_install_check.changed
+
 - name: 'download docker stable (debian)'
   get_url:
     url: "{{ ubuntu_docker_installer_url }}"
     dest: "{{ ubuntu_docker_installer_destination }}"
   when:
-    - ansible_distribution == 'Ubuntu'
-    - docker_install_check.rc == 1
+    - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+    - docker_installed is defined and docker_installed.rc == 1
 
 - name: 'download docker stable (fedora)'
   get_url:
@@ -27,14 +35,14 @@
     dest: "{{ fedora_docker_installer_destination }}"
   when:
     - ansible_distribution == 'Fedora'
-    - docker_install_check.rc == 1
+    - docker_installed is defined and docker_installed.rc == 1
 
 - name: 'install docker (debian)'
   apt:
     deb: "{{ ubuntu_docker_installer_destination }}"
   when:
-    - ansible_distribution == 'Ubuntu'
-    - docker_install_check.rc == 1
+    - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+    - docker_installed is defined and docker_installed.rc == 1
 
 - name: 'install docker (fedora)'
   dnf:
@@ -42,7 +50,7 @@
     state: present
   when:
     - ansible_distribution == 'Fedora'
-    - docker_install_check.rc == 1
+    - docker_installed is defined and docker_installed.rc == 1
 
 - name: add user to docker group for non-root management of docker
   user:
