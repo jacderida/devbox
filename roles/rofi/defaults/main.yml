@@ -5,3 +5,8 @@ rofi_url: "https://github.com/DaveDavenport/rofi/releases/download/{{ rofi_versi
 rofi_tmp_source_path: "/tmp/rofi-{{ rofi_version }}"
 rofi_tmp_archive_path: "/tmp/{{ rofi_archive }}"
 rofi_install_path: "/usr/local/bin/rofi"
+check_version: 0.11.0
+check_archive: "check-{{ check_version }}.tar.gz"
+check_url: "https://github.com/libcheck/check/archive/{{ check_version }}.tar.gz"
+check_tmp_source_path: "/tmp/check-{{ check_version }}"
+check_tmp_archive_path: "/tmp/{{ check_archive }}"

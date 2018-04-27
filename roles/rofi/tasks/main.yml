@@ -7,8 +7,13 @@
     name: "{{ item }}"
     state: 'installed'
   with_items:
-    - pkg-config
+    - autoconf
+    - bison
+    - flex
+    - librsvg2-dev
     - libglib2.0-dev
+    - libpango1.0-dev
+    - libstartup-notification0-dev
     - libxcb-xinerama0-dev
     - libxkbcommon-dev
     - libxkbcommon-x11-dev
@@ -16,9 +21,14 @@
     - libxcb-icccm4-dev
     - libxcb-randr0-dev
     - libxcb-xrm-dev
-    - libpango1.0-dev
-    - libstartup-notification0-dev
+    - pkg-config
+    - texinfo
   when: ansible_distribution == 'Debian' and rofi_install_path_result.stat.exists == False
+
+- include: check.yml
+  when:
+    - ansible_distribution == 'Debian'
+    - rofi_install_path_result.stat.exists == False
 
 - name: 'install ubuntu prerequisites'
   apt:
@@ -100,5 +110,6 @@
     state: absent
     path: "{{ item }}"
   with_items:
+    - "{{ check_tmp_source_path }}"
     - "{{ rofi_tmp_source_path }}"
     - "{{ rofi_tmp_archive_path }}"
