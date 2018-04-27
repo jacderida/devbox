@@ -11,7 +11,7 @@ virtualenv:
 	( \
 		source /usr/local/bin/virtualenvwrapper.sh; \
 		if [ ! -d "$$WORKON_HOME/devbox" ]; then \
-   			mkvirtualenv devbox; \
+			mkvirtualenv devbox; \
 		fi; \
 		workon devbox; \
 		pip install paramiko; \
@@ -44,8 +44,11 @@ clean-debian:
 debian-up: clean-debian virtualenv
 	@ANSIBLE_SKIP_TAGS='gui' vagrant up debian --provision
 
-debian-gui-up: check-nerdfonts clean-debian virtualenv
-	@DEVBOX_GUI=true vagrant up debian
+debian-gui-up: check-nerdfonts clean-debian
+	@DEVBOX_GUI=true vagrant up debian --provision
+
+debian-gui-up-corporate: check-nerdfonts
+	@DEVBOX_GUI=true vagrant up debian --provision
 
 debian-tests:
 	@rm -f .vagrant/ssh-config

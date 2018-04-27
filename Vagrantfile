@@ -1,5 +1,12 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
+class String
+  def to_bool
+    return true   if self == true   || self =~ (/(true|t|yes|y|1)$/i)
+    return false  if self == false  || self.blank? || self =~ (/(false|f|no|n|0)$/i)
+    raise ArgumentError.new("invalid value for Boolean: \"#{self}\"")
+  end
+end
 
 module OS
   def OS.windows?
@@ -37,7 +44,8 @@ SCRIPT
     ubuntu.vm.provision ansible_provisioner do |ansible|
       ansible.playbook = "playbook.yml"
       ansible.extra_vars = {
-        dev_user: "ubuntu"
+        dev_user: "ubuntu",
+        corporate_mode: "#{ENV['DEVBOX_CORPORATE_MODE']}".to_bool
       }
       ansible.skip_tags = ENV['ANSIBLE_SKIP_TAGS']
       ansible.raw_arguments = ENV['ANSIBLE_ARGS']
@@ -47,16 +55,20 @@ SCRIPT
     end
   end
   config.vm.define "debian" do |debian|
+    if OS.windows?
+      debian.vm.provision "shell", path: "./sh/setup_debian.sh", args: "vagrant"
+    end
     debian.vm.box = "debian/stretch64"
-    debian.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
+    # debian.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
     debian.vm.provision "shell", inline: <<SCRIPT
     [[ ! -d "/home/vagrant/dev" ]] && mkdir /home/vagrant/dev
     chown vagrant:vagrant /home/vagrant/dev
 SCRIPT
-    debian.vm.provision "ansible" do |ansible|
+    debian.vm.provision ansible_provisioner do |ansible|
       ansible.playbook = "playbook.yml"
       ansible.extra_vars = {
-        dev_user: "vagrant"
+        dev_user: "vagrant",
+        corporate_mode: "#{ENV['DEVBOX_CORPORATE_MODE']}".to_bool
       }
       ansible.skip_tags = ENV['ANSIBLE_SKIP_TAGS']
       ansible.raw_arguments = ENV['ANSIBLE_ARGS']
@@ -66,7 +78,7 @@ SCRIPT
     end
   end
   config.vm.define "fedora" do |fedora|
-    fedora.vm.box = "fedora/26-cloud-base"
+    fedora.vm.box = "fedora/25-cloud-base"
     fedora.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
     fedora.vm.provision "shell", inline: <<SCRIPT
     [[ ! -d "/home/vagrant/dev" ]] && mkdir /home/vagrant/dev
@@ -74,10 +86,11 @@ SCRIPT
     chmod 0600 /home/vagrant/.ssh/id_rsa
 SCRIPT
     fedora.vm.provision "shell", path: "sh/setup_fedora.sh"
-    fedora.vm.provision "ansible_local" do |ansible|
+    fedora.vm.provision ansible_provisioner do |ansible|
       ansible.playbook = "playbook.yml"
       ansible.extra_vars = {
-        dev_user: "vagrant"
+        dev_user: "vagrant",
+        corporate_mode: "#{ENV['DEVBOX_CORPORATE_MODE']}".to_bool
       }
       ansible.skip_tags = ENV['ANSIBLE_SKIP_TAGS']
       ansible.raw_arguments = ENV['ANSIBLE_ARGS']
