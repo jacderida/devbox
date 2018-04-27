@@ -22,24 +22,24 @@
   become_user: "{{ dev_user }}"
   become: yes
 
-- name: 'update pam configuration to remove change shell password prompt (debian)'
-  copy:
-    src: 'chsh-debian'
-    dest: '/etc/pam.d/chsh'
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
-
 - name: 'update pam configuration to remove change shell password prompt (fedora)'
   copy:
     src: 'chsh-fedora'
     dest: '/etc/pam.d/chsh'
   when: ansible_distribution == 'Fedora'
 
+# There is a really annoying issue in this installer script when it tries to call chsh
+# to set the default shell to zsh. The PAM authentication module complains with a completely
+# vague and unhelpful error message: "Critical error - immediate abort". The configuration
+# file I had provided got round the issue with some versions of some OSes, but now I'm giving
+# up. Just continue on if it produces an error and the user can rectify it manually.
 - name: 'install oh-my-zsh'
   shell: "/home/{{ dev_user }}/install.sh"
   args:
     creates: "/home/{{ dev_user }}/.oh-my-zsh"
   become_user: "{{ dev_user }}"
   become: yes
+  ignore_errors: yes
 
 - name: 'remove installer'
   file:
