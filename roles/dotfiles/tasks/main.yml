@@ -9,6 +9,7 @@
   git:
     repo: "{{ dotfiles_repo }}"
     dest: "{{ dotfiles_destination }}"
+    accept_hostkey: yes
     force: yes
     version: "{{ dotfiles_branch }}"
   become_user: "{{ dev_user }}"
@@ -29,6 +30,7 @@
   git:
     repo: "{{ dockerfiles_repo }}"
     dest: "{{ dockerfiles_destination }}"
+    accept_hostkey: yes
     force: yes
   become_user: "{{ dev_user }}"
   become: yes
