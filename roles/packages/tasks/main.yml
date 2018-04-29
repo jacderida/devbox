@@ -8,7 +8,6 @@
     - 'curl'
     - 'dos2unix'
     - 'flac'
-    #- 'git'
     - 'htop'
     - 'mpc'
     - 'mpd'
@@ -21,10 +20,9 @@
     - 'ranger'
     - 'silversearcher-ag'
     - 'subversion'
-    - 'terminator'
     - 'tree'
     - 'unzip'
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+  when: ansible_distribution in ['Debian', 'Ubuntu']
 
 - name: 'install apt packages (gui)'
   apt:
@@ -34,9 +32,10 @@
   with_items:
     - 'keepassx'
     - 'pavucontrol'
+    - 'terminator'
     - 'thunar'
     - 'vlc'
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+  when: ansible_distribution in ['Debian', 'Ubuntu']
 
 - name: 'install dnf packages (gui)'
   dnf:
@@ -46,6 +45,7 @@
   with_items:
     - 'keepassx'
     - 'pavucontrol'
+    - 'terminator'
     - 'thunar'
     - 'vlc'
   when: ansible_distribution == 'Fedora'
@@ -59,7 +59,6 @@
     - 'curl'
     - 'dos2unix'
     - 'flac'
-    - 'git'
     - 'htop'
     - 'libselinux-python'
     - 'mpc'
@@ -72,12 +71,11 @@
     - 'ranger'
     - 'the_silver_searcher'
     - 'subversion'
-    - 'terminator'
     - 'tree'
     - 'unzip'
   when: ansible_distribution == 'Fedora'
 
-- name: 'install pip packages'
+- name: 'install pip packages (corporate mode)'
   pip:
     name: "{{ item }}"
     extra_args: "--cert /usr/local/share/ca-certificates/corp.crt"
@@ -86,6 +84,26 @@
     - 'youtube_dl'
     - 'virtualenv'
     - 'virtualenvwrapper'
+  when: corporate_mode is defined
+
+- name: 'install pip packages'
+  pip:
+    name: "{{ item }}"
+  with_items:
+    - 'ansible-lint'
+    - 'youtube_dl'
+    - 'virtualenv'
+    - 'virtualenvwrapper'
+  when: corporate_mode is not defined
+
+- name: 'install pip3 packages (corporate mode)'
+  pip:
+    executable: "/usr/bin/pip3"
+    name: "{{ item }}"
+    extra_args: "--cert /usr/local/share/ca-certificates/corp.crt"
+  with_items:
+    - 'you-get'
+  when: corporate_mode is defined
 
 - name: 'install pip3 packages'
   pip:
@@ -93,3 +111,4 @@
     name: "{{ item }}"
   with_items:
     - 'you-get'
+  when: corporate_mode is not defined
