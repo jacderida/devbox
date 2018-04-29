@@ -84,7 +84,7 @@
     - 'youtube_dl'
     - 'virtualenv'
     - 'virtualenvwrapper'
-  when: corporate_mode is defined
+  when: corporate_mode
 
 - name: 'install pip packages'
   pip:
@@ -94,7 +94,7 @@
     - 'youtube_dl'
     - 'virtualenv'
     - 'virtualenvwrapper'
-  when: corporate_mode is not defined
+  when: not corporate_mode
 
 - name: 'install pip3 packages (corporate mode)'
   pip:
@@ -103,7 +103,7 @@
     extra_args: "--cert /usr/local/share/ca-certificates/corp.crt"
   with_items:
     - 'you-get'
-  when: corporate_mode is defined
+  when: corporate_mode
 
 - name: 'install pip3 packages'
   pip:
@@ -111,4 +111,4 @@
     name: "{{ item }}"
   with_items:
     - 'you-get'
-  when: corporate_mode is not defined
+  when: not corporate_mode

@@ -5,7 +5,7 @@
     state: installed
   when:
     - ansible_distribution == ['Debian', 'Ubuntu']
-    - corporate_mode is not defined
+    - not corporate_mode
 
 - name: 'install git (fedora)'
   dnf:
@@ -13,7 +13,7 @@
     state: installed
   when:
     - ansible_distribution == ['Debian', 'Ubuntu']
-    - corporate_mode is not defined
+    - not corporate_mode
 
 - include: custom_ssl_build.yml
-  when: corporate_mode is defined
+  when: corporate_mode
