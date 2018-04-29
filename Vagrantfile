@@ -3,7 +3,7 @@
 class String
   def to_bool
     return true   if self == true   || self =~ (/(true|t|yes|y|1)$/i)
-    return false  if self == false  || self.blank? || self =~ (/(false|f|no|n|0)$/i)
+    return false  if self == false  || self.empty? || self =~ (/(false|f|no|n|0)$/i)
     raise ArgumentError.new("invalid value for Boolean: \"#{self}\"")
   end
 end
@@ -31,8 +31,10 @@ Vagrant.configure("2") do |config|
     config.proxy.https = ENV['VAGRANT_HTTP_PROXY']
     config.proxy.no_proxy = ENV['VAGRANT_NO_PROXY']
   end
-  config.vm.provision "shell", path: "install_ssl_cert.sh" do |s|
-    s.args = "corp.crt"
+  if ENV['DEVBOX_CORPORATE_MODE']
+    config.vm.provision "shell", path: "install_ssl_cert.sh" do |s|
+      s.args = "corp.crt"
+    end
   end
   config.vm.define "ubuntu" do |ubuntu|
     ubuntu.vm.box = "ubuntu/xenial64"
@@ -55,11 +57,13 @@ SCRIPT
     end
   end
   config.vm.define "debian" do |debian|
-    if OS.windows?
-      debian.vm.provision "shell", path: "./sh/setup_debian.sh", args: "vagrant"
+    if ENV['DEVBOX_CORPORATE_MODE']
+      debian.vm.provision "shell", path: "./sh/setup_debian.sh", args: ["vagrant", "true"]
+    else
+      debian.vm.provision "shell", path: "./sh/setup_debian.sh", args: ["vagrant", "false"]
     end
     debian.vm.box = "debian/stretch64"
-    # debian.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
+    debian.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
     debian.vm.provision "shell", inline: <<SCRIPT
     [[ ! -d "/home/vagrant/dev" ]] && mkdir /home/vagrant/dev
     chown vagrant:vagrant /home/vagrant/dev
@@ -85,7 +89,11 @@ SCRIPT
     chown vagrant:vagrant /home/vagrant/dev
     chmod 0600 /home/vagrant/.ssh/id_rsa
 SCRIPT
-    fedora.vm.provision "shell", path: "sh/setup_fedora.sh"
+    if ENV['DEVBOX_CORPORATE_MODE']
+      fedora.vm.provision "shell", path: "./sh/setup_fedora.sh", args: ["vagrant", "true"]
+    else
+      fedora.vm.provision "shell", path: "./sh/setup_fedora.sh", args: ["vagrant", "false"]
+    end
     fedora.vm.provision ansible_provisioner do |ansible|
       ansible.playbook = "playbook.yml"
       ansible.extra_vars = {
