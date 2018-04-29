@@ -3,7 +3,7 @@
   roles:
     - { role: locale }
     - { role: packages }
-    - { role: git-with-openssl-mod }
+    - { role: git }
     - { role: rofi, tags: ['gui'] }
     - { role: i3gaps, tags: ['gui'] }
     - { role: desktop-backgrounds, tags: ['gui'] }

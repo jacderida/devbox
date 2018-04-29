@@ -1,0 +1,19 @@
+---
+- name: 'install git (debian)'
+  apt:
+    name: 'git'
+    state: installed
+  when:
+    - ansible_distribution == ['Debian', 'Ubuntu']
+    - corporate_mode is not defined
+
+- name: 'install git (fedora)'
+  dnf:
+    name: 'git'
+    state: installed
+  when:
+    - ansible_distribution == ['Debian', 'Ubuntu']
+    - corporate_mode is not defined
+
+- include: custom_ssl_build.yml
+  when: corporate_mode is defined
