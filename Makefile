@@ -21,10 +21,10 @@ virtualenv:
 clean-ubuntu:
 	@vagrant destroy ubuntu -f
 
-ubuntu-up: clean-ubuntu virtualenv
+ubuntu-up: virtualenv
 	@ANSIBLE_SKIP_TAGS='gui' vagrant up ubuntu --provision
 
-ubuntu-gui-up: check-nerdfonts clean-ubuntu virtualenv
+ubuntu-gui-up: check-nerdfonts
 	@DEVBOX_GUI=true vagrant up ubuntu
 
 ubuntu-tests:
@@ -41,10 +41,10 @@ ubuntu-gui: ubuntu-gui-up ubuntu-tests
 clean-debian:
 	@vagrant destroy debian -f
 
-debian-up: clean-debian virtualenv
+debian-up:
 	@ANSIBLE_SKIP_TAGS='gui' vagrant up debian --provision
 
-debian-gui-up: check-nerdfonts clean-debian
+debian-gui-up: check-nerdfonts
 	@DEVBOX_GUI=true vagrant up debian --provision
 
 debian-gui-up-corporate: check-nerdfonts
