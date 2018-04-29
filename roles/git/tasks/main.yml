@@ -4,7 +4,7 @@
     name: 'git'
     state: installed
   when:
-    - ansible_distribution == ['Debian', 'Ubuntu']
+    - ansible_distribution in ['Debian', 'Ubuntu']
     - not corporate_mode
 
 - name: 'install git (fedora)'
@@ -12,7 +12,7 @@
     name: 'git'
     state: installed
   when:
-    - ansible_distribution == ['Debian', 'Ubuntu']
+    - ansible_distribution == 'Fedora'
     - not corporate_mode
 
 - include: custom_ssl_build.yml
