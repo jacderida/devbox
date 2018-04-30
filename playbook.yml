@@ -12,7 +12,7 @@
     - { role: dotfiles }
     - { role: fonts, tags: ['gui'] }
     - { role: vim }
-    - { role: chrome, tags: ['gui'] }
+    - { role: chrome, tags: ['gui'], when: not corporate_mode }
     - { role: screen-temperature, tags: ['gui'] }
     - { role: vagrant }
     - { role: virtualbox }
