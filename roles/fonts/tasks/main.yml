@@ -42,8 +42,8 @@
   become_user: "{{ dev_user }}"
   become: yes
 
-- include: freetype.yml
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+# - include: freetype.yml
+#   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
-- include: freetype-freeworld.yml
-  when: ansible_distribution == 'Fedora'
+# - include: freetype-freeworld.yml
+#   when: ansible_distribution == 'Fedora'
