@@ -3,13 +3,14 @@
   dnf:
     name: gcc
     state: 'installed'
+  when: ansible_distribution == 'Fedora'
 
 - name: 'check if vagrant is installed (debian)'
   command: dpkg-query -W vagrant
   register: vagrant_install_check
   failed_when: vagrant_install_check.rc > 1
   changed_when: vagrant_install_check.rc == 1
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+  when: ansible_distribution in ['Debian', 'Ubuntu']
 
 - name: 'check if vagrant is installed (fedora)'
   command: rpm -q vagrant
@@ -23,7 +24,7 @@
     deb: "{{ ubuntu_vagrant_install_url }}"
     state: present
   when:
-    - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+    - ansible_distribution in ['Debian', 'Ubuntu']
     - vagrant_install_check.rc == 1
 
 - name: 'install vagrant (fedora)'
