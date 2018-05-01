@@ -12,6 +12,9 @@
   changed_when: vagrant_install_check.rc == 1
   when: ansible_distribution in ['Debian', 'Ubuntu']
 
+- set_fact: vagrant_installed="{{ vagrant_install_check }}"
+  when: vagrant_install_check.changed
+
 - name: 'check if vagrant is installed (fedora)'
   command: rpm -q vagrant
   register: vagrant_install_check
@@ -19,13 +22,16 @@
   changed_when: vagrant_install_check.rc == 1
   when: ansible_distribution == 'Fedora'
 
+- set_fact: vagrant_installed="{{ vagrant_install_check }}"
+  when: vagrant_install_check.changed
+
 - name: 'install vagrant (debian)'
   apt:
     deb: "{{ ubuntu_vagrant_install_url }}"
     state: present
   when:
     - ansible_distribution in ['Debian', 'Ubuntu']
-    - vagrant_install_check.rc == 1
+    - vagrant_installed.rc == 1
 
 - name: 'install vagrant (fedora)'
   dnf:
@@ -33,7 +39,7 @@
     state: present
   when:
     - ansible_distribution == 'Fedora'
-    - vagrant_install_check.rc == 1
+    - vagrant_installed.rc == 1
 
 - name: 'get installed plugin list'
   command: 'vagrant plugin list'
