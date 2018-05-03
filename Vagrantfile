@@ -47,7 +47,8 @@ SCRIPT
       ansible.playbook = "playbook.yml"
       ansible.extra_vars = {
         dev_user: "ubuntu",
-        corporate_mode: "#{ENV['DEVBOX_CORPORATE_MODE']}".to_bool
+        corporate_mode: "#{ENV['DEVBOX_CORPORATE_MODE']}".to_bool,
+        bare_metal_mode: "#{ENV['DEVBOX_BARE_METAL_MODE']}".to_bool
       }
       ansible.skip_tags = ENV['ANSIBLE_SKIP_TAGS']
       ansible.raw_arguments = ENV['ANSIBLE_ARGS']
@@ -72,7 +73,8 @@ SCRIPT
       ansible.playbook = "playbook.yml"
       ansible.extra_vars = {
         dev_user: "vagrant",
-        corporate_mode: "#{ENV['DEVBOX_CORPORATE_MODE']}".to_bool
+        corporate_mode: "#{ENV['DEVBOX_CORPORATE_MODE']}".to_bool,
+        bare_metal_mode: "#{ENV['DEVBOX_BARE_METAL_MODE']}".to_bool
       }
       ansible.skip_tags = ENV['ANSIBLE_SKIP_TAGS']
       ansible.raw_arguments = ENV['ANSIBLE_ARGS']
@@ -98,7 +100,8 @@ SCRIPT
       ansible.playbook = "playbook.yml"
       ansible.extra_vars = {
         dev_user: "vagrant",
-        corporate_mode: "#{ENV['DEVBOX_CORPORATE_MODE']}".to_bool
+        corporate_mode: "#{ENV['DEVBOX_CORPORATE_MODE']}".to_bool,
+        bare_metal_mode: "#{ENV['DEVBOX_BARE_METAL_MODE']}".to_bool
       }
       ansible.skip_tags = ENV['ANSIBLE_SKIP_TAGS']
       ansible.raw_arguments = ENV['ANSIBLE_ARGS']

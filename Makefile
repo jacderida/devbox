@@ -47,8 +47,11 @@ debian-up:
 debian-gui-up: check-nerdfonts
 	@DEVBOX_GUI=true vagrant up debian --provision
 
+debian-gui-up-corporate: export DEVBOX_CORPORATE_MODE := true
+debian-gui-up-corporate: export DEVBOX_GUI := true
+debian-gui-up-corporate: export DEVBOX_BARE_METAL_MODE := false
 debian-gui-up-corporate: check-nerdfonts
-	@DEVBOX_GUI=true vagrant up debian --provision
+	vagrant up debian --provision
 
 debian-tests:
 	@rm -f .vagrant/ssh-config
