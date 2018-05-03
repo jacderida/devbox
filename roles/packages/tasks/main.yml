@@ -6,7 +6,9 @@
   with_items:
     - 'cmake'
     - 'curl'
+    - 'direnv'
     - 'dos2unix'
+    - 'emacs25'
     - 'flac'
     - 'htop'
     - 'mpc'
@@ -14,9 +16,10 @@
     - 'mpdscribble'
     - 'ncmpcpp'
     - 'ncurses-dev'
-    - 'python3-pip'
     - 'python-dev'
     - 'python-pygments'
+    - 'python3-pip'
+    - 'python3-venv'
     - 'ranger'
     - 'silversearcher-ag'
     - 'subversion'
@@ -57,7 +60,9 @@
   with_items:
     - 'cmake'
     - 'curl'
+    - 'direnv'
     - 'dos2unix'
+    - 'emacs25'
     - 'flac'
     - 'htop'
     - 'libselinux-python'
@@ -68,6 +73,7 @@
     - 'p7zip'
     - 'python-devel'
     - 'python3-pygments'
+    - 'python3-venv'
     - 'ranger'
     - 'the_silver_searcher'
     - 'subversion'
@@ -81,6 +87,8 @@
     extra_args: "--cert /usr/local/share/ca-certificates/corp.crt"
   with_items:
     - 'ansible-lint'
+    - 'epc'
+    - 'jedi'
     - 'youtube_dl'
     - 'virtualenv'
     - 'virtualenvwrapper'
@@ -91,6 +99,8 @@
     name: "{{ item }}"
   with_items:
     - 'ansible-lint'
+    - 'epc'
+    - 'jedi'
     - 'youtube_dl'
     - 'virtualenv'
     - 'virtualenvwrapper'
