@@ -42,3 +42,9 @@
   become_user: "{{ dev_user }}"
   become: yes
   when: not corporate_mode
+
+- name: 'create proxy file (corporate mode)'
+  template:
+    src: proxy.j2
+    dest: "/home/{{ dev_user }}/.proxy"
+  when: corporate_mode

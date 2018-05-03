@@ -48,7 +48,10 @@ SCRIPT
       ansible.extra_vars = {
         dev_user: "ubuntu",
         corporate_mode: "#{ENV['DEVBOX_CORPORATE_MODE']}".to_bool,
-        bare_metal_mode: "#{ENV['DEVBOX_BARE_METAL_MODE']}".to_bool
+        bare_metal_mode: "#{ENV['DEVBOX_BARE_METAL_MODE']}".to_bool,
+        http_proxy: "#{ENV['VAGRANT_HTTP_PROXY']}",
+        https_proxy: "#{ENV['VAGRANT_HTTPS_PROXY']}",
+        no_proxy: "#{ENV['VAGRANT_NO_PROXY']}"
       }
       ansible.skip_tags = ENV['ANSIBLE_SKIP_TAGS']
       ansible.raw_arguments = ENV['ANSIBLE_ARGS']
@@ -74,7 +77,10 @@ SCRIPT
       ansible.extra_vars = {
         dev_user: "vagrant",
         corporate_mode: "#{ENV['DEVBOX_CORPORATE_MODE']}".to_bool,
-        bare_metal_mode: "#{ENV['DEVBOX_BARE_METAL_MODE']}".to_bool
+        bare_metal_mode: "#{ENV['DEVBOX_BARE_METAL_MODE']}".to_bool,
+        http_proxy: "#{ENV['VAGRANT_HTTP_PROXY']}",
+        https_proxy: "#{ENV['VAGRANT_HTTPS_PROXY']}",
+        no_proxy: "#{ENV['VAGRANT_NO_PROXY']}"
       }
       ansible.skip_tags = ENV['ANSIBLE_SKIP_TAGS']
       ansible.raw_arguments = ENV['ANSIBLE_ARGS']
@@ -101,7 +107,10 @@ SCRIPT
       ansible.extra_vars = {
         dev_user: "vagrant",
         corporate_mode: "#{ENV['DEVBOX_CORPORATE_MODE']}".to_bool,
-        bare_metal_mode: "#{ENV['DEVBOX_BARE_METAL_MODE']}".to_bool
+        bare_metal_mode: "#{ENV['DEVBOX_BARE_METAL_MODE']}".to_bool,
+        http_proxy: "#{ENV['VAGRANT_HTTP_PROXY']}",
+        https_proxy: "#{ENV['VAGRANT_HTTPS_PROXY']}",
+        no_proxy: "#{ENV['VAGRANT_NO_PROXY']}"
       }
       ansible.skip_tags = ENV['ANSIBLE_SKIP_TAGS']
       ansible.raw_arguments = ENV['ANSIBLE_ARGS']
