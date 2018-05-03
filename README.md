@@ -87,6 +87,23 @@ cd /media/vbox-guest-additions
 
 After this, restart the VM and run `xrandr` again.
 
+## Corporate Mode
+
+At work I can be involved in projects for large organisations who make use of proxies and custom self-signed SSL certificates. It can be especially complicated if the enterprise is running a proxy that requires Windows authentication (which most do). I'm calling this 'Corporate Mode'. To get `devbox` up and running in Corporate Mode, follow these steps:
+
+* For authenticating with a Windows proxy, get an installation of CNTLM (its standard location is on sourceforge, which is often blocked - in that case get a copy of it and host it somewhere you can get access from within the network). You need to install this on your host OS; builds are available for both Windows and Linux. After you install this and have it running, the CNTLM proxy is available to the host at `http://localhost:3128`. If you want to use something other than `3128`, change the CNTLM configuration.
+* With CNTLM running, set the `VAGRANT_HTTP_PROXY`, `VAGRANT_HTTPS_PROXY` and `NO_PROXY` environment variables in the host shell to `http://10.0.2.2:3128`. The IP address used there is the standard address Vagrant assigns to the host. This enables the guest VM to contact CNTLM running on the host.
+* In the Vagrant install on the host, put any corporate self-signed SSL certificates in Vagrant's certificate database. On Windows, this is located at `C:\HashiCorp\vagrant\embedded\cacert.pem` and on a Linux system it's located at `/opt/vagrant/embedded/cacert.pem`. Just place it at the end of the file after the last one. It should be in Base-64 encoded X.509 format. If you need to obtain a copy of it, it can often be exported from Internet Explorer. (In 'Internet Options' it's under the 'Content' tab.)
+* Install the `vagrant-proxyconf` plugin on the host using `vagrant plugin install vagrant-proxyconf` (if you get SSL errors you need to install the corporate SSL certificate in Vagrant's database).
+* Drop the exported certificate in the same directory as the Vagrantfile and rename it to corp.crt.
+* Run the `make X-corporate` targets, where X is the distro you're interested in, e.g. `make debian-gui-up-corporate`.
+
+Some Corporate Mode things worth being aware of:
+
+* Git is built from source using an OpenSSL library rather than the standard GNUTLS library. For some reason, in some corporate environments, certain versions of Git have trouble cloning HTTPS based repositories. Replacing the GNUTLS library seems to solve the problem. This unfortunately adds an additional 10 minutes onto the build time.
+* A file is located at `~/.proxy` that sets the standard proxy variables, and this is sourced in the `.zshrc` and `.bashrc`, so internet access should be available from terminal sessions.
+* For Emacs, the proxy details need to be added to the `~/.emacs` file. See [here](https://stackoverflow.com/questions/1595418/emacs-behind-http-proxy).
+
 ## Provision a Bare Metal Environment
 
 Before the playbook can be applied, the user who will be applying it must have passwordless sudo access, and Ansible must also be setup.
