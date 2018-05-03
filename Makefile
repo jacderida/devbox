@@ -18,14 +18,22 @@ virtualenv:
 		pip install testinfra; \
 	)
 
-clean-ubuntu:
-	@vagrant destroy ubuntu -f
+ubuntu-up: export ANSIBLE_SKIP_TAGS := gui
+ubuntu-up: export DEVBOX_GUI := false
+ubuntu-up: export DEVBOX_BARE_METAL_MODE := false
+ubuntu-up:
+	vagrant up ubuntu --provision
 
-ubuntu-up: virtualenv
-	@ANSIBLE_SKIP_TAGS='gui' vagrant up ubuntu --provision
+ubuntu-gui-up: export DEVBOX_GUI := true
+ubuntu-gui-up: export DEVBOX_BARE_METAL_MODE := false
+ubuntu-gui-up:
+	vagrant up ubuntu --provision
 
-ubuntu-gui-up: check-nerdfonts
-	@DEVBOX_GUI=true vagrant up ubuntu
+ubuntu-gui-up-corporate: export DEVBOX_CORPORATE_MODE := true
+ubuntu-gui-up-corporate: export DEVBOX_GUI := true
+ubuntu-gui-up-corporate: export DEVBOX_BARE_METAL_MODE := false
+ubuntu-gui-up-corporate: check-nerdfonts
+	vagrant up ubuntu --provision
 
 ubuntu-tests:
 	@rm -f .vagrant/ssh-config
@@ -34,18 +42,16 @@ ubuntu-tests:
 	# so the full path to the testinfra executable needs to be specified.
 	@$$WORKON_HOME/devbox/bin/testinfra -v --ssh-config=.vagrant/ssh-config --hosts=ubuntu tests.py
 
-ubuntu: ubuntu-up ubuntu-tests
-
-ubuntu-gui: ubuntu-gui-up ubuntu-tests
-
-clean-debian:
-	@vagrant destroy debian -f
-
+debian-up: export ANSIBLE_SKIP_TAGS := gui
+debian-up: export DEVBOX_GUI := false
+debian-up: export DEVBOX_BARE_METAL_MODE := false
 debian-up:
-	@ANSIBLE_SKIP_TAGS='gui' vagrant up debian --provision
+	vagrant up debian --provision
 
+debian-gui-up: export DEVBOX_GUI := true
+debian-gui-up: export DEVBOX_BARE_METAL_MODE := false
 debian-gui-up: check-nerdfonts
-	@DEVBOX_GUI=true vagrant up debian --provision
+	vagrant up debian --provision
 
 debian-gui-up-corporate: export DEVBOX_CORPORATE_MODE := true
 debian-gui-up-corporate: export DEVBOX_GUI := true
@@ -60,20 +66,34 @@ debian-tests:
 	# so the full path to the testinfra executable needs to be specified.
 	@$$WORKON_HOME/devbox/bin/testinfra -v --ssh-config=.vagrant/ssh-config --hosts=debian tests.py
 
-debian: debian-up debian-tests
+fedora-up: export ANSIBLE_SKIP_TAGS := gui
+fedora-up: export DEVBOX_GUI := false
+fedora-up: export DEVBOX_BARE_METAL_MODE := false
+fedora-up:
+	vagrant up fedora --provision
 
-debian-gui: debian-gui-up debian-tests
+fedora-gui-up: export DEVBOX_GUI := true
+fedora-gui-up: export DEVBOX_BARE_METAL_MODE := false
+fedora-gui-up: check-nerdfonts
+	vagrant up fedora --provision
+
+fedora-gui-up-corporate: export DEVBOX_CORPORATE_MODE := true
+fedora-gui-up-corporate: export DEVBOX_GUI := true
+fedora-gui-up-corporate: export DEVBOX_BARE_METAL_MODE := false
+fedora-gui-up-corporate: check-nerdfonts
+	vagrant up fedora --provision
+
+bare-metal: export DEVBOX_BARE_METAL_MODE := true
+bare-metal:
+	ansible-playbook -i inventory playbook.yml --extra-vars "dev_user=${USERNAME}"
+
+clean-ubuntu:
+	@vagrant destroy ubuntu -f
 
 clean-fedora:
 	@vagrant destroy fedora -f
 
-fedora-up: virtualenv
-	@ANSIBLE_SKIP_TAGS='gui' vagrant up fedora --provision
-
-fedora-gui-up: check-nerdfonts
-	@DEVBOX_GUI=true vagrant up fedora --provision
-
-bare-metal:
-	ansible-playbook -i inventory playbook.yml --extra-vars "dev_user=${USERNAME}"
+clean-debian:
+	@vagrant destroy debian -f
 
 clean: clean-ubuntu clean-debian clean-fedora
