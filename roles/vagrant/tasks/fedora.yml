@@ -1,0 +1,17 @@
+---
+- name: 'install prerequisites (fedora)'
+  dnf:
+    name: gcc
+    state: 'installed'
+
+- name: 'check if vagrant is installed (fedora)'
+  command: rpm -q vagrant
+  register: vagrant_install_check
+  failed_when: vagrant_install_check.rc > 1
+  changed_when: vagrant_install_check.rc == 1
+
+- name: 'install vagrant (fedora)'
+  dnf:
+    name: "{{ fedora_vagrant_install_url }}"
+    state: present
+  when: vagrant_install_check.rc == 1

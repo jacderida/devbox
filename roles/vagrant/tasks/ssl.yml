@@ -1,0 +1,13 @@
+---
+- name: 'get SSL certificate (corporate mode)'
+  slurp:
+    src: /vagrant/corp.crt
+  register: corp_ssl_file
+  when: corporate_mode
+
+- name: "install SSL certificate in Vagrant's database (corporate mode)"
+  blockinfile:
+    path: "/opt/vagrant/embedded/cacert.pem"
+    insertafter: EOF
+    block: "{{ corp_ssl_file.content|b64decode }}"
+  when: corporate_mode
