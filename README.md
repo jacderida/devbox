@@ -76,6 +76,17 @@ I'm using i3 as the window manager. You'll be able to select this from the login
 xrandr --output VGA-1 --mode 1920x1080
 ```
 
+Unfortunately, even if the guest additions are installed in advance, you'll sometimes see that `xrandr` only makes a few resolutions available. If this is the case, the guest additions need to be installed again. From the Virtualbox GUI, select the Devices menu, then choose the 'Insert Guest Additions CD image...' option. After that, open a terminal and run the following:
+``` shell
+sudo su -
+mkdir /media/vbox-guest-additions
+mount -r /dev/cdrom /media/vbox-guest-additions
+cd /media/vbox-guest-additions
+./VBoxLinuxAdditions.run
+```
+
+After this, restart the VM and run `xrandr` again.
+
 ## Provision a Bare Metal Environment
 
 Before the playbook can be applied, the user who will be applying it must have passwordless sudo access, and Ansible must also be setup.
