@@ -140,7 +140,7 @@ The `setup.sh` file will install pip, Ansible and the things required to build t
 
 ### Emacs
 
-Emacs doesn't run straight out the box; there are a few very minor steps to take to get it running:
+Emacs doesn't run straight out the box; there are a few minor steps to get it running:
 
 * Copy the configuration file from dotfiles to `~/.emacs`. (It doesn't seem to work as a symlink; not sure why.)
 * If in corporate mode, edit `~.emacs` to add the proxy details. See [here](https://stackoverflow.com/questions/1595418/emacs-behind-http-proxy) for details. *Imporant note:* when specifying the proxy host (usually `10.0.2.2` if CNTLM is running on the host), just use the IP address, *don't* specify the `http` protocol.
