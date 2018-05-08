@@ -96,13 +96,13 @@ At work I can be involved in projects for large organisations who make use of pr
 * In the Vagrant install on the host, put any corporate self-signed SSL certificates in Vagrant's certificate database. On Windows, this is located at `C:\HashiCorp\vagrant\embedded\cacert.pem` and on a Linux system it's located at `/opt/vagrant/embedded/cacert.pem`. Just place it at the end of the file after the last one. It should be in Base-64 encoded X.509 format. If you need to obtain a copy of it, it can often be exported from Internet Explorer. (In 'Internet Options' it's under the 'Content' tab.)
 * Install the `vagrant-proxyconf` plugin on the host using `vagrant plugin install vagrant-proxyconf` (if you get SSL errors you need to install the corporate SSL certificate in Vagrant's database).
 * Drop the exported certificate in the same directory as the Vagrantfile and rename it to corp.crt.
-* Run the `make X-corporate` targets, where X is the distro you're interested in, e.g. `make debian-gui-up-corporate`.
+* Run the `make X-corporate` targets, where X is the distro you're interested in, e.g. `make debian-gui-up-corporate`. If you want to run this from Windows, you'll need to install [MSYS2](https://www.msys2.org/) on the host and then install `make` with `pacman -S make`. You'll then need to put `c:\msys64\usr\bin` on `PATH` to make this available from `cmd.exe`.
 
 Some Corporate Mode things worth being aware of:
 
 * Git is built from source using an OpenSSL library rather than the standard GNUTLS library. For some reason, in some corporate environments, certain versions of Git have trouble cloning HTTPS based repositories. Replacing the GNUTLS library seems to solve the problem. This unfortunately adds an additional 10 minutes onto the build time.
 * A file is located at `~/.proxy` that sets the standard proxy variables, and this is sourced in the `.zshrc` and `.bashrc`, so internet access should be available from terminal sessions.
-* For Emacs, the proxy details need to be added to the `~/.emacs` file. See [here](https://stackoverflow.com/questions/1595418/emacs-behind-http-proxy).
+* For Emacs, the proxy details need to be added to the `~/.emacs` file. See [here](https://stackoverflow.com/questions/1595418/emacs-behind-http-proxy). The environment section has more details on setting up Emacs.
 
 ## Provision a Bare Metal Environment
 
@@ -127,10 +127,24 @@ After applying the playbook, there should be an environment with the following:
 * My [dotfiles](https://github.com/jacderida/dotfiles) repository bootstrapped with all files symlinked to the correct place
 * All fonts from the [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts) repository downloaded and installed (there are a couple of GB of them so this takes a long time)
 * Vim 8 compiled from source with YouCompleteMe and other plugins installed
+* Emacs 25 installed
 * Docker version 17.09 (latest stable version at the time of writing)
 * Vagrant version 2.0 with plugins installed
+* Virtualbox version 5.2.6 (only in 'bare metal' mode)
+* A 'screen temperature' application (only in 'bare metal' mode)
 * Chrome installed
 
 If the run was successful, it should all be ready to use.
 
 The `setup.sh` file will install pip, Ansible and the things required to build that (even though Ansible is Python, it uses some C-based libraries). The `packages` role will install any of the prerequisite packages for anything else to build. Vim 8 still isn't available in most package managers at the moment, and the way I found to install it on Debian was using [this method](https://www.tecmint.com/vim-8-0-install-in-ubuntu-linux-systems/), which builds it from source. Other than the prerequisite packages, this solution should work across any distribution.
+
+### Emacs
+
+Emacs doesn't run straight out the box; there are a few very minor steps to take to get it running:
+
+* Copy the configuration file from dotfiles to `~/.emacs`. (It doesn't seem to work as a symlink; not sure why.)
+* If in corporate mode, edit `~.emacs` to add the proxy details. See [here](https://stackoverflow.com/questions/1595418/emacs-behind-http-proxy) for details. *Imporant note:* when specifying the proxy host (usually `10.0.2.2` if CNTLM is running on the host), just use the IP address, *don't* specify the `http` protocol.
+* Start Emacs and you'll get an error about the diminish package. Install the `diminish` package by running `M-x package-install RET diminish`.
+* Restart Emacs and the `use-package` package should install all the packages specified in `~/.emacs`.
+
+If you're running Emacs on a Windows host, the steps are pretty much identical to this.
