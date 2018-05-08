@@ -148,3 +148,7 @@ Emacs doesn't run straight out the box; there are a few very minor steps to take
 * Restart Emacs and the `use-package` package should install all the packages specified in `~/.emacs`.
 
 If you're running Emacs on a Windows host, the steps are pretty much identical to this.
+
+### i3
+
+My configuration for i3 uses the Windows Key as the modifier and h, j, k and l for the directions when switching between Windows. If running devbox on a Windows host, Windows Key + l is bound to lock the Windows host, so it will lock the entire machine any time you want to move right. You can disable this on the Windows host by editing the registry. Under `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\System`, create a new DWORD value named `DisableLockWorkstation` and set it to `1`. It takes effect immediately, without a restart.
