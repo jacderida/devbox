@@ -82,12 +82,12 @@
   with_items:
     - 'ansible-lint'
     - 'youtube_dl'
-    - 'virtualenv'
-    - 'virtualenvwrapper'
 
 - name: 'install pip3 packages'
   pip:
     executable: "/usr/bin/pip3"
     name: "{{ item }}"
   with_items:
+    - 'virtualenv'
+    - 'virtualenvwrapper'
     - 'you-get'
