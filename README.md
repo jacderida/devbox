@@ -149,6 +149,18 @@ Emacs doesn't run straight out the box; there are a few minor steps to get it ru
 
 If you're running Emacs on a Windows host, the steps are pretty much identical to this.
 
+#### Python Development
+
+My configuration uses [jedi](https://github.com/davidhalter/jedi) via [company-mode](http://company-mode.github.io/) to supply autocompletion for Python. The setup for this isn't completely seamless. Here are the additional steps:
+* Start Emacs and run the `jedi:install-server` command
+* Create the virtualenv for the current project and activate it
+* Navigate to the directory where jedi is installed (something like `~/.emacs.d/elpa/jedi-core-20170121.610`)
+* Run `python setup.py install` to install the dependencies for jedi into the current virtualenv
+
+Unfortunately it seems the last step needs to be repeated on a per project basis.
+
+When switching to a Python project in Emacs, run `venv-workon` and select the virtualenv for that project. Then run `jedi-mode`. This should enable autocompletion for packages installed in the current virtualenv.
+
 ### i3
 
 My configuration for i3 uses the Windows Key as the modifier and h, j, k and l for the directions when switching between Windows. If running devbox on a Windows host, Windows Key + l is bound to lock the Windows host, so it will lock the entire machine any time you want to move right. You can disable this on the Windows host by editing the registry. Under `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\System`, create a new DWORD value named `DisableLockWorkstation` and set it to `1`. It takes effect immediately, without a restart.
