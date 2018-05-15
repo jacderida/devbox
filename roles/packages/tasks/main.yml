@@ -90,8 +90,6 @@
     - 'epc'
     - 'jedi'
     - 'youtube_dl'
-    - 'virtualenv'
-    - 'virtualenvwrapper'
   when: corporate_mode
 
 - name: 'install pip packages'
@@ -102,8 +100,6 @@
     - 'epc'
     - 'jedi'
     - 'youtube_dl'
-    - 'virtualenv'
-    - 'virtualenvwrapper'
   when: not corporate_mode
 
 - name: 'install pip3 packages (corporate mode)'
@@ -112,6 +108,8 @@
     name: "{{ item }}"
     extra_args: "--cert /usr/local/share/ca-certificates/corp.crt"
   with_items:
+    - 'virtualenv'
+    - 'virtualenvwrapper'
     - 'you-get'
   when: corporate_mode
 
@@ -120,5 +118,7 @@
     executable: "/usr/bin/pip3"
     name: "{{ item }}"
   with_items:
+    - 'virtualenv'
+    - 'virtualenvwrapper'
     - 'you-get'
   when: not corporate_mode
