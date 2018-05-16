@@ -151,15 +151,17 @@ If you're running Emacs on a Windows host, the steps are pretty much identical t
 
 #### Python Development
 
-My configuration uses [jedi](https://github.com/davidhalter/jedi) via [company-mode](http://company-mode.github.io/) to supply autocompletion for Python. The setup for this isn't completely seamless. Here are the additional steps:
+My configuration uses [Jedi](https://github.com/davidhalter/jedi) via [company-mode](http://company-mode.github.io/) to supply autocompletion for Python. The setup for this isn't completely seamless. Here are the additional steps:
 * Start Emacs and run the `jedi:install-server` command
 * Create the virtualenv for the current project and activate it
-* Navigate to the directory where jedi is installed (something like `~/.emacs.d/elpa/jedi-core-20170121.610`)
-* Run `python setup.py install` to install the dependencies for jedi into the current virtualenv
+* Navigate to the directory where Jedi is installed (something like `~/.emacs.d/elpa/jedi-core-20170121.610`)
+* Run `python setup.py install` to install the dependencies for Jedi into the current virtualenv
 
 Unfortunately it seems the last step needs to be repeated on a per project basis.
 
 When switching to a Python project in Emacs, run `venv-workon` and select the virtualenv for that project. Then run `jedi-mode`. This should enable autocompletion for packages installed in the current virtualenv.
+
+[This](https://github.com/tkf/emacs-jedi/issues/178#ref-pullrequest-74706528) issue on Github is useful for debugging issues with Jedi.
 
 ### i3
 
