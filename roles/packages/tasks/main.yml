@@ -10,6 +10,7 @@
     - 'dos2unix'
     - 'emacs25'
     - 'flac'
+    - 'git'
     - 'htop'
     - 'mpc'
     - 'mpd'
@@ -23,6 +24,7 @@
     - 'ranger'
     - 'silversearcher-ag'
     - 'subversion'
+    - 'terminator'
     - 'tree'
     - 'unzip'
   when: ansible_distribution in ['Debian', 'Ubuntu']
@@ -64,6 +66,7 @@
     - 'dos2unix'
     - 'emacs25'
     - 'flac'
+    - 'git'
     - 'htop'
     - 'libselinux-python'
     - 'mpc'
@@ -77,6 +80,7 @@
     - 'ranger'
     - 'the_silver_searcher'
     - 'subversion'
+    - 'terminator'
     - 'tree'
     - 'unzip'
   when: ansible_distribution == 'Fedora'
@@ -118,7 +122,4 @@
     executable: "/usr/bin/pip3"
     name: "{{ item }}"
   with_items:
-    - 'virtualenv'
-    - 'virtualenvwrapper'
     - 'you-get'
-  when: not corporate_mode
