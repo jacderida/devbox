@@ -1,0 +1,66 @@
+---
+- name: 'check java installation'
+  stat:
+    path: "{{ java_home }}"
+  register: java_home_register
+  changed_when: False
+
+- name: 'download jdk'
+  command: 'wget --no-cookies --no-check-certificate --header "{{ cookie_header }}" "{{ jdk_url }}" --output-document={{ jdk_archive_download_path }}'
+  when: java_home_register.stat.exists == False
+
+- name: 'create jdk directory'
+  file:
+    path: "{{ jdk_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  when: java_home_register.stat.exists == False
+
+- name: 'unpack jdk'
+  unarchive:
+    src: "{{ jdk_archive_download_path }}"
+    dest: "{{ jdk_path }}"
+    remote_src: True
+  when: java_home_register.stat.exists == False
+
+- name: 'copy java settings'
+  template:
+    src: java.sh.j2
+    dest: "/home/{{ dev_user }}/.java_settings"
+    owner: "{{ dev_user }}"
+    group: "{{ dev_user }}"
+    mode: 0644
+  when: java_home_register.stat.exists == False
+
+- name: 'check gradle installation'
+  stat:
+    path: "{{ gradle_home }}"
+  register: gradle_home_register
+  changed_when: False
+
+- name: 'create gradle directory'
+  file:
+    path: "{{ gradle_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  when: gradle_home_register.stat.exists == False
+
+- name: 'download and unpack gradle'
+  unarchive:
+    src: "{{ gradle_url }}"
+    dest: "{{ gradle_path }}"
+    remote_src: True
+  when: gradle_home_register.stat.exists == False
+
+- name: 'copy gradle settings'
+  template:
+    src: gradle.sh.j2
+    dest: "/home/{{ dev_user }}/.gradle_settings"
+    owner: "{{ dev_user }}"
+    group: "{{ dev_user }}"
+    mode: 0644
+  when: gradle_home_register.stat.exists == False

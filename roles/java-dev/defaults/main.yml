@@ -1,0 +1,15 @@
+---
+jdk_version: 1.8
+jdk_full_version: 1.8.0_171
+jdk_archive_short_version: "8u171"
+jdk_archive_full_version: "8u171-b11"
+jdk_archive: "jdk-{{ jdk_archive_short_version }}-linux-x64.tar.gz"
+jdk_archive_download_path: "/tmp/{{ jdk_archive }}"
+jdk_url: "http://download.oracle.com/otn-pub/java/jdk/{{ jdk_archive_full_version }}/512cd62ec5174c3487ac17c61aaa89e8/{{ jdk_archive }}"
+cookie_header: "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie"
+jdk_path: "/opt/jdk"
+java_home: "/opt/jdk/jdk{{ jdk_full_version }}"
+gradle_version: "4.8"
+gradle_path: "/opt/gradle"
+gradle_home: "{{ gradle_path }}/gradle-{{ gradle_version }}"
+gradle_url: "https://services.gradle.org/distributions/gradle-{{ gradle_version }}-bin.zip?_ga=2.184490470.1536378679.1529595973-1524087671.1529595973"

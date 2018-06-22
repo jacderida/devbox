@@ -133,6 +133,8 @@ After applying the playbook, there should be an environment with the following:
 * Virtualbox version 5.2.6 (only in 'bare metal' mode)
 * A 'screen temperature' application (only in 'bare metal' mode)
 * Chrome installed
+* Virtualenv setup for Python 3
+* Basic Java development environment with JDK 1.8 and Gradle 4.8
 
 If the run was successful, it should all be ready to use.
 
