@@ -127,13 +127,21 @@
     recursive: yes
   when: i3_install_path_result.stat.exists == False
 
+- name: 'run autogen'
+  command: './autogen.sh'
+  args:
+    chdir: "{{ i3blocks_src_path }}"
+  when: i3_install_path_result.stat.exists == False
+
+- name: 'run configure'
+  command: './configure'
+  args:
+    chdir: "{{ i3blocks_src_path }}"
+  when: i3_install_path_result.stat.exists == False
+
 - name: 'compile i3blocks'
   make:
     chdir: "{{ i3blocks_src_path }}"
-    target: "{{ item }}"
-  with_items:
-    - all
-    - clean
   when: i3_install_path_result.stat.exists == False
 
 - name: 'install i3blocks'
