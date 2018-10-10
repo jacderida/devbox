@@ -20,29 +20,6 @@
   become_user: "{{ dev_user }}"
   become: yes
 
-- set_fact: dockerfiles_repo="{{ dockerfiles_repo_https }}"
-  when: corporate_mode
-
-- set_fact: dockerfiles_repo="{{ dockerfiles_repo_ssh }}"
-  when: not corporate_mode
-
-- name: 'clone dockerfiles'
-  git:
-    repo: "{{ dockerfiles_repo }}"
-    dest: "{{ dockerfiles_destination }}"
-    accept_hostkey: yes
-    force: yes
-  become_user: "{{ dev_user }}"
-  become: yes
-
-- name: 'bootstrap dockerfiles (this can be a 10+ minute operation)'
-  make:
-    chdir: "{{ dockerfiles_destination }}"
-    target: all
-  become_user: "{{ dev_user }}"
-  become: yes
-  when: not corporate_mode
-
 - name: 'create proxy file (corporate mode)'
   template:
     src: proxy.j2
