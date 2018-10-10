@@ -52,7 +52,6 @@
     - 'pavucontrol'
     - 'terminator'
     - 'thunar'
-    - 'vlc'
   when: ansible_distribution == 'Fedora'
 
 - name: 'install dnf packages (fedora)'
@@ -64,11 +63,12 @@
     - 'curl'
     - 'direnv'
     - 'dos2unix'
-    - 'emacs25'
+    - 'emacs'
     - 'flac'
     - 'git'
     - 'htop'
     - 'libselinux-python'
+    - 'make'
     - 'mpc'
     - 'mpdscribble'
     - 'ncmpcpp'
@@ -76,13 +76,19 @@
     - 'p7zip'
     - 'python-devel'
     - 'python3-pygments'
-    - 'python3-venv'
+    - 'python3-pip'
+    - 'python3-virtualenv'
     - 'ranger'
     - 'the_silver_searcher'
     - 'subversion'
     - 'terminator'
     - 'tree'
     - 'unzip'
+  when: ansible_distribution == 'Fedora'
+
+# For some unknown reason, this package doesn't get installed correctly first time.
+- name: 'reinstall python3-pip'
+  command: dnf reinstall -y python3-pip
   when: ansible_distribution == 'Fedora'
 
 - name: 'install pip packages (corporate mode)'
