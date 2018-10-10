@@ -1,12 +1,6 @@
 SHELL := /bin/bash
 USERNAME := $(shell whoami)
 
-check-nerdfonts:
-ifndef DEVBOX_NERDFONTS_SHARED_FOLDER
-	@echo "WARNING: The DEVBOX_NERDFONTS_SHARED_FOLDER environment variable is undefined. \
-		Provisioning will take a long time without this. See the documentation."
-endif
-
 virtualenv:
 	( \
 		source /usr/local/bin/virtualenvwrapper.sh; \
@@ -32,7 +26,7 @@ ubuntu-gui-up:
 ubuntu-gui-up-corporate: export DEVBOX_CORPORATE_MODE := true
 ubuntu-gui-up-corporate: export DEVBOX_GUI := true
 ubuntu-gui-up-corporate: export DEVBOX_BARE_METAL_MODE := false
-ubuntu-gui-up-corporate: check-nerdfonts
+ubuntu-gui-up-corporate:
 	vagrant up ubuntu --provision
 
 ubuntu-tests:
@@ -50,13 +44,13 @@ debian-up:
 
 debian-gui-up: export DEVBOX_GUI := true
 debian-gui-up: export DEVBOX_BARE_METAL_MODE := false
-debian-gui-up: check-nerdfonts
+debian-gui-up:
 	vagrant up debian --provision
 
 debian-gui-up-corporate: export DEVBOX_CORPORATE_MODE := true
 debian-gui-up-corporate: export DEVBOX_GUI := true
 debian-gui-up-corporate: export DEVBOX_BARE_METAL_MODE := false
-debian-gui-up-corporate: check-nerdfonts
+debian-gui-up-corporate:
 	vagrant up debian --provision
 
 debian-tests:
@@ -74,13 +68,13 @@ fedora-up:
 
 fedora-gui-up: export DEVBOX_GUI := true
 fedora-gui-up: export DEVBOX_BARE_METAL_MODE := false
-fedora-gui-up: check-nerdfonts
+fedora-gui-up:
 	vagrant up fedora --provision
 
 fedora-gui-up-corporate: export DEVBOX_CORPORATE_MODE := true
 fedora-gui-up-corporate: export DEVBOX_GUI := true
 fedora-gui-up-corporate: export DEVBOX_BARE_METAL_MODE := false
-fedora-gui-up-corporate: check-nerdfonts
+fedora-gui-up-corporate:
 	vagrant up fedora --provision
 
 bare-metal: export DEVBOX_BARE_METAL_MODE := true

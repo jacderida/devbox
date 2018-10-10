@@ -26,6 +26,7 @@ end
 ansible_provisioner = OS.windows? ? "ansible_local" : "ansible"
 
 Vagrant.configure("2") do |config|
+  config.vbguest.auto_update = false
   if Vagrant.has_plugin?("vagrant-proxyconf")
     config.proxy.http = ENV['VAGRANT_HTTP_PROXY']
     config.proxy.https = ENV['VAGRANT_HTTP_PROXY']
@@ -56,9 +57,6 @@ SCRIPT
       ansible.skip_tags = ENV['ANSIBLE_SKIP_TAGS']
       ansible.raw_arguments = ENV['ANSIBLE_ARGS']
     end
-    if ENV['DEVBOX_NERDFONTS_SHARED_FOLDER']
-      ubuntu.vm.synced_folder "#{ENV['DEVBOX_NERDFONTS_SHARED_FOLDER']}", "/home/ubuntu/dev/nerd-fonts", owner: "ubuntu", group: "ubuntu"
-    end
   end
   config.vm.define "debian" do |debian|
     if ENV['DEVBOX_CORPORATE_MODE']
@@ -85,12 +83,9 @@ SCRIPT
       ansible.skip_tags = ENV['ANSIBLE_SKIP_TAGS']
       ansible.raw_arguments = ENV['ANSIBLE_ARGS']
     end
-    if ENV['DEVBOX_NERDFONTS_SHARED_FOLDER']
-      debian.vm.synced_folder "#{ENV['DEVBOX_NERDFONTS_SHARED_FOLDER']}", "/home/vagrant/dev/nerd-fonts", owner: "vagrant", group: "vagrant"
-    end
   end
   config.vm.define "fedora" do |fedora|
-    fedora.vm.box = "fedora/25-cloud-base"
+    fedora.vm.box = "fedora/28-cloud-base"
     fedora.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
     fedora.vm.provision "shell", inline: <<SCRIPT
     [[ ! -d "/home/vagrant/dev" ]] && mkdir /home/vagrant/dev
@@ -115,9 +110,6 @@ SCRIPT
       ansible.skip_tags = ENV['ANSIBLE_SKIP_TAGS']
       ansible.raw_arguments = ENV['ANSIBLE_ARGS']
     end
-    if ENV['DEVBOX_NERDFONTS_SHARED_FOLDER']
-      fedora.vm.synced_folder "#{ENV['DEVBOX_NERDFONTS_SHARED_FOLDER']}", "/home/vagrant/dev/nerd-fonts", owner: "vagrant", group: "vagrant"
-    end
   end
   config.vm.provider "virtualbox" do |vb|
     vb.memory = "2048"
@@ -126,7 +118,7 @@ SCRIPT
       vb.customize ["modifyvm", :id, "--vram", "64"]
       vb.customize ["modifyvm", :id, "--accelerate3d", "on"]
       vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
-      vb.customize ["storageattach", :id, "--storagectl", "SATA Controller", "--port", "1", "--device", "0", "--type", "dvddrive", "--medium", "emptydrive"]
+      vb.customize ["storageattach", :id, "--storagectl", "IDE", "--port", "1", "--device", "0", "--type", "dvddrive", "--medium", "emptydrive"]
     end
   end
 end
