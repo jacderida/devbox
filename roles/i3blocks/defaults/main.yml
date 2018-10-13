@@ -1,0 +1,6 @@
+---
+i3blocks_install_path: /usr/bin/i3blocks
+i3blocks_repo: https://www.github.com/vivien/i3blocks
+i3blocks_src_path: /tmp/i3blocks
+i3blocks_contrib_repo: https://github.com/vivien/i3blocks-contrib.git
+i3blocks_contrib_path: "/home/{{ dev_user }}/.config/i3blocks"

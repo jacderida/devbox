@@ -119,33 +119,3 @@
     chdir: "{{ i3gaps_src_path }}/build"
     target: install
   when: i3_install_path_result.stat.exists == False
-
-- name: 'clone i3blocks repo'
-  git:
-    repo: "{{ i3blocks_repo }}"
-    dest: "{{ i3blocks_src_path }}"
-    recursive: yes
-  when: i3_install_path_result.stat.exists == False
-
-- name: 'run autogen'
-  command: './autogen.sh'
-  args:
-    chdir: "{{ i3blocks_src_path }}"
-  when: i3_install_path_result.stat.exists == False
-
-- name: 'run configure'
-  command: './configure'
-  args:
-    chdir: "{{ i3blocks_src_path }}"
-  when: i3_install_path_result.stat.exists == False
-
-- name: 'compile i3blocks'
-  make:
-    chdir: "{{ i3blocks_src_path }}"
-  when: i3_install_path_result.stat.exists == False
-
-- name: 'install i3blocks'
-  make:
-    chdir: "{{ i3blocks_src_path }}"
-    target: install
-  when: i3_install_path_result.stat.exists == False
