@@ -1,0 +1,21 @@
+---
+- name: 'create vim autoload directory'
+  file:
+    path: "{{ plug_install_path }}"
+    state: directory
+    owner: "{{ dev_user }}"
+    group: "{{ dev_user }}"
+    mode: 0750
+
+- name: 'get vim-plug'
+  get_url:
+    url: "{{ plug_url }}"
+    dest: "{{ plug_install_path }}/plug.vim"
+    owner: "{{ dev_user }}"
+    group: "{{ dev_user }}"
+    mode: 0644
+  become_user: "{{ dev_user }}"
+
+- name: 'install plugins (YouCompleteMe is a large repository so this can take several minutes)'
+  shell: "vim +PlugInstall +qall"
+  become_user: "{{ dev_user }}"

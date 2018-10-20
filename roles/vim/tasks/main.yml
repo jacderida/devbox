@@ -3,7 +3,7 @@
   tags: ['vim']
 - include: build.yml
   tags: ['vim']
-- include: vundle.yml
+- include: plug.yml
   tags: ['vim']
 
 - name: 'install c++ compiler (fedora)'
@@ -13,9 +13,9 @@
   when: ansible_distribution == 'Fedora'
 
 - name: 'setup ycm core (this compiles YCM so again can take several minutes)'
-  command: "/home/{{ dev_user }}/.vim/bundle/YouCompleteMe/install.py --clang-completer"
+  command: "{{ you_complete_me_path }}/install.py --clang-completer"
   args:
-    creates: "/home/{{ dev_user }}/.vim/bundle/YouCompleteMe/third_party/ycmd/ycm_core.so"
+    creates: "{{ you_complete_me_path }}/third_party/ycmd/ycm_core.so"
   become_user: "{{ dev_user }}"
   become: yes
   tags: ['vim']
