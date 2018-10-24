@@ -36,6 +36,7 @@
   tags: ['gui']
   with_items:
     - 'keepassx'
+    - 'meld'
     - 'pavucontrol'
     - 'terminator'
     - 'thunar'
@@ -49,6 +50,7 @@
   tags: ['gui']
   with_items:
     - 'keepassx'
+    - 'meld'
     - 'pavucontrol'
     - 'terminator'
     - 'thunar'
