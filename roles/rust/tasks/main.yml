@@ -32,3 +32,42 @@
   become: yes
   become_user: "{{ dev_user }}"
   when: rustfmt_path_result.stat.exists == False
+
+- name: 'link rustfmt to location on PATH for emacs'
+  file:
+    src: "{{ rustfmt_path }}"
+    dest: "/usr/bin/rustfmt"
+    state: link
+
+- name: 'install nightly rust for racer (code completion)'
+  command: "{{ rustup_path }} toolchain add nightly"
+  become: yes
+  become_user: "{{ dev_user }}"
+
+- name: 'install rust source for racer (code completion)'
+  command: "{{ rustup_path }} component add rust-src"
+  become: yes
+  become_user: "{{ dev_user }}"
+
+- name: 'create rust source path'
+  file:
+    path: "{{ rust_src_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: 'link toolchain source to common path for emacs code completion'
+  file:
+    src: "{{ rust_toolchain_src_path }}"
+    dest: "{{ rust_src_path }}/src"
+    state: link
+
+- stat: path="{{ racer_path }}"
+  register: racer_path_result
+
+- name: 'install racer (code completion)'
+  command: "{{ cargo_path }} +nightly install racer"
+  become: yes
+  become_user: "{{ dev_user }}"
+  when: racer_path_result.stat.exists == False
