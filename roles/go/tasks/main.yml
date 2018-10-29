@@ -1,6 +1,10 @@
 ---
+- stat: path="{{ go_path }}"
+  register: go_path_result
+
 - name: 'download and install go'
   unarchive:
     src: "{{ go_archive_url }}"
     dest: "{{ go_install_path }}"
     remote_src: yes
+  when: go_path_result.stat.exists == False
