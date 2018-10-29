@@ -15,7 +15,20 @@
   become_user: "{{ dev_user }}"
   when: rust_path_result.stat.exists == False
 
+- stat: path="{{ cargo_script_path }}"
+  register: cargo_script_path_result
+
 - name: 'install cargo script'
   command: "{{ cargo_path }} install cargo-script"
   become: yes
   become_user: "{{ dev_user }}"
+  when: cargo_script_path_result.stat.exists == False
+
+- stat: path="{{ rustfmt_path }}"
+  register: rustfmt_path_result
+
+- name: 'install rustfmt'
+  command: "{{ cargo_path }} install rustfmt"
+  become: yes
+  become_user: "{{ dev_user }}"
+  when: rustfmt_path_result.stat.exists == False
