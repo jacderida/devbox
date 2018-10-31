@@ -15,29 +15,16 @@
   become_user: "{{ dev_user }}"
   when: rust_path_result.stat.exists == False
 
-- stat: path="{{ cargo_script_path }}"
-  register: cargo_script_path_result
-
-- name: 'install cargo script'
-  command: "{{ cargo_path }} install cargo-script"
-  become: yes
-  become_user: "{{ dev_user }}"
-  when: cargo_script_path_result.stat.exists == False
-
-- stat: path="{{ rustfmt_path }}"
-  register: rustfmt_path_result
-
 - name: 'install rustfmt'
-  command: "{{ cargo_path }} install rustfmt"
+  command: "{{ rustup_path }} component add rustfmt-preview"
   become: yes
   become_user: "{{ dev_user }}"
-  when: rustfmt_path_result.stat.exists == False
 
 - name: 'link rustfmt to location on PATH for emacs'
   file:
-    src: "{{ rustfmt_path }}"
-    dest: "/usr/bin/rustfmt"
-    state: link
+   src: "{{ rustfmt_path }}"
+   dest: "/usr/bin/rustfmt"
+   state: link
 
 - name: 'install nightly rust for racer (code completion)'
   command: "{{ rustup_path }} toolchain add nightly"
@@ -49,7 +36,7 @@
   become: yes
   become_user: "{{ dev_user }}"
 
-- name: 'create rust source path'
+- name: 'create linked rust source path'
   file:
     path: "{{ rust_src_path }}"
     state: directory
