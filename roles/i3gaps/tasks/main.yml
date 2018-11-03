@@ -3,10 +3,16 @@
   register: i3_install_path_result
 
 - name: 'apt install lightdm'
-  apt:
+  package:
     name: lightdm
     state: 'installed'
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: 'install ubuntu desktop'
+  package:
+    name: ubuntu-desktop
+    state: present
+  when: ansible_distribution == 'Ubuntu'
 
 - name: 'dnf install lightdm & xfce (can take ~10 minutes)'
   dnf:
@@ -18,70 +24,73 @@
   when: ansible_distribution == 'Fedora'
 
 - name: 'install ubuntu prerequisites'
-  apt:
-    name: "{{ item }}"
-    state: 'installed'
-  with_items:
-    - autoconf
-    - libev-dev
-    - libpango1.0-dev
-    - libstartup-notification0-dev
-    - libxkbcommon-dev
-    - libxkbcommon-x11-dev
-    - libxcb-cursor-dev
-    - libxcb-icccm4-dev
-    - libxcb-keysyms1-dev
-    - libxcb-randr0-dev
-    - libxcb-util0-dev
-    - libxcb-xinerama0-dev
-    - libxcb-xkb-dev
-    - libxcb1-dev
-    - libyajl-dev
+  package:
+    name: [
+      'autoconf',
+      'automake',
+      'libev-dev',
+      'libpango1.0-dev',
+      'libstartup-notification0-dev',
+      'libxkbcommon-dev',
+      'libxkbcommon-x11-dev',
+      'libxcb-cursor-dev',
+      'libxcb-icccm4-dev',
+      'libxcb-keysyms1-dev',
+      'libxcb-randr0-dev',
+      'libxcb-util0-dev',
+      'libxcb-xinerama0-dev',
+      'libxcb-xkb-dev',
+      'libxcb-xrm0',
+      'libxcb-xrm-dev',
+      'libxcb1-dev',
+      'libyajl-dev'
+    ]
+    state: present
   when: ansible_distribution == 'Ubuntu'
 
 - name: 'install debian prerequisites'
   apt:
-    name: "{{ item }}"
-    state: 'installed'
-  with_items:
-    - libev-dev
-    - libpango1.0-dev
-    - libstartup-notification0-dev
-    - libxcb1-dev
-    - libxcb-xkb-dev
-    - libxcb-cursor-dev
-    - libxcb-icccm4-dev
-    - libxcb-keysyms1-dev
-    - libxcb-randr0-dev
-    - libxcb-xinerama0-dev
-    - libxcb-util0-dev
-    - libxcb-xrm-dev
-    - libxcb-xrm0
-    - libxkbcommon-dev
-    - libxkbcommon-x11-dev
-    - libyajl-dev
-    - xcb
+    name: [
+      'libev-dev',
+      'libpango1.0-dev',
+      'libstartup-notification0-dev',
+      'libxcb1-dev',
+      'libxcb-xkb-dev',
+      'libxcb-cursor-dev',
+      'libxcb-icccm4-dev',
+      'libxcb-keysyms1-dev',
+      'libxcb-randr0-dev',
+      'libxcb-xinerama0-dev',
+      'libxcb-util0-dev',
+      'libxcb-xrm-dev',
+      'libxcb-xrm0',
+      'libxkbcommon-dev',
+      'libxkbcommon-x11-dev',
+      'libyajl-dev',
+      'xcb'
+    ]
+    state: present
   when: ansible_distribution == 'Debian'
 
 - name: 'install fedora prerequisites'
   dnf:
-    name: "{{ item }}"
-    state: 'installed'
-  with_items:
-    - autoconf
-    - automake
-    - gcc
-    - libev-devel
-    - libxkbcommon-devel
-    - libxkbcommon-x11-devel
-    - pango-devel
-    - startup-notification-devel
-    - xcb-util-devel
-    - xcb-util-cursor-devel
-    - xcb-util-keysyms-devel
-    - xcb-util-wm-devel
-    - xcb-util-xrm-devel
-    - yajl-devel
+    name: [
+      'autoconf',
+      'automake',
+      'gcc',
+      'libev-devel',
+      'libxkbcommon-devel',
+      'libxkbcommon-x11-devel',
+      'pango-devel',
+      'startup-notification-devel',
+      'xcb-util-devel',
+      'xcb-util-cursor-devel',
+      'xcb-util-keysyms-devel',
+      'xcb-util-wm-devel',
+      'xcb-util-xrm-devel',
+      'yajl-devel'
+    ]
+    state: present
   when: ansible_distribution == 'Fedora'
 
 - name: 'clone i3gaps repo'
