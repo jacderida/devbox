@@ -33,18 +33,22 @@
 # vague and unhelpful error message: "Critical error - immediate abort". The configuration
 # file I had provided got round the issue with some versions of some OSes, but now I'm giving
 # up. Just continue on if it produces an error and the user can rectify it manually.
+#
+# On Ubuntu this prompts for a password, so just run it manually as a post-setup task.
 - name: 'install oh-my-zsh'
-  shell: "/home/{{ dev_user }}/install.sh"
+  shell: "/home/{{ dev_user }}/oh_my_zsh_install.sh"
   args:
     creates: "/home/{{ dev_user }}/.oh-my-zsh"
   become_user: "{{ dev_user }}"
   become: yes
   ignore_errors: yes
+  when: ansible_distribution == 'Fedora'
 
 - name: 'remove installer'
   file:
-    path: "/home/{{ dev_user }}/install.sh"
+    path: "/home/{{ dev_user }}/oh_my_zsh_install.sh"
     state: absent
+  when: ansible_distribution == 'Fedora'
 
 - name: 'install syntax highlighting plugin'
   git:
