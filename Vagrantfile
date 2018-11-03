@@ -39,9 +39,9 @@ Vagrant.configure("2") do |config|
   end
   config.vm.define "ubuntu" do |ubuntu|
     if ENV['DEVBOX_CORPORATE_MODE']
-      ubuntu.vm.provision "shell", path: "./sh/setup_debian.sh", args: ["vagrant", "true"]
+      ubuntu.vm.provision "shell", path: "./sh/setup_debian.sh", args: ["vagrant", "true", "#{ansible_provisioner}"]
     else
-      ubuntu.vm.provision "shell", path: "./sh/setup_debian.sh", args: ["vagrant", "false"]
+      ubuntu.vm.provision "shell", path: "./sh/setup_debian.sh", args: ["vagrant", "false", "#{ansible_provisioner}"]
     end
     ubuntu.vm.box = "ubuntu/bionic64"
     ubuntu.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/vagrant/.ssh/id_rsa"

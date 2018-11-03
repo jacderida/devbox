@@ -2,26 +2,33 @@
 
 dev_user=$1
 if [[ -z "${dev_user// }" ]]; then
-    echo "A value must be supplied for the dev_user."
+    echo "A value must be supplied for the dev_user"
     exit 1
 fi
 corporate_mode=$2
 if [[ -z "${corporate_mode// }" ]]; then
     echo "A value must be supplied for corporate mode (true or false)"
 fi
+ansible_provisioner=$3
+if [[ -z "${ansible_provisioner// }" ]]; then
+    echo "A value must be supplied for ansible provisioner"
+fi
 
 function install_ansible_prerequisites() {
-    apt-get update -y
-    apt-get install -y curl libffi-dev libssl-dev python-dev python-pip
+    if [[ "$ansible_provisioner" == "ansible_local" ]]; then
+        apt-get install -y curl libffi-dev libssl-dev python-dev python-pip
+    fi
 }
 
 function install_ansible() {
-    if [[ "$corporate_mode" == "true" ]]; then
-        pip install --upgrade pyasn1 setuptools --cert /usr/local/share/ca-certificates/corp.crt
-        pip install ansible==2.7.1 --cert /usr/local/share/ca-certificates/corp.crt
-    else
-        pip install --upgrade pyasn1 setuptools
-        pip install ansible==2.7.1
+    if [[ "$ansible_provisioner" == "ansible_local" ]]; then
+        if [[ "$corporate_mode" == "true" ]]; then
+            pip install --upgrade pyasn1 setuptools --cert /usr/local/share/ca-certificates/corp.crt
+            pip install ansible==2.7.1 --cert /usr/local/share/ca-certificates/corp.crt
+        else
+            pip install --upgrade pyasn1 setuptools
+            pip install ansible==2.7.1
+        fi
     fi
 }
 
@@ -36,6 +43,7 @@ function setup_git() {
     fi
 }
 
+apt-get update -y
 setup_git
 install_ansible_prerequisites
 install_ansible
