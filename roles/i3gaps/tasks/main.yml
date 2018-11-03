@@ -2,11 +2,11 @@
 - stat: path="{{ i3_install_path }}"
   register: i3_install_path_result
 
-- name: 'apt install lightdm'
+- name: 'install lightdm (debian)'
   package:
     name: lightdm
     state: 'installed'
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+  when: ansible_distribution == 'Debian'
 
 - name: 'install ubuntu desktop'
   package:
