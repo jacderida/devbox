@@ -18,10 +18,10 @@ function install_ansible_prerequisites() {
 function install_ansible() {
     if [[ "$corporate_mode" == "true" ]]; then
         pip install --upgrade pyasn1 setuptools --cert /usr/local/share/ca-certificates/corp.crt
-        pip install ansible==2.4.0.0 --cert /usr/local/share/ca-certificates/corp.crt
+        pip install ansible==2.7.1 --cert /usr/local/share/ca-certificates/corp.crt
     else
         pip install --upgrade pyasn1 setuptools
-        pip install ansible==2.4.0.0
+        pip install ansible==2.7.1
     fi
 }
 
