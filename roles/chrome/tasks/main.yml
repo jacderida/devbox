@@ -37,10 +37,10 @@
   copy:
     src: google-chrome.repo
     dest: /etc/yum.repos.d/google-chrome.repo
+  when: ansible_distribution == 'Fedora'
 
 - name: 'install chrome (fedora)'
   dnf:
     name: google-chrome-stable
     state: present
-  when:
-    - ansible_distribution == 'Fedora'
+  when: ansible_distribution == 'Fedora'
