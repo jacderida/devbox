@@ -3,33 +3,33 @@
   register: rofi_install_path_result
 
 - name: 'install debian/ubuntu prerequisites'
-  apt:
-    name: "{{ item }}"
+  package:
+    name: [
+      'autoconf',
+      'bison',
+      'flex',
+      'libglib2.0-dev',
+      'libpango1.0-dev',
+      'librsvg2-dev',
+      'libstartup-notification0-dev',
+      'libxkbcommon-dev',
+      'libxkbcommon-x11-dev',
+      'libxcb-ewmh-dev',
+      'libxcb-icccm4-dev',
+      'libxcb-randr0-dev',
+      'libxcb-xinerama0-dev',
+      'libxcb-xrm-dev',
+      'pkg-config',
+      'texinfo'
+    ]
     state: present
-  with_items:
-    - autoconf
-    - bison
-    - flex
-    - libglib2.0-dev
-    - libpango1.0-dev
-    - librsvg2-dev
-    - libstartup-notification0-dev
-    - libxkbcommon-dev
-    - libxkbcommon-x11-dev
-    - libxcb-ewmh-dev
-    - libxcb-icccm4-dev
-    - libxcb-randr0-dev
-    - libxcb-xinerama0-dev
-    - libxcb-xrm-dev
-    - pkg-config
-    - texinfo
   when:
     - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
     - rofi_install_path_result.stat.exists == False
 
 - name: 'install ubuntu only prerequisites'
   package:
-    item: libxcb-util-dev
+    name: libxcb-util-dev
     state: present
   when:
     - ansible_distribution == 'Ubuntu'
@@ -40,24 +40,24 @@
     - rofi_install_path_result.stat.exists == False
 
 - name: 'install fedora prerequisites'
-  dnf:
-    name: "{{ item }}"
-    state: 'installed'
-  with_items:
-    - bison
-    - check-devel
-    - flex
-    - gcc
-    - glib2-devel
-    - librsvg2-devel
-    - libxcb-devel
-    - libxkbcommon-devel
-    - libxkbcommon-x11-devel
-    - pango-devel
-    - startup-notification-devel
-    - xcb-util-devel
-    - xcb-util-wm-devel
-    - xcb-util-xrm-devel
+  package:
+    name: [
+      'bison',
+      'check-devel',
+      'flex',
+      'gcc',
+      'glib2-devel',
+      'librsvg2-devel',
+      'libxcb-devel',
+      'libxkbcommon-devel',
+      'libxkbcommon-x11-devel',
+      'pango-devel',
+      'startup-notification-devel',
+      'xcb-util-devel',
+      'xcb-util-wm-devel',
+      'xcb-util-xrm-devel'
+    ]
+    state: present
   when: ansible_distribution == 'Fedora'
 
 - name: 'create rofi src directory'
