@@ -2,51 +2,42 @@
 - stat: path="{{ rofi_install_path }}"
   register: rofi_install_path_result
 
-- name: 'install debian prerequisites'
+- name: 'install debian/ubuntu prerequisites'
   apt:
     name: "{{ item }}"
-    state: 'installed'
+    state: present
   with_items:
     - autoconf
     - bison
     - flex
-    - librsvg2-dev
     - libglib2.0-dev
     - libpango1.0-dev
+    - librsvg2-dev
     - libstartup-notification0-dev
-    - libxcb-xinerama0-dev
     - libxkbcommon-dev
     - libxkbcommon-x11-dev
     - libxcb-ewmh-dev
     - libxcb-icccm4-dev
     - libxcb-randr0-dev
+    - libxcb-xinerama0-dev
     - libxcb-xrm-dev
     - pkg-config
     - texinfo
-  when: ansible_distribution == 'Debian' and rofi_install_path_result.stat.exists == False
+  when:
+    - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+    - rofi_install_path_result.stat.exists == False
+
+- name: 'install ubuntu only prerequisites'
+  package:
+    item: libxcb-util-dev
+    state: present
+  when:
+    - ansible_distribution == 'Ubuntu'
 
 - include: check.yml
   when:
-    - ansible_distribution == 'Debian'
+    - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
     - rofi_install_path_result.stat.exists == False
-
-- name: 'install ubuntu prerequisites'
-  apt:
-    name: "{{ item }}"
-    state: 'installed'
-  with_items:
-    - pkg-config
-    - libglib2.0-dev
-    - libxcb-xinerama0-dev
-    - libxkbcommon-dev
-    - libxkbcommon-x11-dev
-    - libxcb-ewmh-dev
-    - libxcb-icccm4-dev
-    - libxcb-randr0-dev
-    - libxcb-util-dev
-    - libpango1.0-dev
-    - libstartup-notification0-dev
-  when: ansible_distribution == 'Ubuntu' and rofi_install_path_result.stat.exists == False
 
 - name: 'install fedora prerequisites'
   dnf:
