@@ -29,6 +29,12 @@
     - 'unzip'
   when: ansible_distribution in ['Debian', 'Ubuntu']
 
+- name: 'install pip on debian'
+  apt:
+    name: python-pip
+    state: present
+  when: ansible_distribution in 'Debian'
+
 - name: 'install apt packages (gui)'
   apt:
     name: "{{ item }}"
@@ -131,4 +137,6 @@
     executable: "/usr/bin/pip3"
     name: "{{ item }}"
   with_items:
+    - 'virtualenv'
+    - 'virtualenvwrapper'
     - 'you-get'
