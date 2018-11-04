@@ -63,12 +63,22 @@ SCRIPT
       ansible.skip_tags = ENV['ANSIBLE_SKIP_TAGS']
       ansible.raw_arguments = ENV['ANSIBLE_ARGS']
     end
+    ubuntu.vm.provider "virtualbox" do |vb|
+      vb.memory = "2048"
+      if ENV['DEVBOX_GUI'] == 'true'
+        vb.gui = true
+        vb.customize ["modifyvm", :id, "--vram", "64"]
+        vb.customize ["modifyvm", :id, "--accelerate3d", "on"]
+        vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+        vb.customize ["storageattach", :id, "--storagectl", "IDE", "--port", "1", "--device", "0", "--type", "dvddrive", "--medium", "emptydrive"]
+      end
+    end
   end
   config.vm.define "debian" do |debian|
     if ENV['DEVBOX_CORPORATE_MODE']
-      debian.vm.provision "shell", path: "./sh/setup_debian.sh", args: ["vagrant", "true"]
+      debian.vm.provision "shell", path: "./sh/setup_debian.sh", args: ["vagrant", "true", "#{ansible_provisioner}"]
     else
-      debian.vm.provision "shell", path: "./sh/setup_debian.sh", args: ["vagrant", "false"]
+      debian.vm.provision "shell", path: "./sh/setup_debian.sh", args: ["vagrant", "false", "#{ansible_provisioner}"]
     end
     debian.vm.box = "debian/stretch64"
     debian.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
@@ -88,6 +98,16 @@ SCRIPT
       }
       ansible.skip_tags = ENV['ANSIBLE_SKIP_TAGS']
       ansible.raw_arguments = ENV['ANSIBLE_ARGS']
+    end
+    debian.vm.provider "virtualbox" do |vb|
+      vb.memory = "2048"
+      if ENV['DEVBOX_GUI'] == 'true'
+        vb.gui = true
+        vb.customize ["modifyvm", :id, "--vram", "64"]
+        vb.customize ["modifyvm", :id, "--accelerate3d", "on"]
+        vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+        vb.customize ["storageattach", :id, "--storagectl", "SATA Controller", "--port", "1", "--device", "0", "--type", "dvddrive", "--medium", "emptydrive"]
+      end
     end
   end
   config.vm.define "fedora" do |fedora|
@@ -116,15 +136,15 @@ SCRIPT
       ansible.skip_tags = ENV['ANSIBLE_SKIP_TAGS']
       ansible.raw_arguments = ENV['ANSIBLE_ARGS']
     end
-  end
-  config.vm.provider "virtualbox" do |vb|
-    vb.memory = "2048"
-    if ENV['DEVBOX_GUI'] == 'true'
-      vb.gui = true
-      vb.customize ["modifyvm", :id, "--vram", "64"]
-      vb.customize ["modifyvm", :id, "--accelerate3d", "on"]
-      vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
-      vb.customize ["storageattach", :id, "--storagectl", "IDE", "--port", "1", "--device", "0", "--type", "dvddrive", "--medium", "emptydrive"]
+    fedora.vm.provider "virtualbox" do |vb|
+      vb.memory = "2048"
+      if ENV['DEVBOX_GUI'] == 'true'
+        vb.gui = true
+        vb.customize ["modifyvm", :id, "--vram", "64"]
+        vb.customize ["modifyvm", :id, "--accelerate3d", "on"]
+        vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+        vb.customize ["storageattach", :id, "--storagectl", "IDE", "--port", "1", "--device", "0", "--type", "dvddrive", "--medium", "emptydrive"]
+      end
     end
   end
 end
