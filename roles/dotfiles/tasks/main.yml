@@ -1,9 +1,9 @@
 ---
 - set_fact: dotfiles_repo="{{ dotfiles_repo_https }}"
-  when: corporate_mode
+  when: corporate_mode == "True"
 
 - set_fact: dotfiles_repo="{{ dotfiles_repo_ssh }}"
-  when: not corporate_mode
+  when: corporate_mode == "False"
 
 - name: 'clone dotfiles'
   git:
