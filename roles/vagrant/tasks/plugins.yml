@@ -41,3 +41,9 @@
   become_user: "{{ dev_user }}"
   become: yes
   when: '"vagrant-vbguest" not in vagrant_plugin_list.stdout'
+
+- name: 'install scp plugin'
+  command: 'vagrant plugin install vagrant-scp'
+  become_user: "{{ dev_user }}"
+  become: yes
+  when: '"vagrant-scp" not in vagrant_plugin_list.stdout'
