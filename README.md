@@ -114,7 +114,7 @@ To install Ansible, run the setup.sh file as sudo.
 
 Then, to run the playbook locally, run the following command:
 ```shell
-ansible-playbook -i inventory playbook.yml --extra-vars "dev_user=$(whoami)"
+make bare-metal
 ```
 
 ## The Environment
