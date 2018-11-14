@@ -77,9 +77,8 @@ fedora-gui-up-corporate: export DEVBOX_BARE_METAL_MODE := false
 fedora-gui-up-corporate:
 	vagrant up fedora --provision
 
-bare-metal: export DEVBOX_BARE_METAL_MODE := true
 bare-metal:
-	ansible-playbook -i inventory playbook.yml --extra-vars "dev_user=${USERNAME}"
+	ansible-playbook -i inventory playbook.yml -e "dev_user=${USERNAME}" -e "corporate_mode=False" -e "bare_metal_mode=True"
 
 clean-ubuntu:
 	@vagrant destroy ubuntu -f
