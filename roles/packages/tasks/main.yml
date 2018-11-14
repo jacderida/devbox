@@ -55,6 +55,7 @@
     state: installed
   tags: ['gui']
   with_items:
+    - 'i3lock'
     - 'keepassx'
     - 'meld'
     - 'pavucontrol'
