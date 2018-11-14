@@ -13,8 +13,8 @@
     - { role: dotfiles }
     - { role: fonts, tags: ['gui'] }
     - { role: vim }
-    - { role: chrome, tags: ['gui'], when: not corporate_mode }
-    - { role: screen-temperature, tags: ['gui'], when: bare_metal_mode }
+    - { role: chrome, tags: ['gui'], when: corporate_mode == "False" }
+    - { role: screen-temperature, tags: ['gui'], when: bare_metal_mode == "True" }
     - { role: vagrant }
     - { role: virtualbox, when: bare_metal_mode }
     - { role: packer }

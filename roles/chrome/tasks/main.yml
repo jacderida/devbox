@@ -33,6 +33,16 @@
     - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
     - chrome_install_check.rc == 1
 
+- name: 'install workstation repositories repo (fedora)'
+  dnf:
+    name: fedora-workstation-repositories
+    state: present
+  when: ansible_distribution == 'Fedora'
+
+- name: 'set google-chrome to enabled (fedora)'
+  command: "dnf config-manager --set-enabled google-chrome"
+  when: ansible_distribution == 'Fedora'
+
 - name: 'enable repo (fedora)'
   copy:
     src: google-chrome.repo
