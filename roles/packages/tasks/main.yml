@@ -55,10 +55,12 @@
     state: installed
   tags: ['gui']
   with_items:
+    - 'gimp'
     - 'i3lock'
     - 'keepassx'
     - 'meld'
     - 'pavucontrol'
+    - 'screenshot-tool'
     - 'terminator'
     - 'thunar'
   when: ansible_distribution == 'Fedora'
