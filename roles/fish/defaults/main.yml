@@ -1,0 +1,4 @@
+---
+omf_installer_url: https://get.oh-my.fish
+omf_installer_path: /tmp/omf_installer
+omf_installed_path: "/home/{{ dev_user }}/.local/share/omf"
