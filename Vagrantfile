@@ -32,13 +32,13 @@ Vagrant.configure("2") do |config|
     config.proxy.https = ENV['VAGRANT_HTTP_PROXY']
     config.proxy.no_proxy = ENV['VAGRANT_NO_PROXY']
   end
-  if ENV['DEVBOX_CORPORATE_MODE']
+  if "#{ENV['DEVBOX_CORPORATE_MODE']}".to_bool
     config.vm.provision "shell", path: "install_ssl_cert.sh" do |s|
       s.args = "corp.crt"
     end
   end
   config.vm.define "ubuntu" do |ubuntu|
-    if ENV['DEVBOX_CORPORATE_MODE']
+    if "#{ENV['DEVBOX_CORPORATE_MODE']}".to_bool
       ubuntu.vm.provision "shell", path: "./sh/setup_debian.sh", args: ["vagrant", "true", "#{ansible_provisioner}"]
     else
       ubuntu.vm.provision "shell", path: "./sh/setup_debian.sh", args: ["vagrant", "false", "#{ansible_provisioner}"]
@@ -75,7 +75,7 @@ SCRIPT
     end
   end
   config.vm.define "debian" do |debian|
-    if ENV['DEVBOX_CORPORATE_MODE']
+    if "#{ENV['DEVBOX_CORPORATE_MODE']}".to_bool
       debian.vm.provision "shell", path: "./sh/setup_debian.sh", args: ["vagrant", "true", "#{ansible_provisioner}"]
     else
       debian.vm.provision "shell", path: "./sh/setup_debian.sh", args: ["vagrant", "false", "#{ansible_provisioner}"]
@@ -118,7 +118,7 @@ SCRIPT
     chown vagrant:vagrant /home/vagrant/dev
     chmod 0600 /home/vagrant/.ssh/id_rsa
 SCRIPT
-    if ENV['DEVBOX_CORPORATE_MODE']
+    if "#{ENV['DEVBOX_CORPORATE_MODE']}".to_bool
       fedora.vm.provision "shell", path: "./sh/setup_fedora.sh", args: ["vagrant", "true"]
     else
       fedora.vm.provision "shell", path: "./sh/setup_fedora.sh", args: ["vagrant", "false"]
@@ -127,8 +127,8 @@ SCRIPT
       ansible.playbook = "playbook.yml"
       ansible.extra_vars = {
         dev_user: "vagrant",
-        corporate_mode: "#{ENV['DEVBOX_CORPORATE_MODE']}".to_bool,
-        bare_metal_mode: "#{ENV['DEVBOX_BARE_METAL_MODE']}".to_bool,
+        corporate_mode: "#{ENV['DEVBOX_CORPORATE_MODE']}",
+        bare_metal_mode: "#{ENV['DEVBOX_BARE_METAL_MODE']}",
         http_proxy: "#{ENV['VAGRANT_HTTP_PROXY']}",
         https_proxy: "#{ENV['VAGRANT_HTTPS_PROXY']}",
         no_proxy: "#{ENV['VAGRANT_NO_PROXY']}"

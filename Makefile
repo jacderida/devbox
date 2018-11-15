@@ -61,12 +61,14 @@ debian-tests:
 	@$$WORKON_HOME/devbox/bin/testinfra -v --ssh-config=.vagrant/ssh-config --hosts=debian tests.py
 
 fedora-up: export ANSIBLE_SKIP_TAGS := gui
+fedora-up: export DEVBOX_CORPORATE_MODE := false
 fedora-up: export DEVBOX_GUI := false
 fedora-up: export DEVBOX_BARE_METAL_MODE := false
 fedora-up:
 	vagrant up fedora --provision
 
 fedora-gui-up: export DEVBOX_GUI := true
+fedora-gui-up: export DEVBOX_CORPORATE_MODE := false
 fedora-gui-up: export DEVBOX_BARE_METAL_MODE := false
 fedora-gui-up:
 	vagrant up fedora --provision
