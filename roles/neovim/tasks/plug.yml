@@ -1,0 +1,20 @@
+---
+- name: 'create vim autoload directory'
+  file:
+    path: "{{ plug_install_path }}"
+    state: directory
+    owner: "{{ dev_user }}"
+    group: "{{ dev_user }}"
+    mode: 0750
+
+- name: 'get vim-plug'
+  get_url:
+    url: "{{ plug_url }}"
+    dest: "{{ plug_install_path }}/plug.vim"
+    owner: "{{ dev_user }}"
+    group: "{{ dev_user }}"
+    mode: 0644
+
+- name: 'install plugins'
+  shell: "nvim +PlugInstall +qall"
+  become_user: "{{ dev_user }}"

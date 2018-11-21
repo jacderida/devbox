@@ -1,0 +1,10 @@
+---
+- name: 'install neovim via package manager'
+  package:
+    name: neovim
+    state: installed
+
+- include: directories.yml
+  tags: ['vim']
+- include: plug.yml
+  tags: ['vim']

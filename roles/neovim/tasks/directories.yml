@@ -1,0 +1,24 @@
+---
+- name: 'create neovim config directory'
+  file:
+    path: "{{ nvim_config_path }}"
+    state: directory
+    mode: 0755
+    owner: "{{ dev_user }}"
+    group: "{{ dev_user }}"
+
+- name: 'create backup directory'
+  file:
+    path: "{{ backup_path }}"
+    state: directory
+    mode: 0755
+    owner: "{{ dev_user }}"
+    group: "{{ dev_user }}"
+
+- name: 'create tmp directory'
+  file:
+    path: "{{ tmp_path }}"
+    state: directory
+    mode: 0755
+    owner: "{{ dev_user }}"
+    group: "{{ dev_user }}"
