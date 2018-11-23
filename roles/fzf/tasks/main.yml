@@ -1,0 +1,13 @@
+---
+- name: 'clone fzf'
+  git:
+    repo: "{{ fzf_repo_url }}"
+    dest: "{{ fzf_repo_path }}"
+    depth: 1
+  become: yes
+  become_user: "{{ dev_user }}"
+
+- name: 'install fzf'
+  command: "{{ fzf_repo_path }}/install --all"
+  become: yes
+  become_user: "{{ dev_user }}"

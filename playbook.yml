@@ -11,6 +11,7 @@
     - { role: fish }
     - { role: docker }
     - { role: dotfiles }
+    - { role: fzf }
     - { role: fonts, tags: ['gui'] }
     - { role: neovim }
     - { role: vim }
