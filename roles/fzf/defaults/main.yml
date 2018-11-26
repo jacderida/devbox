@@ -1,3 +1,4 @@
 ---
 fzf_repo_url: "https://github.com/junegunn/fzf.git"
 fzf_repo_path: "/home/{{ dev_user }}/.fzf"
+cargo_path: "/home/{{ dev_user }}/.cargo/bin/cargo"

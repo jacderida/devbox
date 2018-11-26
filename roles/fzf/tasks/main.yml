@@ -1,4 +1,5 @@
 ---
+# This role needs to run after rust.
 - name: 'clone fzf'
   git:
     repo: "{{ fzf_repo_url }}"
@@ -9,5 +10,15 @@
 
 - name: 'install fzf'
   command: "{{ fzf_repo_path }}/install --all"
+  become: yes
+  become_user: "{{ dev_user }}"
+
+- name: 'install bat'
+  command: "{{ cargo_path }} install bat"
+  become: yes
+  become_user: "{{ dev_user }}"
+
+- name: 'install devicon-lookup'
+  command: "{{ cargo_path }} install devicon-lookup"
   become: yes
   become_user: "{{ dev_user }}"

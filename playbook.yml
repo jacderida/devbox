@@ -11,7 +11,6 @@
     - { role: fish }
     - { role: docker }
     - { role: dotfiles }
-    - { role: fzf }
     - { role: fonts, tags: ['gui'] }
     - { role: neovim }
     - { role: vim }
@@ -21,4 +20,5 @@
     - { role: virtualbox, when: bare_metal_mode }
     - { role: packer }
     - { role: rust }
+    - { role: fzf }
     - { role: go }
