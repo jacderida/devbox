@@ -8,3 +8,15 @@
   tags: ['vim']
 - include: plug.yml
   tags: ['vim']
+
+- name: 'install python3 neovim package for deoplete (corporate mode)'
+  pip:
+    executable: "/usr/bin/pip3"
+    name: "neovim"
+    extra_args: "--cert /usr/local/share/ca-certificates/corp.crt"
+  when: corporate_mode == False
+
+- name: 'install python3 neovim package for deoplete'
+  pip:
+    executable: "/usr/bin/pip3"
+    name: "neovim"
