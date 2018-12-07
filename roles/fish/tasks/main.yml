@@ -29,3 +29,19 @@
   file:
     path: "{{ omf_installer_path }}"
     state: absent
+
+- name: 'create completion directory'
+  file:
+    path: "{{ fish_completions_path }}"
+    state: directory
+    mode: 0755
+    owner: "{{ dev_user }}"
+    group: "{{ dev_user }}"
+
+- name: 'install docker completions'
+  get_url:
+    url: "{{ docker_completions_url }}"
+    dest: "{{ docker_completions_path }}"
+    mode: 0644
+    owner: "{{ dev_user }}"
+    group: "{{ dev_user }}"
