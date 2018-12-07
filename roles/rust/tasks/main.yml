@@ -53,8 +53,19 @@
 - stat: path="{{ racer_path }}"
   register: racer_path_result
 
+- debug:
+    var: "{{ racer_path_result }}"
+
 - name: 'install racer (code completion)'
   command: "{{ cargo_path }} +nightly install racer"
   become: yes
   become_user: "{{ dev_user }}"
   when: racer_path_result.stat.exists == False
+
+- name: 'install rust language server'
+  command: "{{ rustup_path }} component add {{ item }}"
+  with_items:
+    - rls-preview
+    - rust-analysis
+  become: yes
+  become_user: "{{ dev_user }}"
