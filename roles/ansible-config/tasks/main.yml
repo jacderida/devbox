@@ -22,3 +22,7 @@
     owner: root
     group: root
     mode: 0755
+
+- name: 'install boto for use with ec2.py'
+  pip:
+    name: "boto"
