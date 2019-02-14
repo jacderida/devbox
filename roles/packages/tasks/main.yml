@@ -22,6 +22,7 @@
     - 'python3-pip'
     - 'python3-venv'
     - 'ranger'
+    - 'ShellCheck'
     - 'silversearcher-ag'
     - 'subversion'
     - 'terminator'
@@ -91,6 +92,7 @@
     - 'python3-virtualenv'
     - 'ranger'
     - 'the_silver_searcher'
+    - 'ShellCheck'
     - 'subversion'
     - 'sysstat'
     - 'terminator'
@@ -111,6 +113,7 @@
     - 'ansible-lint'
     - 'epc'
     - 'jedi'
+    - 'pypsrp'
     - 'youtube_dl'
   when: corporate_mode
 
@@ -121,6 +124,7 @@
     - 'ansible-lint'
     - 'epc'
     - 'jedi'
+    - 'pypsrp'
     - 'youtube_dl'
   when: not corporate_mode
 
