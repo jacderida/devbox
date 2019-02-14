@@ -23,6 +23,12 @@
     group: root
     mode: 0755
 
+- name: 'uncomment hostname_variable match'
+  lineinfile:
+    path: /etc/ansible/ec2.ini
+    regexp: "^#hostname_variable.*"
+    line: "hostname_variable = tag_Name"
+
 - name: 'install boto for use with ec2.py'
   pip:
     name: "boto"
