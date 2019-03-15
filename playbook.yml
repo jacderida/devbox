@@ -17,6 +17,7 @@
     - { role: vim }
     - { role: chrome, tags: ['gui'], when: corporate_mode == "False" }
     - { role: screen-temperature, tags: ['gui'], when: bare_metal_mode == "True" }
+    - { role: terraform }
     - { role: vagrant }
     - { role: virtualbox, when: bare_metal_mode }
     - { role: packer }
