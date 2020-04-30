@@ -15,20 +15,6 @@
     group: root
     mode: 0755
 
-- name: 'download EC2 ini'
-  get_url:
-    url: "{{ ec2_ini_url }}"
-    dest: /etc/ansible/ec2.ini
-    owner: root
-    group: root
-    mode: 0755
-
-- name: 'uncomment hostname_variable match'
-  lineinfile:
-    path: /etc/ansible/ec2.ini
-    regexp: "^#hostname_variable.*"
-    line: "hostname_variable = tag_Name"
-
 - name: 'install boto for use with ec2.py'
   pip:
     name: "boto"
