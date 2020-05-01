@@ -1,6 +1,6 @@
 ---
 dev_user_home_path: "/home/{{ dev_user }}"
-rust_version: 1.29.2
+rust_version: stable
 cargo_bin_path: "{{ dev_user_home_path }}/.cargo/bin"
 cargo_path: "{{ cargo_bin_path }}/cargo"
 cargo_script_path: "{{ cargo_bin_path }}/cargo-script"
