@@ -13,6 +13,14 @@
   become: yes
   become_user: "{{ dev_user }}"
 
+- name: 'install packages for building bat'
+  dnf:
+    name: 'llvm-devel'
+    state: 'installed'
+  with_items:
+    - clang-devel
+    - llvm-devel
+
 - name: 'install bat'
   command: "{{ cargo_path }} install bat"
   args:
