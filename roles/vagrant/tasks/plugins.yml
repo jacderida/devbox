@@ -11,6 +11,13 @@
   become: yes
   when: '"vagrant-proxyconf" not in vagrant_plugin_list.stdout'
 
+# This is required on some platforms to prevent errors when installing the vagrant-aws plugin
+- name: 'install fog-core plugin'
+  command: 'vagrant plugin install --plugin-version 1.43 fog-core'
+  become_user: "{{ dev_user }}"
+  become: yes
+  when: '"vagrant-aws" not in vagrant_plugin_list.stdout'
+
 - name: 'install aws plugin'
   command: 'vagrant plugin install vagrant-aws'
   become_user: "{{ dev_user }}"
