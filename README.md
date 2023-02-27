@@ -2,7 +2,7 @@
 
 Defines my personal development environment for Linux.
 
-I decided I wanted to use Arch Linux to improve my understanding. I also decided I didn't want to bother using Ansible any more, as I didn't feel I was getting any significant benefit from it. I think my setup is simple enough to define just using Bash.
+I'm updating this in February 2023 for running on the Dell XPS13.
 
 ## Arch Linux Installation
 
@@ -12,10 +12,11 @@ Creating a bootable USB install is covered in the guide above. This documentatio
 
 ### Connect to the Network
 
-Run the following commands to set the keyboard layout, connect to my current wireless network and set the system clock.
+Run the following commands to set the keyboard layout, and if you don't have a wired connection, connect to my current wireless network and set the system clock.
 
 ```
 loadkeys uk
+# If we don't have a wired connection
 iwctl station wlan0 scan
 iwctl station wlan0 get-networks
 iwctl station wlan0 connect TALKTALK616BF3
@@ -58,10 +59,14 @@ mount /dev/nvme0n1p1 /mnt/efi
 Use `pacstrap` to setup the Linux Kernel and other essential packages.
 
 ```
-pacstrap /mnt \
+pacstrap -K /mnt \
     base \              # minimal base: awk, bash, glibc, grep, pacman, systemd etc.
+    base-devel \        # required for using AUR
+    dhcpcd \            # For accessing a wired network via DHCP
+    git \
     grub \              # required for setting up boot menu
     efibootmgr \        # also required for use with grub
+    intel-ucode \       # microcode for intel processors
     linux \             # the kernel package
     linux-firmware \    # for wireless networking drivers etc.
     iw \                # wireless networking configuration
@@ -90,13 +95,58 @@ chmod +x config-new-system.sh
 ./config-new-system.sh
 ```
 
+The XPS13 has screen flickering with Arch. The suggested workaround is to [set a kernel parameter](https://wiki.archlinux.org/title/Intel_graphics#Screen_flickering):
+```
+vim /etc/default/grub
+# Change GRUB_CMDLINE_LINUX_DEFAULT as below:
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash i915.enable_psr=0"
+# Then quit Vim and regenerate grub.cfg:
+sudo grub-mkconfig -o /efi/grub/grub.cfg
+```
+
 Finally, set the root password by running `passwd`, then `exit` the chroot, remove the bootable USB and run `reboot`.
 
-### Configure Networking
+## Post Installation
 
-When the system reboots, the network needs to be configured.
+This section describes post-installation configuration tasks.
 
-Before starting the networking services, enable DHCP by putting the following in `/etc/iwd/main.conf`:
+### General
+
+Create a user account and give it root privileges:
+```
+useradd -m chris
+passwd chris
+EDITOR=vim visudo
+chris ALL=(ALL) ALL # add at the bottom of the file
+```
+Now logout of the root account by using `exit` and login with the new account.
+
+Setup `yay` for use with the AUR:
+```
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si
+```
+
+Install `ghq` with `yay -S ghq`.
+
+Now clone my dotfiles:
+```
+export GHQ_ROOT=~/dev
+mkdir ~/dev
+ghq get https://github.com/jacderida/dotfiles.git
+```
+
+Install `stow` and link the dotfiles:
+```
+cd ~/dev/github.com/jacderida/dotfiles
+sudo pacman -S stow
+make links
+```
+
+### Networking
+
+Before starting the networking services, enable DHCP for wireless networking by putting the following in `/etc/iwd/main.conf`:
 ```
 [General]
 EnableNetworkConfiguration=true
@@ -111,14 +161,25 @@ systemctl enable iwd --now
 
 To connect to the wireless network, you can now follow the same instructions for the live environment.
 
-### Configure User Account
+### Configure Graphics and Graphical Environment
 
-Create a user account for day-to-day use and give it root privileges.
+Use Wayland and [Sway](https://github.com/swaywm/sway) to get an i3 environment.
 
+Install the following packages to facilitate this:
 ```
-useradd -m chris
-passwd chris
-EDITOR=vim visudo
-chris ALL=(ALL) ALL # add at the bottom of the file
+sudo pacman -S \
+    otf-font-awesome \
+    rofi \
+    sway \
+    ttf-roboto-mono-nerd \
+    waybar \
+    wayland \
+    xorg-server-xwayland
 ```
-Now logout of the root account by using `exit` and login with the new account.
+
+Add your user account to the `seat` group:
+```
+sudo gpasswd -a chris seat
+```
+
+Now reboot.
