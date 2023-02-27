@@ -1,3 +1,0 @@
----
-ec2_inventory_script_url: https://raw.githubusercontent.com/ansible/ansible/devel/test/support/integration/plugins/modules/ec2.py
-ec2_ini_url: https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.ini

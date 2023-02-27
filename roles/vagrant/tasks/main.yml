@@ -1,8 +1,0 @@
----
-- include: fedora.yml
-  when: ansible_distribution == 'Fedora'
-- include: debian.yml
-  when: ansible_distribution in ['Debian', 'Ubuntu']
-- include: ssl.yml
-  when: corporate_mode
-- include: plugins.yml

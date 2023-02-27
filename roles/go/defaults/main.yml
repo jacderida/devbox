@@ -1,5 +1,0 @@
----
-go_version: 1.10.1
-go_archive_url: "https://dl.google.com/go/go{{ go_version }}.linux-amd64.tar.gz"
-go_install_path: /usr/local
-go_path: /usr/local/go/bin/go

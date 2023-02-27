@@ -1,6 +1,0 @@
----
-oh_my_zsh_url: https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh
-syntax_highlighting_plugin_path: "/home/{{ dev_user }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
-syntax_highlighting_plugin_url: https://github.com/zsh-users/zsh-syntax-highlighting.git
-powerlevel9k_theme_path: "/home/{{ dev_user }}/.oh-my-zsh/custom/themes/powerlevel9k"
-powerlevel9k_theme_url: https://github.com/bhilburn/powerlevel9k.git

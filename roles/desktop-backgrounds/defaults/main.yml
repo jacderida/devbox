@@ -1,3 +1,0 @@
----
-desktop_background_path: "/home/{{ dev_user }}/.config/desktop-backgrounds"
-nitrogen_config_path: "/home/{{ dev_user }}/.config/nitrogen"

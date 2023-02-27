@@ -1,7 +1,0 @@
----
-- include: directories.yml
-  tags: ['vim']
-- include: build.yml
-  tags: ['vim']
-- include: plug.yml
-  tags: ['vim']
