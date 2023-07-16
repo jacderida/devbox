@@ -161,7 +161,7 @@ systemctl enable iwd --now
 
 To connect to the wireless network, you can now follow the same instructions for the live environment.
 
-### Configure Graphics and Graphical Environment
+### Graphics and Graphical Environment
 
 Use Wayland and [Sway](https://github.com/swaywm/sway) to get an i3 environment.
 
@@ -169,12 +169,14 @@ Install the following packages to facilitate this:
 ```
 sudo pacman -S \
     otf-font-awesome \
-    rofi \
     sway \
+    swayidle \
     ttf-roboto-mono-nerd \
     waybar \
     wayland \
-    xorg-server-xwayland
+    wofi \
+    xorg-server-xwayland \
+    xorg-xkbcomp
 ```
 
 Add your user account to the `seat` group:
@@ -183,3 +185,25 @@ sudo gpasswd -a chris seat
 ```
 
 Now reboot.
+
+### Apps/Tools
+
+Now all that remains is the configurations of apps.
+
+#### Rust
+
+A lot of apps and tools are installed using `cargo`, which requires a Rust installation:
+```
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+
+For using `cargo` with Fish, create a file with this content at `~/.cargo/env2`:
+```
+set -x PATH ~/.cargo/bin/ $PATH
+```
+
+#### Install
+
+First, install Just: `cargo install just`.
+
+Then install all apps/tools by running `just install`
