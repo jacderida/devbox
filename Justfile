@@ -42,6 +42,7 @@ pacman:
     npm \
     openssh \
     pavucontrol \
+    procs \
     python-pip \
     qemu \
     ruby \
